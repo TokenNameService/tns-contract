@@ -1,0 +1,615 @@
+{
+  "name": "nasdaq100",
+  "source": "https://en.wikipedia.org/wiki/Nasdaq-100",
+  "sourceType": "wikipedia",
+  "fetchedAt": "2026-01-25T01:37:25.200Z",
+  "count": 101,
+  "symbols": [
+    {
+      "symbol": "ADBE",
+      "name": "Adobe Inc.",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "AMD",
+      "name": "Advanced Micro Devices",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "ABNB",
+      "name": "Airbnb",
+      "sector": "Consumer Discretionary",
+      "industry": "Diversified Commercial Services"
+    },
+    {
+      "symbol": "ALNY",
+      "name": "Alnylam Pharmaceuticals",
+      "sector": "Health Care",
+      "industry": "Biotechnology"
+    },
+    {
+      "symbol": "GOOGL",
+      "name": "Alphabet Inc. (Class A)",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "GOOG",
+      "name": "Alphabet Inc. (Class C)",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "AMZN",
+      "name": "Amazon",
+      "sector": "Consumer Discretionary",
+      "industry": "Catalog/Specialty Distribution"
+    },
+    {
+      "symbol": "AEP",
+      "name": "American Electric Power",
+      "sector": "Utilities",
+      "industry": "Electric Utilities"
+    },
+    {
+      "symbol": "AMGN",
+      "name": "Amgen",
+      "sector": "Health Care",
+      "industry": "Biotechnology"
+    },
+    {
+      "symbol": "ADI",
+      "name": "Analog Devices",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "sector": "Technology",
+      "industry": "Computer Manufacturing"
+    },
+    {
+      "symbol": "AMAT",
+      "name": "Applied Materials",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "APP",
+      "name": "AppLovin",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "ARM",
+      "name": "Arm Holdings",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "ASML",
+      "name": "ASML Holding",
+      "sector": "Technology",
+      "industry": "Industrial Machinery"
+    },
+    {
+      "symbol": "TEAM",
+      "name": "Atlassian",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "ADSK",
+      "name": "Autodesk",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "ADP",
+      "name": "Automatic Data Processing",
+      "sector": "Industrials",
+      "industry": "Diversified Commercial Services"
+    },
+    {
+      "symbol": "AXON",
+      "name": "Axon Enterprise",
+      "sector": "Industrials",
+      "industry": "Ordnance & Accessories"
+    },
+    {
+      "symbol": "BKR",
+      "name": "Baker Hughes",
+      "sector": "Energy",
+      "industry": "Oil Equipment & Services"
+    },
+    {
+      "symbol": "BKNG",
+      "name": "Booking Holdings",
+      "sector": "Consumer Discretionary",
+      "industry": "Transportation Services"
+    },
+    {
+      "symbol": "AVGO",
+      "name": "Broadcom",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "CDNS",
+      "name": "Cadence Design Systems",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "CHTR",
+      "name": "Charter Communications",
+      "sector": "Telecommunications",
+      "industry": "Cable & Other Pay Television Services"
+    },
+    {
+      "symbol": "CTAS",
+      "name": "Cintas",
+      "sector": "Industrials",
+      "industry": "Garments & Clothing"
+    },
+    {
+      "symbol": "CSCO",
+      "name": "Cisco",
+      "sector": "Telecommunications",
+      "industry": "Computer Communications Equipment"
+    },
+    {
+      "symbol": "CCEP",
+      "name": "Coca-Cola Europacific Partners",
+      "sector": "Consumer Staples",
+      "industry": "Soft Drinks"
+    },
+    {
+      "symbol": "CTSH",
+      "name": "Cognizant",
+      "sector": "Technology",
+      "industry": "EDP Services"
+    },
+    {
+      "symbol": "CMCSA",
+      "name": "Comcast",
+      "sector": "Telecommunications",
+      "industry": "Cable & Other Pay Television Services"
+    },
+    {
+      "symbol": "CEG",
+      "name": "Constellation Energy",
+      "sector": "Utilities",
+      "industry": "Electric Utilities"
+    },
+    {
+      "symbol": "CPRT",
+      "name": "Copart",
+      "sector": "Consumer Discretionary",
+      "industry": "Retail"
+    },
+    {
+      "symbol": "CSGP",
+      "name": "CoStar Group",
+      "sector": "Real Estate",
+      "industry": "Real Estate"
+    },
+    {
+      "symbol": "COST",
+      "name": "Costco",
+      "sector": "Consumer Discretionary",
+      "industry": "Department/Specialty Retail Stores"
+    },
+    {
+      "symbol": "CRWD",
+      "name": "CrowdStrike",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "CSX",
+      "name": "CSX Corporation",
+      "sector": "Industrials",
+      "industry": "Railroads"
+    },
+    {
+      "symbol": "DDOG",
+      "name": "Datadog",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "DXCM",
+      "name": "DexCom",
+      "sector": "Health Care",
+      "industry": "Medical/Dental Instruments"
+    },
+    {
+      "symbol": "FANG",
+      "name": "Diamondback Energy",
+      "sector": "Energy",
+      "industry": "Oil & Gas Production"
+    },
+    {
+      "symbol": "DASH",
+      "name": "DoorDash",
+      "sector": "Technology",
+      "industry": "EDP Services"
+    },
+    {
+      "symbol": "EA",
+      "name": "Electronic Arts",
+      "sector": "Consumer Discretionary",
+      "industry": "Miscellaneous Amusement & Recreation Services"
+    },
+    {
+      "symbol": "EXC",
+      "name": "Exelon",
+      "sector": "Utilities",
+      "industry": "Power Generation"
+    },
+    {
+      "symbol": "FAST",
+      "name": "Fastenal",
+      "sector": "Industrials",
+      "industry": "Construction & Materials"
+    },
+    {
+      "symbol": "FER",
+      "name": "Ferrovial",
+      "sector": "Industrials",
+      "industry": "Military, Government, Technical"
+    },
+    {
+      "symbol": "FTNT",
+      "name": "Fortinet",
+      "sector": "Technology",
+      "industry": "Computer Peripheral Equipment"
+    },
+    {
+      "symbol": "GEHC",
+      "name": "GE HealthCare",
+      "sector": "Health Care",
+      "industry": "Medical Electronics"
+    },
+    {
+      "symbol": "GILD",
+      "name": "Gilead Sciences",
+      "sector": "Health Care",
+      "industry": "Biotechnology"
+    },
+    {
+      "symbol": "HON",
+      "name": "Honeywell",
+      "sector": "Industrials",
+      "industry": "Aerospace"
+    },
+    {
+      "symbol": "IDXX",
+      "name": "Idexx Laboratories",
+      "sector": "Health Care",
+      "industry": "Biotechnology"
+    },
+    {
+      "symbol": "INSM",
+      "name": "Insmed Incorporated",
+      "sector": "Health Care",
+      "industry": "Biotechnology"
+    },
+    {
+      "symbol": "INTC",
+      "name": "Intel",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "INTU",
+      "name": "Intuit",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "ISRG",
+      "name": "Intuitive Surgical",
+      "sector": "Health Care",
+      "industry": "Industrial Specialties"
+    },
+    {
+      "symbol": "KDP",
+      "name": "Keurig Dr Pepper",
+      "sector": "Consumer Staples",
+      "industry": "Soft Drinks"
+    },
+    {
+      "symbol": "KLAC",
+      "name": "KLA Corporation",
+      "sector": "Technology",
+      "industry": "Electronic Components"
+    },
+    {
+      "symbol": "KHC",
+      "name": "Kraft Heinz",
+      "sector": "Consumer Staples",
+      "industry": "Packaged Foods"
+    },
+    {
+      "symbol": "LRCX",
+      "name": "Lam Research",
+      "sector": "Technology",
+      "industry": "Industrial Machinery"
+    },
+    {
+      "symbol": "LIN",
+      "name": "Linde plc",
+      "sector": "Basic Materials",
+      "industry": "Major Chemicals"
+    },
+    {
+      "symbol": "MAR",
+      "name": "Marriott International",
+      "sector": "Consumer Discretionary",
+      "industry": "Hotels/Resorts"
+    },
+    {
+      "symbol": "MRVL",
+      "name": "Marvell Technology",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "MELI",
+      "name": "Mercado Libre",
+      "sector": "Consumer Discretionary",
+      "industry": "Catalog/Specialty Distribution"
+    },
+    {
+      "symbol": "META",
+      "name": "Meta Platforms",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "MCHP",
+      "name": "Microchip Technology",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "MU",
+      "name": "Micron Technology",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "MSTR",
+      "name": "MicroStrategy",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "MDLZ",
+      "name": "Mondelez International",
+      "sector": "Consumer Staples",
+      "industry": "Packaged Foods"
+    },
+    {
+      "symbol": "MPWR",
+      "name": "Monolithic Power Systems",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "MNST",
+      "name": "Monster Beverage",
+      "sector": "Consumer Staples",
+      "industry": "Soft Drinks"
+    },
+    {
+      "symbol": "NFLX",
+      "name": "Netflix, Inc.",
+      "sector": "Consumer Discretionary",
+      "industry": "Consumer Electronics"
+    },
+    {
+      "symbol": "NVDA",
+      "name": "Nvidia",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "NXPI",
+      "name": "NXP Semiconductors",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "ORLY",
+      "name": "O'Reilly Automotive",
+      "sector": "Consumer Discretionary",
+      "industry": "Auto & Home Supply Stores"
+    },
+    {
+      "symbol": "ODFL",
+      "name": "Old Dominion Freight Line",
+      "sector": "Industrials",
+      "industry": "Trucking Freight/Courier Services"
+    },
+    {
+      "symbol": "PCAR",
+      "name": "Paccar",
+      "sector": "Consumer Discretionary",
+      "industry": "Motor Vehicles"
+    },
+    {
+      "symbol": "PLTR",
+      "name": "Palantir Technologies",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "PANW",
+      "name": "Palo Alto Networks",
+      "sector": "Technology",
+      "industry": "Computer Peripheral Equipment"
+    },
+    {
+      "symbol": "PAYX",
+      "name": "Paychex",
+      "sector": "Industrials",
+      "industry": "Diversified Commercial Services"
+    },
+    {
+      "symbol": "PYPL",
+      "name": "PayPal",
+      "sector": "Industrials",
+      "industry": "Diversified Commercial Services"
+    },
+    {
+      "symbol": "PDD",
+      "name": "PDD Holdings",
+      "sector": "Technology",
+      "industry": "EDP Services"
+    },
+    {
+      "symbol": "PEP",
+      "name": "PepsiCo",
+      "sector": "Consumer Staples",
+      "industry": "Soft Drinks"
+    },
+    {
+      "symbol": "QCOM",
+      "name": "Qualcomm",
+      "sector": "Technology",
+      "industry": "Broadcasting & Communications Equipment"
+    },
+    {
+      "symbol": "REGN",
+      "name": "Regeneron Pharmaceuticals",
+      "sector": "Health Care",
+      "industry": "Biotechnology"
+    },
+    {
+      "symbol": "ROP",
+      "name": "Roper Technologies",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "ROST",
+      "name": "Ross Stores",
+      "sector": "Consumer Discretionary",
+      "industry": "Clothing/Shoe/Accessory Stores"
+    },
+    {
+      "symbol": "STX",
+      "name": "Seagate Technology",
+      "sector": "Technology",
+      "industry": "Electronic Components"
+    },
+    {
+      "symbol": "SHOP",
+      "name": "Shopify",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "SBUX",
+      "name": "Starbucks",
+      "sector": "Consumer Discretionary",
+      "industry": "Restaurants"
+    },
+    {
+      "symbol": "SNPS",
+      "name": "Synopsys",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "TMUS",
+      "name": "T-Mobile US",
+      "sector": "Telecommunications",
+      "industry": "Telecommunications Service Providers"
+    },
+    {
+      "symbol": "TTWO",
+      "name": "Take-Two Interactive",
+      "sector": "Consumer Discretionary",
+      "industry": "Miscellaneous Amusement & Recreation Services"
+    },
+    {
+      "symbol": "TSLA",
+      "name": "Tesla, Inc.",
+      "sector": "Consumer Discretionary",
+      "industry": "Automobiles & Parts"
+    },
+    {
+      "symbol": "TXN",
+      "name": "Texas Instruments",
+      "sector": "Technology",
+      "industry": "Semiconductors"
+    },
+    {
+      "symbol": "TRI",
+      "name": "Thomson Reuters",
+      "sector": "Technology",
+      "industry": "Computer Software"
+    },
+    {
+      "symbol": "VRSK",
+      "name": "Verisk Analytics",
+      "sector": "Industrials",
+      "industry": "Diversified Commercial Services"
+    },
+    {
+      "symbol": "VRTX",
+      "name": "Vertex Pharmaceuticals",
+      "sector": "Health Care",
+      "industry": "Biotechnology"
+    },
+    {
+      "symbol": "WMT",
+      "name": "Walmart",
+      "sector": "Consumer Discretionary",
+      "industry": "Department/Specialty Retail Stores"
+    },
+    {
+      "symbol": "WBD",
+      "name": "Warner Bros. Discovery",
+      "sector": "Consumer Discretionary",
+      "industry": "Miscellaneous  Amusement & Recreation Services"
+    },
+    {
+      "symbol": "WDC",
+      "name": "Western Digital",
+      "sector": "Technology",
+      "industry": "Electronic Components"
+    },
+    {
+      "symbol": "WDAY",
+      "name": "Workday, Inc.",
+      "sector": "Technology",
+      "industry": "EDP Services"
+    },
+    {
+      "symbol": "XEL",
+      "name": "Xcel Energy",
+      "sector": "Utilities",
+      "industry": "Power Generation"
+    },
+    {
+      "symbol": "ZS",
+      "name": "Zscaler",
+      "sector": "Technology",
+      "industry": "EDP Services"
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "name": "dow",
+  "source": "https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average",
+  "sourceType": "wikipedia",
+  "fetchedAt": "2026-01-25T01:37:24.931Z",
+  "count": 30,
+  "symbols": [
+    {
+      "symbol": "MMM",
+      "name": "3M",
+      "sector": "Conglomerate",
+      "industry": "Conglomerate"
+    },
+    {
+      "symbol": "AXP",
+      "name": "American Express",
+      "sector": "Financial services",
+      "industry": "Financial services"
+    },
+    {
+      "symbol": "AMGN",
+      "name": "Amgen",
+      "sector": "Biopharmaceutical",
+      "industry": "Biopharmaceutical"
+    },
+    {
+      "symbol": "AMZN",
+      "name": "Amazon",
+      "sector": "Retailing",
+      "industry": "Retailing"
+    },
+    {
+      "symbol": "AAPL",
+      "name": "Apple",
+      "sector": "Information technology",
+      "industry": "Information technology"
+    },
+    {
+      "symbol": "BA",
+      "name": "Boeing",
+      "sector": "Aerospace and defense",
+      "industry": "Aerospace and defense"
+    },
+    {
+      "symbol": "CAT",
+      "name": "Caterpillar",
+      "sector": "Construction and mining",
+      "industry": "Construction and mining"
+    },
+    {
+      "symbol": "CVX",
+      "name": "Chevron",
+      "sector": "Petroleum industry",
+      "industry": "Petroleum industry"
+    },
+    {
+      "symbol": "CSCO",
+      "name": "Cisco",
+      "sector": "Information technology",
+      "industry": "Information technology"
+    },
+    {
+      "symbol": "KO",
+      "name": "Coca-Cola",
+      "sector": "Drink industry",
+      "industry": "Drink industry"
+    },
+    {
+      "symbol": "DIS",
+      "name": "Disney",
+      "sector": "Broadcasting and entertainment",
+      "industry": "Broadcasting and entertainment"
+    },
+    {
+      "symbol": "GS",
+      "name": "Goldman Sachs",
+      "sector": "Financial services",
+      "industry": "Financial services"
+    },
+    {
+      "symbol": "HD",
+      "name": "Home Depot",
+      "sector": "Home Improvement",
+      "industry": "Home Improvement"
+    },
+    {
+      "symbol": "HON",
+      "name": "Honeywell",
+      "sector": "Conglomerate",
+      "industry": "Conglomerate"
+    },
+    {
+      "symbol": "IBM",
+      "name": "IBM",
+      "sector": "Information technology",
+      "industry": "Information technology"
+    },
+    {
+      "symbol": "JNJ",
+      "name": "Johnson & Johnson",
+      "sector": "Pharmaceutical industry",
+      "industry": "Pharmaceutical industry"
+    },
+    {
+      "symbol": "JPM",
+      "name": "JPMorgan Chase",
+      "sector": "Financial services",
+      "industry": "Financial services"
+    },
+    {
+      "symbol": "MCD",
+      "name": "McDonald's",
+      "sector": "Food industry",
+      "industry": "Food industry"
+    },
+    {
+      "symbol": "MRK",
+      "name": "Merck",
+      "sector": "Pharmaceutical industry",
+      "industry": "Pharmaceutical industry"
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft",
+      "sector": "Information technology",
+      "industry": "Information technology"
+    },
+    {
+      "symbol": "NKE",
+      "name": "Nike",
+      "sector": "Clothing industry",
+      "industry": "Clothing industry"
+    },
+    {
+      "symbol": "NVDA",
+      "name": "Nvidia",
+      "sector": "Information technology",
+      "industry": "Information technology"
+    },
+    {
+      "symbol": "PG",
+      "name": "Procter & Gamble",
+      "sector": "Fast-moving consumer goods",
+      "industry": "Fast-moving consumer goods"
+    },
+    {
+      "symbol": "CRM",
+      "name": "Salesforce",
+      "sector": "Information technology",
+      "industry": "Information technology"
+    },
+    {
+      "symbol": "SHW",
+      "name": "Sherwin-Williams",
+      "sector": "Specialty chemicals",
+      "industry": "Specialty chemicals"
+    },
+    {
+      "symbol": "TRV",
+      "name": "Travelers Companies, Inc.",
+      "sector": "Insurance",
+      "industry": "Insurance"
+    },
+    {
+      "symbol": "UNH",
+      "name": "UnitedHealth Group",
+      "sector": "Managed health care",
+      "industry": "Managed health care"
+    },
+    {
+      "symbol": "VZ",
+      "name": "Verizon",
+      "sector": "Telecommunications industry",
+      "industry": "Telecommunications industry"
+    },
+    {
+      "symbol": "V",
+      "name": "Visa",
+      "sector": "Financial services",
+      "industry": "Financial services"
+    },
+    {
+      "symbol": "WMT",
+      "name": "Walmart",
+      "sector": "Retailing",
+      "industry": "Retailing"
+    }
+  ]
+}

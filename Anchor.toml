@@ -1,0 +1,44 @@
+[toolchain]
+package_manager = "pnpm"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.devnet]
+tns = "TNSxsGQYDPb7ddAtDEJAUhD3q4M232NdhmTXutVXQ12"
+
+[programs.localnet]
+tns = "TNSxsGQYDPb7ddAtDEJAUhD3q4M232NdhmTXutVXQ12"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "pnpm exec tsx node_modules/mocha/bin/mocha.js --timeout 1000000 \"tests/**/*.ts\""
+
+[test]
+startup_wait = 5000
+shutdown_wait = 2000
+upgradeable = false
+
+[test.validator]
+bind_address = "127.0.0.1"
+ledger = ".anchor/test-ledger"
+rpc_port = 8899
+
+[[test.validator.account]]
+address = "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix"
+filename = "tests/fixtures/sol-usd-pyth-feed.json"
+
+[[test.validator.account]]
+address = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+filename = "tests/fixtures/usdc-mint.json"
+
+[[test.validator.account]]
+address = "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+filename = "tests/fixtures/usdt-mint.json"

@@ -1,0 +1,81 @@
+
+action "tns_config_updated" "svm::deploy_subgraph" {
+    program_id = action.deploy_tns.program_id
+    program_idl = action.deploy_tns.program_idl
+    block_height = 0 // action.deploy_tns.block_height
+    event {
+        name = "ConfigUpdated"
+    }
+}
+
+action "tns_mint_updated" "svm::deploy_subgraph" {
+    program_id = action.deploy_tns.program_id
+    program_idl = action.deploy_tns.program_idl
+    block_height = 0 // action.deploy_tns.block_height
+    event {
+        name = "MintUpdated"
+    }
+}
+
+action "tns_ownership_transferred" "svm::deploy_subgraph" {
+    program_id = action.deploy_tns.program_id
+    program_idl = action.deploy_tns.program_idl
+    block_height = 0 // action.deploy_tns.block_height
+    event {
+        name = "OwnershipTransferred"
+    }
+}
+
+action "tns_protocol_initialized" "svm::deploy_subgraph" {
+    program_id = action.deploy_tns.program_id
+    program_idl = action.deploy_tns.program_idl
+    block_height = 0 // action.deploy_tns.block_height
+    event {
+        name = "ProtocolInitialized"
+    }
+}
+
+action "tns_symbol_canceled" "svm::deploy_subgraph" {
+    program_id = action.deploy_tns.program_id
+    program_idl = action.deploy_tns.program_idl
+    block_height = 0 // action.deploy_tns.block_height
+    event {
+        name = "SymbolCanceled"
+    }
+}
+
+action "tns_symbol_claimed" "svm::deploy_subgraph" {
+    program_id = action.deploy_tns.program_id
+    program_idl = action.deploy_tns.program_idl
+    block_height = 0 // action.deploy_tns.block_height
+    event {
+        name = "SymbolClaimed"
+    }
+}
+
+action "tns_symbol_registered" "svm::deploy_subgraph" {
+    program_id = action.deploy_tns.program_id
+    program_idl = action.deploy_tns.program_idl
+    block_height = 0 // action.deploy_tns.block_height
+    event {
+        name = "SymbolRegistered"
+    }
+}
+
+action "tns_symbol_renewed" "svm::deploy_subgraph" {
+    program_id = action.deploy_tns.program_id
+    program_idl = action.deploy_tns.program_idl
+    block_height = 0 // action.deploy_tns.block_height
+    event {
+        name = "SymbolRenewed"
+    }
+}
+
+action "tns_symbol_seeded" "svm::deploy_subgraph" {
+    program_id = action.deploy_tns.program_id
+    program_idl = action.deploy_tns.program_idl
+    block_height = 0 // action.deploy_tns.block_height
+    event {
+        name = "SymbolSeeded"
+    }
+}
