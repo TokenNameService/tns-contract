@@ -11,6 +11,11 @@
  *   npx tsx demo.ts lookup <symbol>                       - Lookup symbol details
  *   npx tsx demo.ts lookup-mint <mint>                    - Reverse lookup by mint
  *   npx tsx demo.ts pda <symbol>                          - Derive token PDA
+ *
+ * Admin commands:
+ *   npx tsx demo.ts seed <symbol> <mint> [years]          - Seed a symbol (admin only, free, default 10 years)
+ *   npx tsx demo.ts admin-update <symbol> [--owner <pubkey>] [--mint <pubkey>] [--expires <timestamp>]
+ *   npx tsx demo.ts admin-close <symbol>                  - Force-close a symbol (admin only)
  */
 
 import "dotenv/config";
@@ -394,6 +399,114 @@ function showPda(symbol: string) {
   console.log(`PDA: ${tokenPda}`);
 }
 
+// ============ Admin Commands ============
+
+async function seedSymbol(symbol: string, mint: string, years: number = 10) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = new Program(loadIDL(), provider);
+
+  const mintPubkey = new PublicKey(mint);
+  const configPda = getConfigPda();
+  const tokenPda = getTokenPda(symbol);
+
+  console.log("Seeding symbol (admin only, no fee)...");
+  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Token Mint: ${mintPubkey}`);
+  console.log(`  Years: ${years}`);
+  console.log(`  Token PDA: ${tokenPda}`);
+
+  const tx = await program.methods
+    .seedSymbol(symbol, years)
+    .accounts({
+      admin: provider.wallet.publicKey,
+      config: configPda,
+      tokenAccount: tokenPda,
+      tokenMint: mintPubkey,
+      systemProgram: SystemProgram.programId,
+    })
+    .rpc();
+
+  console.log("\nSymbol seeded!");
+  console.log(`  Transaction: ${tx}`);
+  console.log(`\nTo lookup: npx tsx demo.ts lookup ${symbol}`);
+}
+
+async function adminUpdateSymbol(
+  symbol: string,
+  newOwner?: string,
+  newMint?: string,
+  newExpiresAt?: number
+) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = new Program(loadIDL(), provider);
+
+  const configPda = getConfigPda();
+  const tokenPda = getTokenPda(symbol);
+
+  // Fetch current state
+  const tokenAccount = await (program.account as any).token.fetch(tokenPda);
+
+  console.log("Admin updating symbol...");
+  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Current owner: ${tokenAccount.owner}`);
+  console.log(`  Current mint: ${tokenAccount.mint}`);
+  console.log(`  Current expires: ${formatDate(tokenAccount.expiresAt.toNumber())}`);
+  console.log("");
+
+  if (newOwner) console.log(`  New owner: ${newOwner}`);
+  if (newMint) console.log(`  New mint: ${newMint}`);
+  if (newExpiresAt) console.log(`  New expires: ${formatDate(newExpiresAt)}`);
+
+  const tx = await program.methods
+    .adminUpdateSymbol(
+      newOwner ? new PublicKey(newOwner) : null,
+      newMint ? new PublicKey(newMint) : null,
+      newExpiresAt ? new anchor.BN(newExpiresAt) : null
+    )
+    .accounts({
+      admin: provider.wallet.publicKey,
+      config: configPda,
+      tokenAccount: tokenPda,
+    })
+    .rpc();
+
+  console.log("\nSymbol updated by admin!");
+  console.log(`  Transaction: ${tx}`);
+}
+
+async function adminCloseSymbol(symbol: string) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = new Program(loadIDL(), provider);
+
+  const configPda = getConfigPda();
+  const tokenPda = getTokenPda(symbol);
+
+  // Fetch current state for display
+  const tokenAccount = await (program.account as any).token.fetch(tokenPda);
+
+  console.log("Admin closing symbol (force delete)...");
+  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Current owner: ${tokenAccount.owner}`);
+  console.log(`  Current mint: ${tokenAccount.mint}`);
+  console.log(`  WARNING: This will permanently delete the symbol!`);
+
+  const tx = await program.methods
+    .adminCloseSymbol()
+    .accounts({
+      admin: provider.wallet.publicKey,
+      config: configPda,
+      tokenAccount: tokenPda,
+    })
+    .rpc();
+
+  console.log("\nSymbol closed by admin! Rent returned.");
+  console.log(`  Transaction: ${tx}`);
+  console.log(`\nThe symbol $${symbol.toUpperCase()} is now available for fresh registration.`);
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0];
@@ -469,6 +582,56 @@ async function main() {
         showPda(args[1]);
         break;
 
+      // Admin commands
+      case "seed":
+        if (args.length < 3) {
+          console.log("Usage: npx tsx demo.ts seed <symbol> <mint> [years]");
+          console.log("Example: npx tsx demo.ts seed BONK DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 10");
+          process.exit(1);
+        }
+        await seedSymbol(args[1], args[2], args[3] ? parseInt(args[3]) : 10);
+        break;
+
+      case "admin-update":
+        if (args.length < 2) {
+          console.log("Usage: npx tsx demo.ts admin-update <symbol> [--owner <pubkey>] [--mint <pubkey>] [--expires <timestamp>]");
+          console.log("Example: npx tsx demo.ts admin-update BONK --owner NewOwnerPubkey123");
+          console.log("Example: npx tsx demo.ts admin-update BONK --expires 1735689600");
+          process.exit(1);
+        }
+        {
+          const symbol = args[1];
+          let newOwner: string | undefined;
+          let newMint: string | undefined;
+          let newExpires: number | undefined;
+
+          for (let i = 2; i < args.length; i++) {
+            if (args[i] === "--owner" && args[i + 1]) {
+              newOwner = args[++i];
+            } else if (args[i] === "--mint" && args[i + 1]) {
+              newMint = args[++i];
+            } else if (args[i] === "--expires" && args[i + 1]) {
+              newExpires = parseInt(args[++i]);
+            }
+          }
+
+          if (!newOwner && !newMint && !newExpires) {
+            console.log("Error: Must specify at least one of --owner, --mint, or --expires");
+            process.exit(1);
+          }
+
+          await adminUpdateSymbol(symbol, newOwner, newMint, newExpires);
+        }
+        break;
+
+      case "admin-close":
+        if (args.length < 2) {
+          console.log("Usage: npx tsx demo.ts admin-close <symbol>");
+          process.exit(1);
+        }
+        await adminCloseSymbol(args[1]);
+        break;
+
       default:
         console.log("TNS (Token Naming Service) Demo CLI\n");
         console.log("Commands:");
@@ -481,6 +644,13 @@ async function main() {
         console.log("  lookup <symbol>                          - Lookup symbol details");
         console.log("  lookup-mint <mint>                       - Reverse lookup by mint");
         console.log("  pda <symbol>                             - Derive token PDA address");
+        console.log("\nAdmin Commands (requires admin wallet):");
+        console.log("  seed <symbol> <mint> [years]             - Seed a symbol (free, default 10 years)");
+        console.log("  admin-update <symbol> [options]          - Force-update owner/mint/expiration");
+        console.log("    --owner <pubkey>                       - Set new owner");
+        console.log("    --mint <pubkey>                        - Set new mint");
+        console.log("    --expires <timestamp>                  - Set new expiration (unix timestamp)");
+        console.log("  admin-close <symbol>                     - Force-close and delete a symbol");
         console.log("\nPricing:");
         console.log("  Base price: ~$10/year (converted to SOL via Pyth oracle)");
         console.log("  Multi-year discounts: 5-25% for 2-10 years");
@@ -490,6 +660,8 @@ async function main() {
         console.log("  npx tsx demo.ts init");
         console.log("  npx tsx demo.ts register BONK DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 5");
         console.log("  npx tsx demo.ts lookup BONK");
+        console.log("  npx tsx demo.ts seed SOL So11111111111111111111111111111111111111112 10");
+        console.log("  npx tsx demo.ts admin-update BONK --owner NewOwnerPubkey");
         break;
     }
   } catch (err) {

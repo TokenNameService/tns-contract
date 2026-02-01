@@ -1,12 +1,12 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::Mint;
-use crate::{Config, Token, TnsError, SymbolSeeded, SECONDS_PER_YEAR};
+use crate::{Config, Token, TnsError, SymbolSeeded, SECONDS_PER_YEAR, MAX_REGISTRATION_YEARS};
 use crate::instructions::registrar::helpers::validate_symbol_format;
 
 /// Admin-only instruction to seed the registry with verified tokens.
-/// No fee, sets owner to mint authority, 10-year expiration.
+/// No fee, sets owner to mint authority, configurable expiration (1-10 years).
 #[derive(Accounts)]
-#[instruction(symbol: String)]
+#[instruction(symbol: String, years: u8)]
 pub struct SeedSymbol<'info> {
     #[account(mut)]
     pub admin: Signer<'info>,
@@ -33,9 +33,12 @@ pub struct SeedSymbol<'info> {
     pub system_program: Program<'info, System>,
 }
 
-pub fn handler(ctx: Context<SeedSymbol>, symbol: String) -> Result<()> {
+pub fn handler(ctx: Context<SeedSymbol>, symbol: String, years: u8) -> Result<()> {
     let clock = Clock::get()?;
     let normalized_symbol = validate_symbol_format(&symbol)?;
+
+    // Validate years (1-10)
+    require!(years >= 1 && years <= MAX_REGISTRATION_YEARS, TnsError::InvalidYears);
 
     // Get the mint authority - this becomes the symbol owner
     let owner = ctx.accounts.token_mint.mint_authority
@@ -44,7 +47,7 @@ pub fn handler(ctx: Context<SeedSymbol>, symbol: String) -> Result<()> {
     // Capture keys before mutable borrow for event emission
     let token_account_key = ctx.accounts.token_account.key();
     let mint_key = ctx.accounts.token_mint.key();
-    let expires_at = clock.unix_timestamp + (10 * SECONDS_PER_YEAR);
+    let expires_at = clock.unix_timestamp + (years as i64 * SECONDS_PER_YEAR);
 
     let token_account = &mut ctx.accounts.token_account;
     token_account.symbol = normalized_symbol.clone();
@@ -60,6 +63,7 @@ pub fn handler(ctx: Context<SeedSymbol>, symbol: String) -> Result<()> {
         symbol: normalized_symbol,
         mint: mint_key,
         owner,
+        years,
         seeded_at: clock.unix_timestamp,
         expires_at,
     });

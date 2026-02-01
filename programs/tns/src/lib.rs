@@ -45,9 +45,27 @@ pub mod tns {
     }
 
     /// Seed the registry with a verified token (admin only, no fee)
-    /// Sets owner to mint authority, 10-year expiration
-    pub fn seed_symbol(ctx: Context<SeedSymbol>, symbol: String) -> Result<()> {
-        instructions::admin::seed_symbol::handler(ctx, symbol)
+    /// Sets owner to mint authority, configurable expiration (1-10 years)
+    pub fn seed_symbol(ctx: Context<SeedSymbol>, symbol: String, years: u8) -> Result<()> {
+        instructions::admin::seed_symbol::handler(ctx, symbol, years)
+    }
+
+    /// Force-update a symbol's owner, mint, or expiration (admin only)
+    /// Use for fixing mistakes, revoking from bad actors, or extending for partners
+    pub fn admin_update_symbol(
+        ctx: Context<AdminUpdateSymbol>,
+        new_owner: Option<Pubkey>,
+        new_mint: Option<Pubkey>,
+        new_expires_at: Option<i64>,
+    ) -> Result<()> {
+        instructions::admin::admin_update_symbol::handler(ctx, new_owner, new_mint, new_expires_at)
+    }
+
+    /// Force-close a symbol account (admin only)
+    /// Closes the account immediately, returning rent to admin.
+    /// The symbol becomes available for fresh registration.
+    pub fn admin_close_symbol(ctx: Context<AdminCloseSymbol>) -> Result<()> {
+        instructions::admin::admin_close_symbol::handler(ctx)
     }
 
     /// Register a new symbol paying with SOL

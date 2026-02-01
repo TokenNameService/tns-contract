@@ -325,7 +325,7 @@ async function main() {
         const mintPubkey = new PublicKey(mint);
 
         const ix = await (program.methods as any)
-          .seedSymbol(symbol)
+          .seedSymbol(symbol, 10) // 10 years default for genesis seeding
           .accounts({
             admin: adminKeypair.publicKey,
             config: configPda,
@@ -360,7 +360,7 @@ async function main() {
           const mintPubkey = new PublicKey(mint);
 
           const sig = await (program.methods as any)
-            .seedSymbol(symbol)
+            .seedSymbol(symbol, 10) // 10 years default for genesis seeding
             .accounts({
               admin: adminKeypair.publicKey,
               config: configPda,

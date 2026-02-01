@@ -171,8 +171,52 @@ pub struct SymbolSeeded {
     pub mint: Pubkey,
     /// Owner (mint authority)
     pub owner: Pubkey,
+    /// Number of years registered for
+    pub years: u8,
     /// Unix timestamp of seeding
     pub seeded_at: i64,
-    /// Unix timestamp when registration expires (10 years)
+    /// Unix timestamp when registration expires
     pub expires_at: i64,
+}
+
+/// Emitted when admin force-updates a symbol
+#[event]
+pub struct SymbolUpdatedByAdmin {
+    /// The PDA address of the Token account
+    pub token_account: Pubkey,
+    /// The symbol string
+    pub symbol: String,
+    /// Previous owner
+    pub old_owner: Pubkey,
+    /// New owner (may be same as old)
+    pub new_owner: Pubkey,
+    /// Previous mint
+    pub old_mint: Pubkey,
+    /// New mint (may be same as old)
+    pub new_mint: Pubkey,
+    /// Previous expiration timestamp
+    pub old_expires_at: i64,
+    /// New expiration timestamp (may be same as old)
+    pub new_expires_at: i64,
+    /// Admin who made the update
+    pub admin: Pubkey,
+    /// Unix timestamp of update
+    pub updated_at: i64,
+}
+
+/// Emitted when admin force-closes a symbol
+#[event]
+pub struct SymbolClosedByAdmin {
+    /// The PDA address of the Token account (now closed)
+    pub token_account: Pubkey,
+    /// The symbol string (now available for fresh registration)
+    pub symbol: String,
+    /// Previous owner
+    pub previous_owner: Pubkey,
+    /// Previous mint
+    pub previous_mint: Pubkey,
+    /// Admin who closed it
+    pub admin: Pubkey,
+    /// Unix timestamp
+    pub closed_at: i64,
 }

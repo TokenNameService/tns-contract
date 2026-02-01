@@ -10,6 +10,7 @@ import {
   fundAccounts,
   getTokenPda,
   refreshConfigState,
+  ensureUnpaused,
 } from "./helpers/setup";
 
 // Max slippage for tests (1 SOL)
@@ -27,6 +28,9 @@ describe("TNS - Security Tests", () => {
     // Refresh config to get current state
     await refreshConfigState(ctx);
 
+    // Ensure protocol is unpaused (test isolation)
+    await ensureUnpaused(ctx);
+
     // Create a test token mint for use in tests
     testTokenMint = await createMint(
       ctx.provider.connection,
@@ -43,6 +47,9 @@ describe("TNS - Security Tests", () => {
     before(async () => {
       // Refresh config before each test block
       await refreshConfigState(ctx);
+
+      // Ensure protocol is unpaused for setup
+      await ensureUnpaused(ctx);
 
       // Register a symbol we can try to renew when paused (as admin for Phase 1)
       const symbol = "PAUSETEST";
@@ -200,6 +207,7 @@ describe("TNS - Security Tests", () => {
   describe("Reserved Symbols", () => {
     before(async () => {
       await refreshConfigState(ctx);
+      await ensureUnpaused(ctx);
     });
 
     // In Phase 1 (Genesis), admins CAN register reserved symbols - this is by design
@@ -286,6 +294,7 @@ describe("TNS - Security Tests", () => {
   describe("Symbol Validation", () => {
     before(async () => {
       await refreshConfigState(ctx);
+      await ensureUnpaused(ctx);
     });
 
     it("rejects symbols with special characters", async () => {
@@ -346,6 +355,7 @@ describe("TNS - Security Tests", () => {
   describe("Fee Collector Protection", () => {
     before(async () => {
       await refreshConfigState(ctx);
+      await ensureUnpaused(ctx);
     });
 
     it("registration fees go to correct fee collector", async () => {

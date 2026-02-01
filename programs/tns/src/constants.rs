@@ -49,8 +49,8 @@ pub const PYTH_PROGRAM_ID: Pubkey = pubkey!("FsJ3A3u2vn5cTVofAjvy6y5kwABJAqYWpe4
 /// Discount for paying with TNS token in basis points (2500 = 25%)
 pub const TNS_DISCOUNT_BPS: u16 = 2500;
 
-/// TNS token mint address on mainnet (TODO: replace with real address before launch)
-pub const TNS_MINT: Pubkey = pubkey!("11111111111111111111111111111111");
+/// TNS token mint address on mainnet
+pub const TNS_MINT: Pubkey = pubkey!("6jwcLLjhEcUrnnPtnWvqVKEeAzSTXT6qtV1GEjcopump");
 
 /// USDC mint address on mainnet
 pub const USDC_MINT: Pubkey = pubkey!("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");

@@ -268,6 +268,31 @@ export async function refreshConfigState(ctx: TestContext): Promise<void> {
   ctx.solUsdPythFeed = config.solUsdPythFeed;
 }
 
+// Ensure protocol is unpaused (for test isolation)
+export async function ensureUnpaused(ctx: TestContext): Promise<void> {
+  const { program, admin, configPda } = ctx;
+  const config = await program.account.config.fetch(configPda);
+
+  if (config.paused) {
+    await program.methods
+      .updateConfig(null, false, null, null)
+      .accountsPartial({
+        admin: admin.publicKey,
+        config: configPda,
+        newAdmin: admin.publicKey,
+      })
+      .rpc();
+  }
+}
+
+// Reset config to phase 1 if possible (for test isolation)
+// Note: Phase can only go forward, so this only works on fresh validator
+export async function ensurePhase1(ctx: TestContext): Promise<void> {
+  const { program, configPda } = ctx;
+  const config = await program.account.config.fetch(configPda);
+  ctx.currentPhase = config.phase;
+}
+
 export function setupTest(): TestContext {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);

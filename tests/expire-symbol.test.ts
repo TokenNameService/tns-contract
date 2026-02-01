@@ -9,6 +9,7 @@ import {
   fundAccounts,
   getTokenPda,
   refreshConfigState,
+  ensureUnpaused,
 } from "./helpers/setup";
 
 // Max slippage for tests (1 SOL)
@@ -25,6 +26,9 @@ describe("TNS - Cancel Symbol", () => {
 
     // Refresh config to get current state
     await refreshConfigState(ctx);
+
+    // Ensure protocol is unpaused (test isolation)
+    await ensureUnpaused(ctx);
 
     // Create a test token mint
     testTokenMint = await createMint(
