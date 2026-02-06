@@ -61,7 +61,6 @@ describe("TNS - Update Config", () => {
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
-        newAdmin: admin.publicKey,
       })
       .rpc();
 
@@ -82,7 +81,6 @@ describe("TNS - Update Config", () => {
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
-        newAdmin: admin.publicKey,
       })
       .rpc();
 
@@ -95,7 +93,6 @@ describe("TNS - Update Config", () => {
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
-        newAdmin: admin.publicKey,
       })
       .rpc();
 
@@ -112,7 +109,6 @@ describe("TNS - Update Config", () => {
         .accountsPartial({
           admin: registrant.publicKey,
           config: configPda,
-          newAdmin: registrant.publicKey,
         })
         .signers([registrant])
         .rpc();
@@ -133,7 +129,6 @@ describe("TNS - Update Config", () => {
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
-        newAdmin: admin.publicKey,
       })
       .rpc();
 
@@ -162,7 +157,6 @@ describe("TNS - Update Config", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
 
@@ -186,7 +180,6 @@ describe("TNS - Update Config", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
 
@@ -211,7 +204,6 @@ describe("TNS - Update Config", () => {
           .accountsPartial({
             admin: admin.publicKey,
             config: configPda,
-            newAdmin: admin.publicKey,
           })
           .rpc();
 
@@ -230,7 +222,6 @@ describe("TNS - Update Config", () => {
           .accountsPartial({
             admin: admin.publicKey,
             config: configPda,
-            newAdmin: admin.publicKey,
           })
           .rpc();
 

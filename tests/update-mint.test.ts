@@ -1,8 +1,7 @@
 import * as anchor from "@coral-xyz/anchor";
 import BN from "bn.js";
-import { Keypair } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { expect } from "chai";
-import { createMint } from "@solana/spl-token";
 import {
   setupTest,
   TestContext,
@@ -12,6 +11,8 @@ import {
   getBalance,
   refreshConfigState,
   ensureUnpaused,
+  createTokenWithMetadata,
+  getMetadataPda,
 } from "./helpers/setup";
 
 // Max slippage for tests (1 SOL)
@@ -22,7 +23,9 @@ describe("TNS - Update Mint", () => {
   const testSymbol = "UPDMINT";
   let tokenPda: anchor.web3.PublicKey;
   let testTokenMint: anchor.web3.PublicKey;
+  let testTokenMetadata: anchor.web3.PublicKey;
   let newMintForUpdate: anchor.web3.PublicKey;
+  let newMintMetadata: anchor.web3.PublicKey;
 
   before(async () => {
     ctx = setupTest();
@@ -35,23 +38,25 @@ describe("TNS - Update Mint", () => {
     // Ensure protocol is unpaused (test isolation)
     await ensureUnpaused(ctx);
 
-    // Create a test token mint
-    testTokenMint = await createMint(
-      ctx.provider.connection,
-      ctx.admin.payer,
-      ctx.admin.publicKey,
-      null,
-      9
+    // Create a test token mint with metadata
+    testTokenMint = await createTokenWithMetadata(
+      ctx.provider,
+      ctx.admin,
+      testSymbol,
+      `${testSymbol} Token`,
+      true // immutable
     );
+    testTokenMetadata = getMetadataPda(testTokenMint);
 
-    // Create a second mint for update tests
-    newMintForUpdate = await createMint(
-      ctx.provider.connection,
-      ctx.admin.payer,
-      ctx.admin.publicKey,
-      null,
-      9
+    // Create a second mint for update tests (same symbol since it needs to match)
+    newMintForUpdate = await createTokenWithMetadata(
+      ctx.provider,
+      ctx.admin,
+      testSymbol, // Same symbol for valid update
+      `${testSymbol} Token V2`,
+      true // immutable
     );
+    newMintMetadata = getMetadataPda(newMintForUpdate);
 
     // Register a symbol to update (as admin for Phase 1)
     tokenPda = getTokenPda(ctx.program.programId, testSymbol);
@@ -63,6 +68,7 @@ describe("TNS - Update Mint", () => {
         config: ctx.configPda,
         tokenAccount: tokenPda,
         tokenMint: testTokenMint,
+        tokenMetadata: testTokenMetadata,
         feeCollector: ctx.feeCollectorPubkey,
         solUsdPriceFeed: ctx.solUsdPythFeed,
         platformFeeAccount: null,
@@ -89,6 +95,7 @@ describe("TNS - Update Mint", () => {
         solUsdPriceFeed: solUsdPythFeed,
         platformFeeAccount: null,
         newMint: newMintForUpdate,
+        newMintMetadata: newMintMetadata,
       })
       .rpc();
 
@@ -127,6 +134,7 @@ describe("TNS - Update Mint", () => {
           solUsdPriceFeed: solUsdPythFeed,
           platformFeeAccount: null,
           newMint: testTokenMint, // Valid mint, but wrong owner
+          newMintMetadata: testTokenMetadata,
         })
         .signers([registrant])
         .rpc();
@@ -144,6 +152,8 @@ describe("TNS - Update Mint", () => {
     // Get current mint
     const tokenAccount = await program.account.token.fetch(tokenPda);
     const currentMint = tokenAccount.mint;
+    // Current mint is newMintForUpdate after first test
+    const currentMintMetadata = getMetadataPda(currentMint);
 
     try {
       await program.methods
@@ -156,6 +166,7 @@ describe("TNS - Update Mint", () => {
           tokenAccount: tokenPda,
           platformFeeAccount: null,
           newMint: currentMint,
+          newMintMetadata: currentMintMetadata,
         })
         .rpc();
 

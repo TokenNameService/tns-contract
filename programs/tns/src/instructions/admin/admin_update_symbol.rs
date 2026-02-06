@@ -26,18 +26,12 @@ pub fn handler(
     new_expires_at: Option<i64>,
 ) -> Result<()> {
     let clock = Clock::get()?;
-
-    // Capture keys before mutable borrow
-    let token_account_key = ctx.accounts.token_account.key();
-    let admin_key = ctx.accounts.admin.key();
-
     let token = &mut ctx.accounts.token_account;
 
-    // Capture old values for event
+    // Capture old values before mutation
     let old_owner = token.owner;
     let old_mint = token.mint;
     let old_expires_at = token.expires_at;
-    let symbol = token.symbol.clone();
 
     // Apply updates
     if let Some(owner) = new_owner {
@@ -53,15 +47,15 @@ pub fn handler(
     }
 
     emit!(SymbolUpdatedByAdmin {
-        token_account: token_account_key,
-        symbol,
+        token_account: token.key(),
+        symbol: token.symbol.clone(),
         old_owner,
         new_owner: token.owner,
         old_mint,
         new_mint: token.mint,
         old_expires_at,
         new_expires_at: token.expires_at,
-        admin: admin_key,
+        admin: ctx.accounts.admin.key(),
         updated_at: clock.unix_timestamp,
     });
 

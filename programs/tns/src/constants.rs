@@ -66,3 +66,18 @@ pub const STABLECOIN_MULTIPLIER: u64 = 1_000_000;
 /// Maximum platform fee in basis points (1000 = 10%)
 /// Platforms (launchpads like pump.fun) can receive up to 10% of registration fees
 pub const MAX_PLATFORM_FEE_BPS: u16 = 1000;
+
+/// Wrapped SOL mint address
+pub const WSOL_MINT: Pubkey = pubkey!("So11111111111111111111111111111111111111112");
+
+/// Pump AMM pool for TNS/SOL pricing
+pub const PUMP_TNS_SOL_POOL: Pubkey = pubkey!("4vvoQ1icW9kQJcoqsUxFm9cxyYKJgUHafRo7Bxiyf5Cp");
+
+/// Pool's TNS reserve token account (holds TNS tokens in the pool)
+pub const PUMP_POOL_TNS_RESERVE: Pubkey = pubkey!("8UGTQaaDjjWoye9YiG9YuGUc5RHcTb8sHcr877Eg5L73");
+
+/// Pool's SOL reserve token account (holds WSOL tokens in the pool)
+pub const PUMP_POOL_SOL_RESERVE: Pubkey = pubkey!("B4PNGmGrdPbPjb2iu7MAKHBovQduv5gjLJdC9i5UNQaJ");
+
+/// SOL decimals (9 decimals)
+pub const SOL_DECIMALS: u8 = 9;

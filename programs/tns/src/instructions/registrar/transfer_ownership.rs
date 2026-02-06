@@ -30,17 +30,15 @@ pub fn handler(ctx: Context<TransferOwnership>, new_owner: Pubkey) -> Result<()>
     // Ensure new owner is different
     require!(ctx.accounts.token_account.owner != new_owner, TnsError::SameOwner);
 
-    let token_account_key = ctx.accounts.token_account.key();
+    // Capture old owner before mutation
     let old_owner = ctx.accounts.token_account.owner;
-    let symbol_str = ctx.accounts.token_account.symbol.clone();
 
     // Transfer ownership
-    let token_account = &mut ctx.accounts.token_account;
-    token_account.owner = new_owner;
+    ctx.accounts.token_account.owner = new_owner;
 
     emit!(OwnershipTransferred {
-        token_account: token_account_key,
-        symbol: symbol_str.clone(),
+        token_account: ctx.accounts.token_account.key(),
+        symbol: ctx.accounts.token_account.symbol.clone(),
         old_owner,
         new_owner,
         transferred_at: clock.unix_timestamp,

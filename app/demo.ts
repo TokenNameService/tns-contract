@@ -2,7 +2,8 @@
  * Demo CLI for the TNS (Token Naming Service) Program
  *
  * Usage:
- *   npx tsx demo.ts init                                  - Initialize config (one-time)
+ *   npx tsx demo.ts init                                  - Initialize config (one-time, starts PAUSED)
+ *   npx tsx demo.ts create-atas                           - Create fee collector ATAs for USDC/USDT/TNS
  *   npx tsx demo.ts register <symbol> <mint> <years>      - Register a symbol (pays with SOL)
  *   npx tsx demo.ts renew <symbol> <years>                - Renew a symbol (pays with SOL)
  *   npx tsx demo.ts update-mint <symbol> <new_mint>       - Update mint for a symbol (pays with SOL)
@@ -13,8 +14,12 @@
  *   npx tsx demo.ts pda <symbol>                          - Derive token PDA
  *
  * Admin commands:
+ *   npx tsx demo.ts config                                - View current config state (paused, phase, etc.)
  *   npx tsx demo.ts seed <symbol> <mint> [years]          - Seed a symbol (admin only, free, default 10 years)
- *   npx tsx demo.ts admin-update <symbol> [--owner <pubkey>] [--mint <pubkey>] [--expires <timestamp>]
+ *   npx tsx demo.ts unpause                               - Unpause the protocol (admin only)
+ *   npx tsx demo.ts pause                                 - Pause the protocol (admin only)
+ *   npx tsx demo.ts set-phase <phase>                     - Set protocol phase 1/2/3 (admin only)
+ *   npx tsx demo.ts admin-update <symbol> [options]       - Force-update a symbol (admin only)
  *   npx tsx demo.ts admin-close <symbol>                  - Force-close a symbol (admin only)
  */
 
@@ -27,9 +32,19 @@ import {
   PublicKey,
   SystemProgram,
 } from "@solana/web3.js";
+import {
+  getAssociatedTokenAddressSync,
+  createAssociatedTokenAccountInstruction,
+  TOKEN_PROGRAM_ID,
+} from "@solana/spl-token";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
+
+// Token mints (matching constants.rs)
+const USDC_MINT = new PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+const USDT_MINT = new PublicKey("Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB");
+const TNS_MINT = new PublicKey("6jwcLLjhEcUrnnPtnWvqVKEeAzSTXT6qtV1GEjcopump");
 
 // Program ID: set via TNS_PROGRAM_ID env var (required for deployed program)
 const PROGRAM_ID = new PublicKey(
@@ -80,8 +95,9 @@ function getConfigPda(): PublicKey {
 }
 
 function getTokenPda(symbol: string): PublicKey {
+  // Symbols must be uppercase - contract rejects lowercase letters
   const [tokenPda] = PublicKey.findProgramAddressSync(
-    [Buffer.from("token"), Buffer.from(symbol.toUpperCase())],
+    [Buffer.from("token"), Buffer.from(symbol)],
     PROGRAM_ID
   );
   return tokenPda;
@@ -169,7 +185,7 @@ async function registerSymbol(symbol: string, mint: string, years: number) {
   const solUsdPriceFeed = config.solUsdPythFeed;
 
   console.log("Registering symbol with SOL...");
-  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Symbol: ${symbol}`);
   console.log(`  Token Mint: ${mintPubkey}`);
   console.log(`  Years: ${years}`);
   console.log(`  Owner: ${provider.wallet.publicKey}`);
@@ -214,7 +230,7 @@ async function renewSymbol(symbol: string, years: number) {
   const tokenAccount = await (program.account as any).token.fetch(tokenPda);
 
   console.log("Renewing symbol with SOL...");
-  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Symbol: ${symbol}`);
   console.log(`  Additional years: ${years}`);
   console.log(`  Current expiration: ${formatDate(tokenAccount.expiresAt.toNumber())}`);
 
@@ -255,7 +271,7 @@ async function updateMint(symbol: string, newMint: string) {
   const tokenAccount = await (program.account as any).token.fetch(tokenPda);
 
   console.log("Updating mint with SOL payment...");
-  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Symbol: ${symbol}`);
   console.log(`  Current mint: ${tokenAccount.mint}`);
   console.log(`  New mint: ${newMintPubkey}`);
 
@@ -293,7 +309,7 @@ async function transferOwnership(symbol: string, newOwner: string) {
   const tokenAccount = await (program.account as any).token.fetch(tokenPda);
 
   console.log("Transferring symbol ownership...");
-  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Symbol: ${symbol}`);
   console.log(`  Current owner: ${tokenAccount.owner}`);
   console.log(`  New owner: ${newOwnerPubkey}`);
 
@@ -321,7 +337,7 @@ async function cancelSymbol(symbol: string) {
   const tokenAccount = await (program.account as any).token.fetch(tokenPda);
 
   console.log("Canceling symbol...");
-  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Symbol: ${symbol}`);
   console.log(`  Owner: ${tokenAccount.owner}`);
 
   const tx = await program.methods
@@ -359,7 +375,7 @@ async function lookupSymbol(symbol: string) {
   } catch (err: unknown) {
     const error = err as Error;
     if (error.message?.includes("Account does not exist")) {
-      console.log(`\nSymbol $${symbol.toUpperCase()} is not registered.`);
+      console.log(`\nSymbol ${symbol} is not registered.`);
       console.log(`  Register it: npx tsx demo.ts register ${symbol} <mint_address> <years>`);
     } else {
       throw err;
@@ -395,11 +411,136 @@ async function lookupByMint(mint: string) {
 
 function showPda(symbol: string) {
   const tokenPda = getTokenPda(symbol);
-  console.log(`Symbol: $${symbol.toUpperCase()}`);
+  console.log(`Symbol: ${symbol}`);
   console.log(`PDA: ${tokenPda}`);
 }
 
 // ============ Admin Commands ============
+
+function getPhaseDescription(phase: number): string {
+  switch (phase) {
+    case 1: return "Genesis (admin-only for non-whitelisted, mint authority for verified)";
+    case 2: return "Open (anyone can register non-whitelisted, reserved still protected)";
+    case 3: return "Full (all restrictions removed)";
+    default: return `Unknown (${phase})`;
+  }
+}
+
+async function showConfig() {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = new Program(loadIDL(), provider);
+  const configPda = getConfigPda();
+
+  try {
+    const config = await (program.account as any).config.fetch(configPda);
+
+    console.log("\nTNS Protocol Config");
+    console.log("─".repeat(60));
+    console.log(`  Config PDA:        ${configPda}`);
+    console.log(`  Admin:             ${config.admin}`);
+    console.log(`  Fee Collector:     ${config.feeCollector}`);
+    console.log(`  SOL/USD Pyth Feed: ${config.solUsdPythFeed}`);
+    console.log(`  TNS/USD Pyth Feed: ${config.tnsUsdPythFeed || "None (TNS pegged at $1)"}`);
+    console.log("");
+    console.log(`  Paused:  ${config.paused ? "YES ⛔ (registrations blocked)" : "NO ✅ (accepting registrations)"}`);
+    console.log(`  Phase:   ${config.phase} - ${getPhaseDescription(config.phase)}`);
+    console.log("");
+    console.log(`  Base Price:       $${(config.basePriceUsdMicro.toNumber() / 1_000_000).toFixed(2)}/year`);
+    console.log(`  Annual Increase:  ${config.annualIncreaseBps / 100}%`);
+    console.log(`  Update Fee:       ${config.updateFeeBps / 100}% of base price`);
+    console.log(`  Keeper Reward:    ${config.keeperRewardLamports.toNumber() / 1_000_000_000} SOL`);
+    console.log(`  Launch:           ${formatDate(config.launchTimestamp.toNumber())}`);
+  } catch (err: unknown) {
+    const error = err as Error;
+    if (error.message?.includes("Account does not exist")) {
+      console.log("\nConfig not initialized yet.");
+      console.log("  Run: npx tsx demo.ts init");
+    } else {
+      throw err;
+    }
+  }
+}
+
+async function updateConfigPaused(paused: boolean) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = new Program(loadIDL(), provider);
+  const configPda = getConfigPda();
+
+  const config = await (program.account as any).config.fetch(configPda);
+
+  if (config.paused === paused) {
+    console.log(`\nProtocol is already ${paused ? "paused" : "unpaused"}.`);
+    return;
+  }
+
+  console.log(`\n${paused ? "Pausing" : "Unpausing"} protocol...`);
+
+  const tx = await program.methods
+    .updateConfig(
+      null, // new_fee_collector
+      paused,
+      null, // new_phase
+      null, // tns_usd_pyth_feed
+    )
+    .accounts({
+      admin: provider.wallet.publicKey,
+      config: configPda,
+      newAdmin: provider.wallet.publicKey, // keep same admin
+    })
+    .rpc();
+
+  console.log(`\nProtocol ${paused ? "paused" : "unpaused"}!`);
+  console.log(`  Transaction: ${tx}`);
+
+  // Show updated config
+  await showConfig();
+}
+
+async function setPhase(newPhase: number) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = new Program(loadIDL(), provider);
+  const configPda = getConfigPda();
+
+  const config = await (program.account as any).config.fetch(configPda);
+
+  if (newPhase <= config.phase) {
+    console.log(`\nError: Phase can only go forward. Current: ${config.phase}, requested: ${newPhase}`);
+    console.log("  Phase transitions: 1 → 2 → 3 (cannot go backward)");
+    return;
+  }
+
+  if (newPhase > 3) {
+    console.log(`\nError: Maximum phase is 3.`);
+    return;
+  }
+
+  console.log(`\nSetting phase ${config.phase} → ${newPhase}...`);
+  console.log(`  ${getPhaseDescription(config.phase)}`);
+  console.log(`  → ${getPhaseDescription(newPhase)}`);
+
+  const tx = await program.methods
+    .updateConfig(
+      null, // new_fee_collector
+      null, // paused
+      newPhase,
+      null, // tns_usd_pyth_feed
+    )
+    .accounts({
+      admin: provider.wallet.publicKey,
+      config: configPda,
+      newAdmin: provider.wallet.publicKey, // keep same admin
+    })
+    .rpc();
+
+  console.log(`\nPhase updated to ${newPhase}!`);
+  console.log(`  Transaction: ${tx}`);
+
+  // Show updated config
+  await showConfig();
+}
 
 async function seedSymbol(symbol: string, mint: string, years: number = 10) {
   const provider = getProvider();
@@ -411,7 +552,7 @@ async function seedSymbol(symbol: string, mint: string, years: number = 10) {
   const tokenPda = getTokenPda(symbol);
 
   console.log("Seeding symbol (admin only, no fee)...");
-  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Symbol: ${symbol}`);
   console.log(`  Token Mint: ${mintPubkey}`);
   console.log(`  Years: ${years}`);
   console.log(`  Token PDA: ${tokenPda}`);
@@ -449,7 +590,7 @@ async function adminUpdateSymbol(
   const tokenAccount = await (program.account as any).token.fetch(tokenPda);
 
   console.log("Admin updating symbol...");
-  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Symbol: ${symbol}`);
   console.log(`  Current owner: ${tokenAccount.owner}`);
   console.log(`  Current mint: ${tokenAccount.mint}`);
   console.log(`  Current expires: ${formatDate(tokenAccount.expiresAt.toNumber())}`);
@@ -488,7 +629,7 @@ async function adminCloseSymbol(symbol: string) {
   const tokenAccount = await (program.account as any).token.fetch(tokenPda);
 
   console.log("Admin closing symbol (force delete)...");
-  console.log(`  Symbol: $${symbol.toUpperCase()}`);
+  console.log(`  Symbol: ${symbol}`);
   console.log(`  Current owner: ${tokenAccount.owner}`);
   console.log(`  Current mint: ${tokenAccount.mint}`);
   console.log(`  WARNING: This will permanently delete the symbol!`);
@@ -504,7 +645,68 @@ async function adminCloseSymbol(symbol: string) {
 
   console.log("\nSymbol closed by admin! Rent returned.");
   console.log(`  Transaction: ${tx}`);
-  console.log(`\nThe symbol $${symbol.toUpperCase()} is now available for fresh registration.`);
+  console.log(`\nThe symbol ${symbol} is now available for fresh registration.`);
+}
+
+async function createFeeCollectorAtas() {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = new Program(loadIDL(), provider);
+  const configPda = getConfigPda();
+
+  // Fetch fee collector from config
+  const config = await (program.account as any).config.fetch(configPda);
+  const feeCollector = config.feeCollector as PublicKey;
+
+  console.log("Creating ATAs for fee collector...");
+  console.log(`  Fee Collector: ${feeCollector}`);
+  console.log(`  Payer: ${provider.wallet.publicKey}`);
+  console.log("");
+
+  const mints = [
+    { name: "USDC", mint: USDC_MINT },
+    { name: "USDT", mint: USDT_MINT },
+    { name: "TNS", mint: TNS_MINT },
+  ];
+
+  const transaction = new anchor.web3.Transaction();
+  const atasToCreate: { name: string; ata: PublicKey }[] = [];
+
+  for (const { name, mint } of mints) {
+    const ata = getAssociatedTokenAddressSync(mint, feeCollector);
+
+    // Check if ATA already exists
+    const accountInfo = await provider.connection.getAccountInfo(ata);
+
+    if (accountInfo) {
+      console.log(`  ${name} ATA: ${ata} (already exists)`);
+    } else {
+      console.log(`  ${name} ATA: ${ata} (will create)`);
+      transaction.add(
+        createAssociatedTokenAccountInstruction(
+          provider.wallet.publicKey, // payer
+          ata, // ata address
+          feeCollector, // owner
+          mint, // mint
+        )
+      );
+      atasToCreate.push({ name, ata });
+    }
+  }
+
+  if (atasToCreate.length === 0) {
+    console.log("\nAll ATAs already exist. Nothing to do.");
+    return;
+  }
+
+  console.log(`\nCreating ${atasToCreate.length} ATA(s)...`);
+  const tx = await provider.sendAndConfirm(transaction);
+
+  console.log("\nATAs created successfully!");
+  console.log(`  Transaction: ${tx}`);
+  for (const { name, ata } of atasToCreate) {
+    console.log(`  ${name}: ${ata}`);
+  }
 }
 
 async function main() {
@@ -515,6 +717,10 @@ async function main() {
     switch (command) {
       case "init":
         await initConfig(args[1]); // optional fee collector pubkey
+        break;
+
+      case "create-atas":
+        await createFeeCollectorAtas();
         break;
 
       case "register":
@@ -583,6 +789,29 @@ async function main() {
         break;
 
       // Admin commands
+      case "config":
+        await showConfig();
+        break;
+
+      case "unpause":
+        await updateConfigPaused(false);
+        break;
+
+      case "pause":
+        await updateConfigPaused(true);
+        break;
+
+      case "set-phase":
+        if (args.length < 2) {
+          console.log("Usage: npx tsx demo.ts set-phase <phase>");
+          console.log("  Phase 1: Genesis (admin-only for non-whitelisted)");
+          console.log("  Phase 2: Open (anyone can register non-whitelisted)");
+          console.log("  Phase 3: Full (all restrictions removed)");
+          process.exit(1);
+        }
+        await setPhase(parseInt(args[1]));
+        break;
+
       case "seed":
         if (args.length < 3) {
           console.log("Usage: npx tsx demo.ts seed <symbol> <mint> [years]");
@@ -634,8 +863,9 @@ async function main() {
 
       default:
         console.log("TNS (Token Naming Service) Demo CLI\n");
-        console.log("Commands:");
-        console.log("  init [fee_collector]                     - Initialize config");
+        console.log("User Commands:");
+        console.log("  init [fee_collector]                     - Initialize config (starts PAUSED)");
+        console.log("  create-atas                              - Create USDC/USDT/TNS ATAs for fee collector");
         console.log("  register <symbol> <mint> <years>         - Register a symbol (1-10 years, pays SOL)");
         console.log("  renew <symbol> <years>                   - Renew a symbol (pays SOL)");
         console.log("  update-mint <symbol> <new_mint>          - Update mint for a symbol (pays SOL)");
@@ -645,23 +875,32 @@ async function main() {
         console.log("  lookup-mint <mint>                       - Reverse lookup by mint");
         console.log("  pda <symbol>                             - Derive token PDA address");
         console.log("\nAdmin Commands (requires admin wallet):");
+        console.log("  config                                   - View current config state");
+        console.log("  unpause                                  - Unpause protocol (allow registrations)");
+        console.log("  pause                                    - Pause protocol (block registrations)");
+        console.log("  set-phase <1|2|3>                        - Advance protocol phase");
         console.log("  seed <symbol> <mint> [years]             - Seed a symbol (free, default 10 years)");
         console.log("  admin-update <symbol> [options]          - Force-update owner/mint/expiration");
         console.log("    --owner <pubkey>                       - Set new owner");
         console.log("    --mint <pubkey>                        - Set new mint");
         console.log("    --expires <timestamp>                  - Set new expiration (unix timestamp)");
         console.log("  admin-close <symbol>                     - Force-close and delete a symbol");
+        console.log("\nProtocol Phases:");
+        console.log("  1 - Genesis: Admin-only for non-whitelisted, mint authority for verified");
+        console.log("  2 - Open:    Anyone can register non-whitelisted, reserved still protected");
+        console.log("  3 - Full:    All restrictions removed, anyone can register anything");
         console.log("\nPricing:");
         console.log("  Base price: ~$10/year (converted to SOL via Pyth oracle)");
         console.log("  Multi-year discounts: 5-25% for 2-10 years");
         console.log("  Pay with TNS token for 25% discount");
         console.log("  Also accepts USDC and USDT");
         console.log("\nExamples:");
-        console.log("  npx tsx demo.ts init");
-        console.log("  npx tsx demo.ts register BONK DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 5");
+        console.log("  npx tsx demo.ts init                     # Initialize (starts paused)");
+        console.log("  npx tsx demo.ts config                   # Check current state");
+        console.log("  npx tsx demo.ts seed BONK DezXAZ...263   # Seed verified token (while paused)");
+        console.log("  npx tsx demo.ts unpause                  # Go live");
+        console.log("  npx tsx demo.ts register TEST ...mint... 5");
         console.log("  npx tsx demo.ts lookup BONK");
-        console.log("  npx tsx demo.ts seed SOL So11111111111111111111111111111111111111112 10");
-        console.log("  npx tsx demo.ts admin-update BONK --owner NewOwnerPubkey");
         break;
     }
   } catch (err) {

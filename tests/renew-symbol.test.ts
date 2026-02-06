@@ -1,7 +1,6 @@
 import * as anchor from "@coral-xyz/anchor";
 import BN from "bn.js";
 import { expect } from "chai";
-import { createMint } from "@solana/spl-token";
 import {
   setupTest,
   TestContext,
@@ -11,6 +10,8 @@ import {
   getBalance,
   refreshConfigState,
   ensureUnpaused,
+  createTokenWithMetadata,
+  getMetadataPda,
 } from "./helpers/setup";
 
 // Max slippage for tests (1 SOL)
@@ -21,6 +22,7 @@ describe("TNS - Renew Symbol", () => {
   const testSymbol = "RENEW";
   let tokenPda: anchor.web3.PublicKey;
   let testTokenMint: anchor.web3.PublicKey;
+  let testTokenMetadata: anchor.web3.PublicKey;
 
   before(async () => {
     ctx = setupTest();
@@ -33,14 +35,15 @@ describe("TNS - Renew Symbol", () => {
     // Ensure protocol is unpaused (test isolation)
     await ensureUnpaused(ctx);
 
-    // Create a test token mint
-    testTokenMint = await createMint(
-      ctx.provider.connection,
-      ctx.admin.payer,
-      ctx.admin.publicKey,
-      null,
-      9
+    // Create a test token mint with metadata
+    testTokenMint = await createTokenWithMetadata(
+      ctx.provider,
+      ctx.admin,
+      testSymbol,
+      `${testSymbol} Token`,
+      true // immutable
     );
+    testTokenMetadata = getMetadataPda(testTokenMint);
 
     // Register a symbol to renew (as admin since Phase 1 requires admin for non-whitelisted)
     tokenPda = getTokenPda(ctx.program.programId, testSymbol);
@@ -52,6 +55,7 @@ describe("TNS - Renew Symbol", () => {
         config: ctx.configPda,
         tokenAccount: tokenPda,
         tokenMint: testTokenMint,
+        tokenMetadata: testTokenMetadata,
         feeCollector: ctx.feeCollectorPubkey,
         solUsdPriceFeed: ctx.solUsdPythFeed,
         platformFeeAccount: null,
@@ -155,7 +159,7 @@ describe("TNS - Renew Symbol", () => {
 
       expect.fail("Should have thrown an error");
     } catch (err) {
-      expect(err.message).to.include("RenewalExceedsMaxYears");
+      expect(err.message).to.include("ExceedsMaxYears");
     }
   });
 

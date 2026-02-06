@@ -14,8 +14,9 @@ pub struct UpdateConfig<'info> {
     )]
     pub config: Account<'info, Config>,
 
-    /// New admin must sign to prove consent to receiving admin rights
-    pub new_admin: Signer<'info>,
+    /// Optional new admin - must sign to prove consent to receiving admin rights
+    /// If not provided, admin remains unchanged
+    pub new_admin: Option<Signer<'info>>,
 }
 
 pub fn handler(
@@ -27,8 +28,10 @@ pub fn handler(
 ) -> Result<()> {
     let config = &mut ctx.accounts.config;
 
-    // Update admin to the new_admin signer
-    config.admin = ctx.accounts.new_admin.key();
+    // Only update admin if new_admin signer is provided
+    if let Some(new_admin) = &ctx.accounts.new_admin {
+        config.admin = new_admin.key();
+    }
 
     if let Some(fee_collector) = new_fee_collector {
         config.fee_collector = fee_collector;

@@ -1,8 +1,7 @@
 import * as anchor from "@coral-xyz/anchor";
 import BN from "bn.js";
-import { Keypair } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { expect } from "chai";
-import { createMint } from "@solana/spl-token";
 import {
   setupTest,
   TestContext,
@@ -11,6 +10,8 @@ import {
   getTokenPda,
   refreshConfigState,
   ensureUnpaused,
+  createTokenWithMetadata,
+  getMetadataPda,
 } from "./helpers/setup";
 
 // Max slippage for tests (1 SOL)
@@ -18,7 +19,24 @@ const MAX_SOL_COST = new BN(1_000_000_000);
 
 describe("TNS - Security Tests", () => {
   let ctx: TestContext;
-  let testTokenMint: anchor.web3.PublicKey;
+  // Store mints for each symbol
+  const tokenMints: Map<string, PublicKey> = new Map();
+
+  // Helper to get or create a token mint with matching metadata
+  async function getOrCreateTokenMint(symbol: string): Promise<PublicKey> {
+    if (tokenMints.has(symbol)) {
+      return tokenMints.get(symbol)!;
+    }
+    const mint = await createTokenWithMetadata(
+      ctx.provider,
+      ctx.admin,
+      symbol,
+      `${symbol} Token`,
+      true // immutable
+    );
+    tokenMints.set(symbol, mint);
+    return mint;
+  }
 
   before(async () => {
     ctx = setupTest();
@@ -30,19 +48,12 @@ describe("TNS - Security Tests", () => {
 
     // Ensure protocol is unpaused (test isolation)
     await ensureUnpaused(ctx);
-
-    // Create a test token mint for use in tests
-    testTokenMint = await createMint(
-      ctx.provider.connection,
-      ctx.admin.payer,
-      ctx.admin.publicKey,
-      null,
-      9
-    );
   });
 
   describe("Paused State", () => {
     let tokenForRenewal: anchor.web3.PublicKey;
+    let pauseTestMint: anchor.web3.PublicKey;
+    let pauseTestMetadata: anchor.web3.PublicKey;
 
     before(async () => {
       // Refresh config before each test block
@@ -54,6 +65,8 @@ describe("TNS - Security Tests", () => {
       // Register a symbol we can try to renew when paused (as admin for Phase 1)
       const symbol = "PAUSETEST";
       tokenForRenewal = getTokenPda(ctx.program.programId, symbol);
+      pauseTestMint = await getOrCreateTokenMint(symbol);
+      pauseTestMetadata = getMetadataPda(pauseTestMint);
 
       await ctx.program.methods
         .registerSymbolSol(symbol, 1, MAX_SOL_COST, 0)
@@ -61,7 +74,8 @@ describe("TNS - Security Tests", () => {
           payer: ctx.admin.publicKey,
           config: ctx.configPda,
           tokenAccount: tokenForRenewal,
-          tokenMint: testTokenMint,
+          tokenMint: pauseTestMint,
+          tokenMetadata: pauseTestMetadata,
           feeCollector: ctx.feeCollectorPubkey,
           solUsdPriceFeed: ctx.solUsdPythFeed,
           platformFeeAccount: null,
@@ -79,12 +93,13 @@ describe("TNS - Security Tests", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
 
       const symbol = "PAUSED1";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       try {
         await program.methods
@@ -93,7 +108,8 @@ describe("TNS - Security Tests", () => {
             payer: admin.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
-            tokenMint: testTokenMint,
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
             feeCollector: feeCollectorPubkey,
             solUsdPriceFeed: solUsdPythFeed,
             platformFeeAccount: null,
@@ -111,7 +127,6 @@ describe("TNS - Security Tests", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
     });
@@ -126,7 +141,6 @@ describe("TNS - Security Tests", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
 
@@ -154,7 +168,6 @@ describe("TNS - Security Tests", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
     });
@@ -169,9 +182,12 @@ describe("TNS - Security Tests", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
+
+      // Create a new mint for update attempt
+      const newMint = await getOrCreateTokenMint("PAUSETEST"); // Same symbol
+      const newMintMetadata = getMetadataPda(newMint);
 
       try {
         await program.methods
@@ -183,7 +199,8 @@ describe("TNS - Security Tests", () => {
             feeCollector: feeCollectorPubkey,
             solUsdPriceFeed: solUsdPythFeed,
             platformFeeAccount: null,
-            newMint: testTokenMint, // Use valid mint
+            newMint: newMint,
+            newMintMetadata: newMintMetadata,
           })
           .rpc();
 
@@ -198,7 +215,6 @@ describe("TNS - Security Tests", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
     });
@@ -230,6 +246,8 @@ describe("TNS - Security Tests", () => {
 
       const symbol = "AAPL"; // Reserved TradFi symbol
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       // In Phase 1, admin should be able to register reserved symbols
       await program.methods
@@ -239,7 +257,8 @@ describe("TNS - Security Tests", () => {
           config: configPda,
           feeCollector: feeCollectorPubkey,
           solUsdPriceFeed: solUsdPythFeed,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
           platformFeeAccount: null,
         })
@@ -267,6 +286,8 @@ describe("TNS - Security Tests", () => {
 
       const symbol = "GOOGL"; // Reserved TradFi symbol
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       try {
         await program.methods
@@ -275,7 +296,8 @@ describe("TNS - Security Tests", () => {
             payer: registrant.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
-            tokenMint: testTokenMint,
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
             feeCollector: feeCollectorPubkey,
             solUsdPriceFeed: solUsdPythFeed,
             platformFeeAccount: null,
@@ -297,39 +319,45 @@ describe("TNS - Security Tests", () => {
       await ensureUnpaused(ctx);
     });
 
-    it("rejects symbols with special characters", async () => {
+    it("allows symbols with special characters if metadata matches", async () => {
       const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
         ctx;
 
-      const symbol = "TEST$"; // Invalid character
+      // Special characters are now allowed - Metaplex matching is the gatekeeper
+      const symbol = "TEST$";
       const tokenPda = getTokenPda(program.programId, symbol);
+      // Create token with matching special character symbol
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
-      try {
-        await program.methods
-          .registerSymbolSol(symbol, 1, MAX_SOL_COST, 0)
-          .accountsPartial({
-            payer: admin.publicKey,
-            config: configPda,
-            tokenAccount: tokenPda,
-            tokenMint: testTokenMint,
-            feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
-            platformFeeAccount: null,
-          })
-          .rpc();
+      await program.methods
+        .registerSymbolSol(symbol, 1, MAX_SOL_COST, 0)
+        .accountsPartial({
+          payer: admin.publicKey,
+          config: configPda,
+          tokenAccount: tokenPda,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
+          feeCollector: feeCollectorPubkey,
+          solUsdPriceFeed: solUsdPythFeed,
+          platformFeeAccount: null,
+        })
+        .rpc();
 
-        expect.fail("Should have thrown an error");
-      } catch (err) {
-        expect(err).to.exist;
-      }
+      const tokenAccount = await program.account.token.fetch(tokenPda);
+      expect(tokenAccount.symbol).to.equal(symbol);
     });
 
-    it("rejects symbols with spaces", async () => {
+    it("rejects when symbol doesn't match metadata", async () => {
       const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
         ctx;
 
-      const symbol = "TEST ONE"; // Space not allowed
+      // Try to register with a symbol that doesn't match the metadata
+      const symbol = "MISMATCH";
       const tokenPda = getTokenPda(program.programId, symbol);
+      // Create token with DIFFERENT symbol
+      const tokenMint = await getOrCreateTokenMint("DIFFERENT");
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       try {
         await program.methods
@@ -338,16 +366,17 @@ describe("TNS - Security Tests", () => {
             payer: admin.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
-            tokenMint: testTokenMint,
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
             feeCollector: feeCollectorPubkey,
             solUsdPriceFeed: solUsdPythFeed,
             platformFeeAccount: null,
           })
           .rpc();
 
-        expect.fail("Should have thrown an error");
+        expect.fail("Should have thrown MetadataSymbolMismatch error");
       } catch (err) {
-        expect(err).to.exist;
+        expect(err.message).to.include("MetadataSymbolMismatch");
       }
     });
   });
@@ -376,13 +405,14 @@ describe("TNS - Security Tests", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
 
       // Try to register with old fee collector - should fail
       const symbol = "FEECHK";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       try {
         await program.methods
@@ -392,7 +422,8 @@ describe("TNS - Security Tests", () => {
             config: configPda,
             feeCollector: feeCollectorPubkey, // Old fee collector
             solUsdPriceFeed: solUsdPythFeed,
-            tokenMint: testTokenMint,
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
             tokenAccount: tokenPda,
             platformFeeAccount: null,
           })
@@ -410,7 +441,6 @@ describe("TNS - Security Tests", () => {
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
 

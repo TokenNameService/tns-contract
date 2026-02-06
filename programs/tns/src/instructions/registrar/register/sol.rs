@@ -2,8 +2,8 @@ use anchor_lang::prelude::*;
 use anchor_spl::token_interface::Mint;
 use crate::{Config, Token, SymbolRegistered, TnsError};
 use super::super::helpers::{
-    validate_not_paused, validate_years, validate_symbol_format,
-    validate_and_calculate_expiration, validate_registration_access,
+    validate_not_paused, validate_symbol_format,
+    validate_and_calculate_expiration, validate_registration_access, validate_mint_metadata,
     calculate_fees_sol, transfer_sol_fees_with_platform, initialize_token_account,
     validate_slippage, validate_platform_fee_bps, SymbolInitData,
 };
@@ -28,13 +28,16 @@ pub struct RegisterSymbolSol<'info> {
         init,
         payer = payer,
         space = 8 + Token::INIT_SPACE,
-        seeds = [Token::SEED_PREFIX, symbol.to_uppercase().as_bytes()],
+        seeds = [Token::SEED_PREFIX, symbol.as_bytes()],
         bump
     )]
     pub token_account: Account<'info, Token>,
 
     /// The token mint being registered - validated as real SPL/Token-2022 mint
     pub token_mint: InterfaceAccount<'info, Mint>,
+
+    /// CHECK: Metaplex metadata account for token_mint - validated in handler
+    pub token_metadata: AccountInfo<'info>,
 
     pub system_program: Program<'info, System>,
 
@@ -72,9 +75,14 @@ pub fn handler(
 
     // Validate
     validate_not_paused(config)?;
-    validate_years(years)?;
-    validate_platform_fee_bps(platform_fee_bps)?;
+
     let normalized_symbol = validate_symbol_format(&symbol)?;
+
+    let expires_at = validate_and_calculate_expiration(
+        clock.unix_timestamp,
+        years,
+        clock.unix_timestamp,
+    )?;
 
     validate_registration_access(
         config,
@@ -84,11 +92,13 @@ pub fn handler(
         &ctx.accounts.token_mint,
     )?;
 
-    let expires_at = validate_and_calculate_expiration(
-        clock.unix_timestamp,
-        years,
-        clock.unix_timestamp,
+    validate_mint_metadata(
+        &ctx.accounts.token_metadata,
+        &mint,
+        &normalized_symbol,
     )?;
+
+    validate_platform_fee_bps(platform_fee_bps)?;
 
     // Calculate fees
     let fees = calculate_fees_sol(
@@ -125,27 +135,23 @@ pub fn handler(
     )?;
 
     // Initialize symbol
-    let token_account_key = ctx.accounts.token_account.key();
-    let payer_key = ctx.accounts.payer.key();
-    let bump = ctx.bumps.token_account;
-
     initialize_token_account(
         &mut ctx.accounts.token_account,
         SymbolInitData {
             symbol: normalized_symbol.clone(),
             mint,
-            owner: payer_key,
+            owner: ctx.accounts.payer.key(),
             current_time: clock.unix_timestamp,
             expires_at,
-            bump,
+            bump: ctx.bumps.token_account,
         },
     );
 
     emit!(SymbolRegistered {
-        token_account: token_account_key,
+        token_account: ctx.accounts.token_account.key(),
         symbol: normalized_symbol,
         mint,
-        owner: payer_key,
+        owner: ctx.accounts.payer.key(),
         years,
         fee_paid: total_cost,
         platform_fee: platform_fee_paid,

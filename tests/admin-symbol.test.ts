@@ -2,41 +2,41 @@ import * as anchor from "@coral-xyz/anchor";
 import BN from "bn.js";
 import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 import { expect } from "chai";
-import { createMint } from "@solana/spl-token";
 import {
   setupTest,
   TestContext,
   ensureConfigInitialized,
   fundAccounts,
   getTokenPda,
+  createTokenWithMetadata,
+  getMetadataPda,
 } from "./helpers/setup";
 
 describe("TNS - Admin Symbol Operations", () => {
   let ctx: TestContext;
-  let testTokenMint: PublicKey;
-  let testTokenMint2: PublicKey;
+  // Store mints for each symbol
+  const tokenMints: Map<string, PublicKey> = new Map();
+
+  // Helper to get or create a token mint with matching metadata
+  async function getOrCreateTokenMint(symbol: string): Promise<PublicKey> {
+    if (tokenMints.has(symbol)) {
+      return tokenMints.get(symbol)!;
+    }
+    const mint = await createTokenWithMetadata(
+      ctx.provider,
+      ctx.admin,
+      symbol,
+      `${symbol} Token`,
+      true // immutable
+    );
+    tokenMints.set(symbol, mint);
+    return mint;
+  }
 
   before(async () => {
     ctx = setupTest();
     await ensureConfigInitialized(ctx);
     await fundAccounts(ctx.provider, ctx.registrant, ctx.feeCollector);
-
-    // Create test token mints (admin is the mint authority)
-    testTokenMint = await createMint(
-      ctx.provider.connection,
-      ctx.admin.payer,
-      ctx.admin.publicKey,
-      null,
-      9
-    );
-
-    testTokenMint2 = await createMint(
-      ctx.provider.connection,
-      ctx.admin.payer,
-      ctx.admin.publicKey,
-      null,
-      9
-    );
   });
 
   describe("seed_symbol", () => {
@@ -44,6 +44,8 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, admin, configPda } = ctx;
       const symbol = "SEED10";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       await program.methods
         .seedSymbol(symbol, 10)
@@ -51,15 +53,16 @@ describe("TNS - Admin Symbol Operations", () => {
           admin: admin.publicKey,
           config: configPda,
           tokenAccount: tokenPda,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           systemProgram: SystemProgram.programId,
         })
         .rpc();
 
       const tokenAccount = await program.account.token.fetch(tokenPda);
 
-      expect(tokenAccount.symbol).to.equal(symbol.toUpperCase());
-      expect(tokenAccount.mint.toString()).to.equal(testTokenMint.toString());
+      expect(tokenAccount.symbol).to.equal(symbol);
+      expect(tokenAccount.mint.toString()).to.equal(tokenMint.toString());
       // Owner should be mint authority (admin in this case)
       expect(tokenAccount.owner.toString()).to.equal(admin.publicKey.toString());
 
@@ -73,6 +76,8 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, admin, configPda } = ctx;
       const symbol = "SEED5";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       await program.methods
         .seedSymbol(symbol, 5)
@@ -80,7 +85,8 @@ describe("TNS - Admin Symbol Operations", () => {
           admin: admin.publicKey,
           config: configPda,
           tokenAccount: tokenPda,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           systemProgram: SystemProgram.programId,
         })
         .rpc();
@@ -97,6 +103,8 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, admin, configPda } = ctx;
       const symbol = "SEED1";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       await program.methods
         .seedSymbol(symbol, 1)
@@ -104,7 +112,8 @@ describe("TNS - Admin Symbol Operations", () => {
           admin: admin.publicKey,
           config: configPda,
           tokenAccount: tokenPda,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           systemProgram: SystemProgram.programId,
         })
         .rpc();
@@ -121,6 +130,8 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, admin, configPda } = ctx;
       const symbol = "SEEDFAIL0";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       try {
         await program.methods
@@ -129,7 +140,8 @@ describe("TNS - Admin Symbol Operations", () => {
             admin: admin.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
-            tokenMint: testTokenMint,
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
             systemProgram: SystemProgram.programId,
           })
           .rpc();
@@ -144,6 +156,8 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, admin, configPda } = ctx;
       const symbol = "SEEDFAIL11";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       try {
         await program.methods
@@ -152,14 +166,15 @@ describe("TNS - Admin Symbol Operations", () => {
             admin: admin.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
-            tokenMint: testTokenMint,
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
             systemProgram: SystemProgram.programId,
           })
           .rpc();
 
         expect.fail("Should have thrown an error");
       } catch (err) {
-        expect(err.message).to.include("InvalidYears");
+        expect(err.message).to.include("ExceedsMaxYears");
       }
     });
 
@@ -167,6 +182,8 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, configPda, registrant } = ctx;
       const symbol = "SEEDUNAUTH";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       try {
         await program.methods
@@ -175,7 +192,8 @@ describe("TNS - Admin Symbol Operations", () => {
             admin: registrant.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
-            tokenMint: testTokenMint,
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
             systemProgram: SystemProgram.programId,
           })
           .signers([registrant])
@@ -191,11 +209,17 @@ describe("TNS - Admin Symbol Operations", () => {
   describe("admin_update_symbol", () => {
     const updateSymbol = "UPTEST";
     let updateTokenPda: PublicKey;
+    let updateTokenMint: PublicKey;
+    let updateTokenMint2: PublicKey;
 
     before(async () => {
       // Seed a symbol for update tests
       const { program, admin, configPda } = ctx;
       updateTokenPda = getTokenPda(program.programId, updateSymbol);
+      updateTokenMint = await getOrCreateTokenMint(updateSymbol);
+      const tokenMetadata = getMetadataPda(updateTokenMint);
+      // Create a second mint for update tests (same symbol, different mint for admin override)
+      updateTokenMint2 = await getOrCreateTokenMint(updateSymbol + "2");
 
       await program.methods
         .seedSymbol(updateSymbol, 5)
@@ -203,7 +227,8 @@ describe("TNS - Admin Symbol Operations", () => {
           admin: admin.publicKey,
           config: configPda,
           tokenAccount: updateTokenPda,
-          tokenMint: testTokenMint,
+          tokenMint: updateTokenMint,
+          tokenMetadata: tokenMetadata,
           systemProgram: SystemProgram.programId,
         })
         .rpc();
@@ -240,10 +265,10 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, admin, configPda } = ctx;
 
       const tokenBefore = await program.account.token.fetch(updateTokenPda);
-      expect(tokenBefore.mint.toString()).to.equal(testTokenMint.toString());
+      expect(tokenBefore.mint.toString()).to.equal(updateTokenMint.toString());
 
       await program.methods
-        .adminUpdateSymbol(null, testTokenMint2, null)
+        .adminUpdateSymbol(null, updateTokenMint2, null)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -252,11 +277,11 @@ describe("TNS - Admin Symbol Operations", () => {
         .rpc();
 
       const tokenAccount = await program.account.token.fetch(updateTokenPda);
-      expect(tokenAccount.mint.toString()).to.equal(testTokenMint2.toString());
+      expect(tokenAccount.mint.toString()).to.equal(updateTokenMint2.toString());
 
       // Restore original mint
       await program.methods
-        .adminUpdateSymbol(null, testTokenMint, null)
+        .adminUpdateSymbol(null, updateTokenMint, null)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -289,7 +314,7 @@ describe("TNS - Admin Symbol Operations", () => {
       const newExpiration = Math.floor(Date.now() / 1000) + (15 * 31_557_600);
 
       await program.methods
-        .adminUpdateSymbol(newOwner.publicKey, testTokenMint2, new BN(newExpiration))
+        .adminUpdateSymbol(newOwner.publicKey, updateTokenMint2, new BN(newExpiration))
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -299,7 +324,7 @@ describe("TNS - Admin Symbol Operations", () => {
 
       const tokenAccount = await program.account.token.fetch(updateTokenPda);
       expect(tokenAccount.owner.toString()).to.equal(newOwner.publicKey.toString());
-      expect(tokenAccount.mint.toString()).to.equal(testTokenMint2.toString());
+      expect(tokenAccount.mint.toString()).to.equal(updateTokenMint2.toString());
       expect(tokenAccount.expiresAt.toNumber()).to.equal(newExpiration);
     });
 
@@ -330,6 +355,8 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, admin, configPda } = ctx;
       const symbol = "CLOSETEST";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       // First seed the symbol
       await program.methods
@@ -338,14 +365,15 @@ describe("TNS - Admin Symbol Operations", () => {
           admin: admin.publicKey,
           config: configPda,
           tokenAccount: tokenPda,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           systemProgram: SystemProgram.programId,
         })
         .rpc();
 
       // Verify it exists
       let tokenAccount = await program.account.token.fetch(tokenPda);
-      expect(tokenAccount.symbol).to.equal(symbol.toUpperCase());
+      expect(tokenAccount.symbol).to.equal(symbol);
 
       // Now close it
       await program.methods
@@ -370,6 +398,11 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, admin, configPda } = ctx;
       const symbol = "REOPEN";
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
+      // Create a different mint for re-registration
+      const tokenMint2 = await getOrCreateTokenMint(symbol + "V2");
+      const tokenMetadata2 = getMetadataPda(tokenMint2);
 
       // Seed the symbol
       await program.methods
@@ -378,7 +411,8 @@ describe("TNS - Admin Symbol Operations", () => {
           admin: admin.publicKey,
           config: configPda,
           tokenAccount: tokenPda,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           systemProgram: SystemProgram.programId,
         })
         .rpc();
@@ -393,22 +427,25 @@ describe("TNS - Admin Symbol Operations", () => {
         })
         .rpc();
 
-      // Re-seed it with different parameters
+      // Re-seed it with different parameters (admin can use any mint via admin override)
+      // Note: admin_update_symbol doesn't require metadata validation
+      // But seed_symbol does, so we use the same symbol's mint
       await program.methods
         .seedSymbol(symbol, 7)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
           tokenAccount: tokenPda,
-          tokenMint: testTokenMint2, // Different mint this time
+          tokenMint: tokenMint, // Use same mint since it has matching symbol
+          tokenMetadata: tokenMetadata,
           systemProgram: SystemProgram.programId,
         })
         .rpc();
 
       // Verify the new registration
       const tokenAccount = await program.account.token.fetch(tokenPda);
-      expect(tokenAccount.symbol).to.equal(symbol.toUpperCase());
-      expect(tokenAccount.mint.toString()).to.equal(testTokenMint2.toString());
+      expect(tokenAccount.symbol).to.equal(symbol);
+      expect(tokenAccount.mint.toString()).to.equal(tokenMint.toString());
 
       // Verify expiration is ~7 years from now
       const now = Math.floor(Date.now() / 1000);
@@ -420,6 +457,8 @@ describe("TNS - Admin Symbol Operations", () => {
       const { program, admin, configPda, registrant } = ctx;
       const symbol = "NOCL" + Math.random().toString(36).substring(2, 5).toUpperCase();
       const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
 
       // Seed the symbol
       await program.methods
@@ -428,7 +467,8 @@ describe("TNS - Admin Symbol Operations", () => {
           admin: admin.publicKey,
           config: configPda,
           tokenAccount: tokenPda,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           systemProgram: SystemProgram.programId,
         })
         .rpc();

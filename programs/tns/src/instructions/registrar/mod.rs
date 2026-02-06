@@ -12,6 +12,7 @@ pub use update_mint::{UpdateMintSol, UpdateMintTns, UpdateMintUsdc, UpdateMintUs
 pub use claim::{ClaimExpiredSymbolSol, ClaimExpiredSymbolTns, ClaimExpiredSymbolUsdc, ClaimExpiredSymbolUsdt};
 pub use cancel_symbol::CancelSymbol;
 pub use transfer_ownership::TransferOwnership;
+pub use helpers::{get_sol_price_micro, get_tns_price_from_pool, calculate_tns_for_usd};
 
 pub(crate) use register::__client_accounts_register_symbol_sol;
 pub(crate) use register::__client_accounts_register_symbol_tns;

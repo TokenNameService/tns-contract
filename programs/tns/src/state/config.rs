@@ -24,8 +24,9 @@ pub struct Config {
     /// Pyth price account for SOL/USD (push oracle)
     pub sol_usd_pyth_feed: Pubkey,
 
-    /// Optional Pyth price account for TNS/USD
-    /// When None, TNS is pegged at $1. When set, uses market price.
+    /// Reserved: Optional Pyth price account for direct TNS/USD feed
+    /// Currently unused - TNS price is derived from DEX pool reserves + SOL/USD Pyth feed
+    /// Kept for potential future direct Pyth TNS/USD oracle integration
     pub tns_usd_pyth_feed: Option<Pubkey>,
 
     /// Fixed keeper reward in lamports (paid separately from registration fee)
@@ -54,26 +55,26 @@ impl Config {
     pub const SEED_PREFIX: &'static [u8] = b"config";
 
     /// Calculate the current yearly price in USD micro-cents based on time since launch
-    /// Price increases 7% annually (global, not per-symbol)
+    /// Price increases linearly: base + (base × years × rate)
+    /// Example: $10 base, 7% rate, year 10 = $10 + $7 = $17
     pub fn get_current_yearly_price_usd(&self, current_time: i64) -> u64 {
         let years_since_launch = (current_time - self.launch_timestamp) / SECONDS_PER_YEAR;
+
         if years_since_launch <= 0 {
             return self.base_price_usd_micro;
         }
 
-        // Compound 7% increase: price * (1.07)^years
-        // Using fixed-point math: multiply by 10700, divide by 10000 each year
-        let mut price = self.base_price_usd_micro as u128;
-        for _ in 0..years_since_launch.min(50) {
-            // Cap at 50 years to prevent overflow
-            price = price * (10000 + self.annual_increase_bps as u128) / 10000;
-        }
-        price as u64
+        let years = years_since_launch as u128;
+        let base = self.base_price_usd_micro as u128;
+        let increase = base * years * self.annual_increase_bps as u128 / 10000;
+
+        (base + increase).min(u64::MAX as u128) as u64
     }
 
     /// Calculate total price in USD micro-cents for multi-year registration with discount
     pub fn calculate_registration_price_usd(&self, current_time: i64, years: u8) -> u64 {
         let years = years.min(MAX_REGISTRATION_YEARS) as usize;
+        
         if years == 0 {
             return 0;
         }
@@ -113,10 +114,5 @@ impl Config {
     /// Get fixed keeper reward in lamports
     pub fn get_keeper_reward_lamports(&self) -> u64 {
         self.keeper_reward_lamports
-    }
-
-    /// Check if TNS oracle pricing is enabled
-    pub fn has_tns_oracle(&self) -> bool {
-        self.tns_usd_pyth_feed.is_some()
     }
 }

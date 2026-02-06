@@ -5,8 +5,11 @@ pub enum TnsError {
     #[msg("Symbol must be 1-10 characters")]
     InvalidSymbolLength,
 
-    #[msg("Symbol must contain only alphanumeric characters")]
-    InvalidSymbolCharacters,
+    #[msg("Symbol argument must be uppercase")]
+    SymbolMustBeUppercase,
+
+    #[msg("Token metadata symbol must be uppercase")]
+    MetadataSymbolMustBeUppercase,
 
     #[msg("Unauthorized: you are not the owner of this symbol")]
     Unauthorized,
@@ -23,17 +26,14 @@ pub enum TnsError {
     #[msg("Registration years must be between 1 and 10")]
     InvalidYears,
 
-    #[msg("Symbol has expired and is past the grace period")]
+    #[msg("Symbol is expired")]
     SymbolExpired,
 
     #[msg("Symbol is still active or in grace period, cannot expire yet")]
     NotYetExpired,
 
-    #[msg("Renewal would exceed maximum 10 year registration limit")]
-    RenewalExceedsMaxYears,
-
-    #[msg("Symbol is expired, must renew before updating")]
-    CannotUpdateExpiredSymbol,
+    #[msg("Expiration would exceed maximum 10 years from now")]
+    ExceedsMaxYears,
 
     #[msg("Insufficient payment for registration")]
     InsufficientPayment,
@@ -76,4 +76,22 @@ pub enum TnsError {
 
     #[msg("Platform fee exceeds maximum allowed (10%)")]
     PlatformFeeExceedsMax,
+
+    #[msg("Invalid pool reserve account")]
+    InvalidPoolReserve,
+
+    #[msg("Pool reserves are empty or zero")]
+    EmptyPoolReserves,
+
+    #[msg("Math overflow in price calculation")]
+    MathOverflow,
+
+    #[msg("Invalid metadata account")]
+    InvalidMetadata,
+
+    #[msg("Metadata symbol does not match registered symbol")]
+    MetadataSymbolMismatch,
+
+    #[msg("Token metadata must be immutable")]
+    MetadataMustBeImmutable,
 }

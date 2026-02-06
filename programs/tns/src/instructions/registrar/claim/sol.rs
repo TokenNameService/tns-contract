@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token_interface::Mint;
 use crate::{Config, Token, SymbolClaimed, TnsError};
 use super::super::helpers::{
-    validate_not_paused, validate_years, validate_symbol_claimable,
+    validate_not_paused, validate_symbol_claimable, validate_mint_metadata,
     validate_and_calculate_expiration, validate_slippage, validate_platform_fee_bps,
     calculate_fees_sol, transfer_sol_fees_with_platform,
     update_symbol_on_claim, SymbolClaimData,
@@ -51,6 +51,9 @@ pub struct ClaimExpiredSymbolSol<'info> {
     /// The new mint to register the symbol to (validated as a real mint)
     pub new_mint: InterfaceAccount<'info, Mint>,
 
+    /// CHECK: Metaplex metadata account for new_mint - validated in handler
+    pub new_mint_metadata: AccountInfo<'info>,
+
     /// Optional platform fee account (for launchpad referrals)
     /// CHECK: Validated by transfer if present
     #[account(mut)]
@@ -69,16 +72,22 @@ pub fn handler(
 
     // Validate
     validate_not_paused(config)?;
-    validate_years(years)?;
-    validate_platform_fee_bps(platform_fee_bps)?;
+    
     validate_symbol_claimable(&ctx.accounts.token_account, clock.unix_timestamp)?;
 
-    // Calculate new expiration from now
     let expires_at = validate_and_calculate_expiration(
         clock.unix_timestamp,
         years,
         clock.unix_timestamp,
     )?;
+
+    validate_mint_metadata(
+        &ctx.accounts.new_mint_metadata,
+        &new_mint,
+        &ctx.accounts.token_account.symbol,
+    )?;
+
+    validate_platform_fee_bps(platform_fee_bps)?;
 
     // Calculate fees (we only use fee_lamports, not keeper_reward)
     let fees = calculate_fees_sol(
@@ -91,12 +100,9 @@ pub fn handler(
     // Validate slippage (no keeper reward for claims)
     validate_slippage(fees.fee_lamports, max_sol_cost)?;
 
-    // Capture previous values for event
-    let token_account_key = ctx.accounts.token_account.key();
-    let symbol_str = ctx.accounts.token_account.symbol.clone();
+    // Capture previous values before mutation
     let previous_owner = ctx.accounts.token_account.owner;
     let previous_mint = ctx.accounts.token_account.mint;
-    let new_owner = ctx.accounts.payer.key();
 
     // Transfer fees with platform split (no keeper reward - original registration funded keeper pool)
     let platform_fee_paid = transfer_sol_fees_with_platform(
@@ -113,17 +119,17 @@ pub fn handler(
         &mut ctx.accounts.token_account,
         SymbolClaimData {
             new_mint,
-            new_owner,
+            new_owner: ctx.accounts.payer.key(),
             expires_at,
         },
     );
 
     emit!(SymbolClaimed {
-        token_account: token_account_key,
-        symbol: symbol_str,
+        token_account: ctx.accounts.token_account.key(),
+        symbol: ctx.accounts.token_account.symbol.clone(),
         previous_owner,
         previous_mint,
-        new_owner,
+        new_owner: ctx.accounts.payer.key(),
         new_mint,
         years,
         fee_paid: fees.fee_lamports,

@@ -6,7 +6,6 @@ pub mod errors;
 pub mod events;
 pub mod instructions;
 pub mod whitelist;
-pub mod utils;
 
 pub use constants::*;
 pub use state::*;
@@ -14,7 +13,6 @@ pub use errors::*;
 pub use events::*;
 pub use instructions::*;
 pub use whitelist::*;
-pub use utils::*;
 
 declare_id!("TNSxsGQYDPb7ddAtDEJAUhD3q4M232NdhmTXutVXQ12");
 

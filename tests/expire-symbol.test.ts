@@ -1,7 +1,6 @@
 import * as anchor from "@coral-xyz/anchor";
 import BN from "bn.js";
 import { expect } from "chai";
-import { createMint } from "@solana/spl-token";
 import {
   setupTest,
   TestContext,
@@ -10,6 +9,8 @@ import {
   getTokenPda,
   refreshConfigState,
   ensureUnpaused,
+  createTokenWithMetadata,
+  getMetadataPda,
 } from "./helpers/setup";
 
 // Max slippage for tests (1 SOL)
@@ -17,7 +18,6 @@ const MAX_SOL_COST = new BN(1_000_000_000);
 
 describe("TNS - Cancel Symbol", () => {
   let ctx: TestContext;
-  let testTokenMint: anchor.web3.PublicKey;
 
   before(async () => {
     ctx = setupTest();
@@ -29,15 +29,6 @@ describe("TNS - Cancel Symbol", () => {
 
     // Ensure protocol is unpaused (test isolation)
     await ensureUnpaused(ctx);
-
-    // Create a test token mint
-    testTokenMint = await createMint(
-      ctx.provider.connection,
-      ctx.admin.payer,
-      ctx.admin.publicKey,
-      null,
-      9
-    );
   });
 
   it("fails to cancel a symbol that is still active", async () => {
@@ -45,6 +36,16 @@ describe("TNS - Cancel Symbol", () => {
       ctx;
     const symbol = "ACTIVE2";
     const tokenPda = getTokenPda(program.programId, symbol);
+
+    // Create token mint with metadata
+    const testTokenMint = await createTokenWithMetadata(
+      ctx.provider,
+      ctx.admin,
+      symbol,
+      `${symbol} Token`,
+      true
+    );
+    const testTokenMetadata = getMetadataPda(testTokenMint);
 
     // Register the symbol for 1 year (as admin for Phase 1)
     await program.methods
@@ -54,6 +55,7 @@ describe("TNS - Cancel Symbol", () => {
         config: configPda,
         tokenAccount: tokenPda,
         tokenMint: testTokenMint,
+        tokenMetadata: testTokenMetadata,
         feeCollector: feeCollectorPubkey,
         solUsdPriceFeed: solUsdPythFeed,
         platformFeeAccount: null,
