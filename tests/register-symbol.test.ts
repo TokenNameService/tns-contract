@@ -54,7 +54,7 @@ describe("TNS - Register Symbol", () => {
   it("registers a new symbol for 1 year", async () => {
     const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
       ctx;
-    const symbol = "TEST1"; // Non-whitelisted symbol
+    const symbol = "TEST1"; // Unseeded symbol
     const tokenPda = getTokenPda(program.programId, symbol);
     const tokenMint = await getOrCreateTokenMint(symbol);
     const tokenMetadata = getMetadataPda(tokenMint);
@@ -64,7 +64,7 @@ describe("TNS - Register Symbol", () => {
       feeCollectorPubkey
     );
 
-    // In Phase 1, only admin can register non-whitelisted symbols
+    // In Phase 1, only admin can register
     await program.methods
       .registerSymbolSol(symbol, 1, MAX_SOL_COST, 0)
       .accountsPartial({
@@ -103,7 +103,7 @@ describe("TNS - Register Symbol", () => {
   it("registers a symbol for 5 years with discount", async () => {
     const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
       ctx;
-    const symbol = "TEST5"; // Non-whitelisted symbol
+    const symbol = "TEST5"; // Unseeded symbol
     const tokenPda = getTokenPda(program.programId, symbol);
     const tokenMint = await getOrCreateTokenMint(symbol);
     const tokenMetadata = getMetadataPda(tokenMint);
@@ -131,35 +131,6 @@ describe("TNS - Register Symbol", () => {
       now + fiveYears,
       60
     );
-  });
-
-  it("rejects lowercase symbols", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
-      ctx;
-    // Try to register "lowercase" - should be rejected
-    const lowerSymbol = "lowercase";
-    const lowerTokenPda = getTokenPda(program.programId, lowerSymbol);
-    const lowerTokenMint = await getOrCreateTokenMint(lowerSymbol);
-    const lowerTokenMetadata = getMetadataPda(lowerTokenMint);
-
-    try {
-      await program.methods
-        .registerSymbolSol(lowerSymbol, 1, MAX_SOL_COST, 0)
-        .accountsPartial({
-          payer: admin.publicKey,
-          config: configPda,
-          tokenAccount: lowerTokenPda,
-          tokenMint: lowerTokenMint,
-          tokenMetadata: lowerTokenMetadata,
-          feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
-          platformFeeAccount: null,
-        })
-        .rpc();
-      expect.fail("Should have rejected lowercase symbol");
-    } catch (err: any) {
-      expect(err.message).to.include("SymbolMustBeUppercase");
-    }
   });
 
   it("fails to register an already registered symbol", async () => {
@@ -308,5 +279,108 @@ describe("TNS - Register Symbol", () => {
     } catch (err) {
       expect(err).to.exist;
     }
+  });
+
+  describe("Symbol Length Boundaries", () => {
+    it("accepts symbol at exactly max length (10 chars)", async () => {
+      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const maxSymbol = "ABCDEFGHIJ"; // Exactly 10 characters
+      const tokenPda = getTokenPda(program.programId, maxSymbol);
+      const tokenMint = await getOrCreateTokenMint(maxSymbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
+
+      await program.methods
+        .registerSymbolSol(maxSymbol, 1, MAX_SOL_COST, 0)
+        .accountsPartial({
+          payer: admin.publicKey,
+          config: configPda,
+          tokenAccount: tokenPda,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
+          feeCollector: feeCollectorPubkey,
+          solUsdPriceFeed: solUsdPythFeed,
+          platformFeeAccount: null,
+        })
+        .rpc();
+
+      const token = await program.account.token.fetch(tokenPda);
+      expect(token.symbol).to.equal(maxSymbol);
+      expect(token.symbol.length).to.equal(10);
+    });
+
+    it("rejects symbol over max length (11 chars)", async () => {
+      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const tooLongSymbol = "ABCDEFGHIJK"; // 11 characters
+      const tokenPda = getTokenPda(program.programId, tooLongSymbol);
+      const tokenMint = await getOrCreateTokenMint("MAXLEN");
+      const tokenMetadata = getMetadataPda(tokenMint);
+
+      try {
+        await program.methods
+          .registerSymbolSol(tooLongSymbol, 1, MAX_SOL_COST, 0)
+          .accountsPartial({
+            payer: admin.publicKey,
+            config: configPda,
+            tokenAccount: tokenPda,
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
+            feeCollector: feeCollectorPubkey,
+            solUsdPriceFeed: solUsdPythFeed,
+            platformFeeAccount: null,
+          })
+          .rpc();
+
+        expect.fail("Should have thrown an error");
+      } catch (err) {
+        expect(err.message).to.include("InvalidSymbolLength");
+      }
+    });
+  });
+
+  describe("Platform Fee Split", () => {
+    it("platform receives correct fee split on registration", async () => {
+      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const symbol = "PLATFEE";
+      const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
+
+      const platformAccount = Keypair.generate();
+      await fundAccounts(ctx.provider, platformAccount);
+
+      const feeCollectorBefore = await getBalance(ctx.provider, feeCollectorPubkey);
+      const platformBefore = await getBalance(ctx.provider, platformAccount.publicKey);
+
+      // Register with 10% platform fee (1000 bps)
+      await program.methods
+        .registerSymbolSol(symbol, 1, MAX_SOL_COST, 1000)
+        .accountsPartial({
+          payer: admin.publicKey,
+          config: configPda,
+          tokenAccount: tokenPda,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
+          feeCollector: feeCollectorPubkey,
+          solUsdPriceFeed: solUsdPythFeed,
+          platformFeeAccount: platformAccount.publicKey,
+        })
+        .rpc();
+
+      const feeCollectorAfter = await getBalance(ctx.provider, feeCollectorPubkey);
+      const platformAfter = await getBalance(ctx.provider, platformAccount.publicKey);
+
+      const feeCollectorReceived = feeCollectorAfter - feeCollectorBefore;
+      const platformReceived = platformAfter - platformBefore;
+
+      // Platform should have received 10% of total fee
+      expect(platformReceived).to.be.greaterThan(0);
+      // Fee collector should have received 90%
+      expect(feeCollectorReceived).to.be.greaterThan(0);
+
+      // Verify roughly 10% split (within 1% due to rounding)
+      const totalFee = feeCollectorReceived + platformReceived;
+      const platformPercent = (platformReceived / totalFee) * 100;
+      expect(platformPercent).to.be.closeTo(10, 1);
+    });
   });
 });

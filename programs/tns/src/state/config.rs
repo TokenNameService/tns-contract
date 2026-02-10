@@ -39,9 +39,9 @@ pub struct Config {
     pub paused: bool,
 
     /// Current protocol phase (1 = Genesis, 2 = Open Registration, 3 = Full Decentralization)
-    /// Phase 1: Only whitelisted mint authorities or admin can register
-    /// Phase 2: Anyone can register non-whitelisted symbols, whitelist still protected
-    /// Phase 3: Whitelist removed, anyone can register any symbol
+    /// Phase 1: Admin only - verified tokens seeded via admin scripts
+    /// Phase 2: Anyone can register, except reserved tradfi symbols (admin only)
+    /// Phase 3: No restrictions - anyone can register any symbol
     pub phase: u8,
 
     /// PDA bump seed

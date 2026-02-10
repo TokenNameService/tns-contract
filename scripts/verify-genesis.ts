@@ -61,7 +61,7 @@ interface VerificationResult {
 
 function getTokenPda(symbol: string, programId: PublicKey): PublicKey {
   const [pda] = PublicKey.findProgramAddressSync(
-    [Buffer.from("token"), Buffer.from(symbol.toUpperCase())],
+    [Buffer.from("token"), Buffer.from(symbol)],
     programId
   );
   return pda;
@@ -166,18 +166,18 @@ async function main() {
   let tokensToVerify: Array<{ symbol: string; mint: string }> = [];
 
   if (singleSymbol) {
-    // Verify single symbol - need to look up its mint
-    const verifiedPath = join(__dirname, "data", "verified-tokens.json");
+    // Verify single symbol - need to look up its mint (case-sensitive)
+    const verifiedPath = join(__dirname, "data", "verified", "verified-tokens.json");
     if (existsSync(verifiedPath)) {
       const verifiedData: VerifiedTokensFile = JSON.parse(
         readFileSync(verifiedPath, "utf-8")
       );
-      const mint = verifiedData.tokens[singleSymbol.toUpperCase()];
+      const mint = verifiedData.tokens[singleSymbol];
       if (mint) {
-        tokensToVerify = [{ symbol: singleSymbol.toUpperCase(), mint }];
+        tokensToVerify = [{ symbol: singleSymbol, mint }];
       } else {
         console.error(
-          `Symbol ${singleSymbol} not found in verified-tokens.json`
+          `Symbol ${singleSymbol} not found in verified-tokens.json (case-sensitive)`
         );
         process.exit(1);
       }
@@ -200,10 +200,10 @@ async function main() {
     );
   } else {
     // Load from verified tokens
-    const verifiedPath = join(__dirname, "data", "verified-tokens.json");
+    const verifiedPath = join(__dirname, "data", "verified", "verified-tokens.json");
     if (!existsSync(verifiedPath)) {
       console.error(
-        "Error: verified-tokens.json not found. Run fetch-jupiter-tokens.ts first."
+        "Error: verified-tokens.json not found. Run: npm run fetch:tokens"
       );
       process.exit(1);
     }
@@ -212,7 +212,7 @@ async function main() {
     );
     tokensToVerify = Object.entries(verifiedData.tokens).map(
       ([symbol, mint]) => ({
-        symbol: symbol.toUpperCase(),
+        symbol,
         mint,
       })
     );

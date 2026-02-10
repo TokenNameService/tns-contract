@@ -40,7 +40,7 @@ describe("TNS - Admin Symbol Operations", () => {
   });
 
   describe("seed_symbol", () => {
-    it("admin can seed a symbol with default 10 years", async () => {
+    it("admin can seed a symbol with 10 years", async () => {
       const { program, admin, configPda } = ctx;
       const symbol = "SEED10";
       const tokenPda = getTokenPda(program.programId, symbol);
@@ -48,7 +48,7 @@ describe("TNS - Admin Symbol Operations", () => {
       const tokenMetadata = getMetadataPda(tokenMint);
 
       await program.methods
-        .seedSymbol(symbol, 10)
+        .seedSymbol(symbol, 10, admin.publicKey)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -63,7 +63,7 @@ describe("TNS - Admin Symbol Operations", () => {
 
       expect(tokenAccount.symbol).to.equal(symbol);
       expect(tokenAccount.mint.toString()).to.equal(tokenMint.toString());
-      // Owner should be mint authority (admin in this case)
+      // Owner should be the passed owner (admin in this case)
       expect(tokenAccount.owner.toString()).to.equal(admin.publicKey.toString());
 
       // Verify expiration is ~10 years from now
@@ -72,15 +72,15 @@ describe("TNS - Admin Symbol Operations", () => {
       expect(tokenAccount.expiresAt.toNumber()).to.be.closeTo(now + tenYears, 60);
     });
 
-    it("admin can seed a symbol with custom years (5)", async () => {
+    it("admin can seed a symbol with default 2 years", async () => {
       const { program, admin, configPda } = ctx;
-      const symbol = "SEED5";
+      const symbol = "SEED2";
       const tokenPda = getTokenPda(program.programId, symbol);
       const tokenMint = await getOrCreateTokenMint(symbol);
       const tokenMetadata = getMetadataPda(tokenMint);
 
       await program.methods
-        .seedSymbol(symbol, 5)
+        .seedSymbol(symbol, 2, admin.publicKey)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -93,10 +93,10 @@ describe("TNS - Admin Symbol Operations", () => {
 
       const tokenAccount = await program.account.token.fetch(tokenPda);
 
-      // Verify expiration is ~5 years from now
+      // Verify expiration is ~2 years from now
       const now = Math.floor(Date.now() / 1000);
-      const fiveYears = 5 * 31_557_600;
-      expect(tokenAccount.expiresAt.toNumber()).to.be.closeTo(now + fiveYears, 60);
+      const twoYears = 2 * 31_557_600;
+      expect(tokenAccount.expiresAt.toNumber()).to.be.closeTo(now + twoYears, 60);
     });
 
     it("admin can seed a symbol with 1 year", async () => {
@@ -107,7 +107,7 @@ describe("TNS - Admin Symbol Operations", () => {
       const tokenMetadata = getMetadataPda(tokenMint);
 
       await program.methods
-        .seedSymbol(symbol, 1)
+        .seedSymbol(symbol, 1, admin.publicKey)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -135,7 +135,7 @@ describe("TNS - Admin Symbol Operations", () => {
 
       try {
         await program.methods
-          .seedSymbol(symbol, 0)
+          .seedSymbol(symbol, 0, admin.publicKey)
           .accountsPartial({
             admin: admin.publicKey,
             config: configPda,
@@ -161,7 +161,7 @@ describe("TNS - Admin Symbol Operations", () => {
 
       try {
         await program.methods
-          .seedSymbol(symbol, 11)
+          .seedSymbol(symbol, 11, admin.publicKey)
           .accountsPartial({
             admin: admin.publicKey,
             config: configPda,
@@ -187,7 +187,7 @@ describe("TNS - Admin Symbol Operations", () => {
 
       try {
         await program.methods
-          .seedSymbol(symbol, 10)
+          .seedSymbol(symbol, 10, registrant.publicKey)
           .accountsPartial({
             admin: registrant.publicKey,
             config: configPda,
@@ -222,7 +222,7 @@ describe("TNS - Admin Symbol Operations", () => {
       updateTokenMint2 = await getOrCreateTokenMint(updateSymbol + "2");
 
       await program.methods
-        .seedSymbol(updateSymbol, 5)
+        .seedSymbol(updateSymbol, 5, admin.publicKey)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -360,7 +360,7 @@ describe("TNS - Admin Symbol Operations", () => {
 
       // First seed the symbol
       await program.methods
-        .seedSymbol(symbol, 5)
+        .seedSymbol(symbol, 5, admin.publicKey)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -406,7 +406,7 @@ describe("TNS - Admin Symbol Operations", () => {
 
       // Seed the symbol
       await program.methods
-        .seedSymbol(symbol, 3)
+        .seedSymbol(symbol, 3, admin.publicKey)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -431,7 +431,7 @@ describe("TNS - Admin Symbol Operations", () => {
       // Note: admin_update_symbol doesn't require metadata validation
       // But seed_symbol does, so we use the same symbol's mint
       await program.methods
-        .seedSymbol(symbol, 7)
+        .seedSymbol(symbol, 7, admin.publicKey)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
@@ -462,7 +462,7 @@ describe("TNS - Admin Symbol Operations", () => {
 
       // Seed the symbol
       await program.methods
-        .seedSymbol(symbol, 5)
+        .seedSymbol(symbol, 5, admin.publicKey)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,

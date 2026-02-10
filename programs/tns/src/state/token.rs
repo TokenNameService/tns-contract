@@ -6,7 +6,7 @@ use crate::{GRACE_PERIOD_SECONDS, CANCEL_PERIOD_SECONDS};
 #[account]
 #[derive(InitSpace)]
 pub struct Token {
-    /// The symbol/ticker (e.g., "BONK", "JUP") - normalized to uppercase
+    /// The symbol/ticker (e.g., "BONK", "mSOL") - case-sensitive
     #[max_len(10)]
     pub symbol: String,
 

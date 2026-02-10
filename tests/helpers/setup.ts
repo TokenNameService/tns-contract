@@ -284,7 +284,7 @@ export async function ensureUnpaused(ctx: TestContext): Promise<void> {
 
   if (config.paused) {
     await program.methods
-      .updateConfig(null, false, null, null)
+      .updateConfig(null, false, null, null, null)
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
@@ -444,7 +444,7 @@ function createMetadataV3Instruction(
  *
  * @param provider - Anchor provider
  * @param payer - Keypair that pays for transactions
- * @param symbol - The symbol for the token metadata (must be uppercase for TNS)
+ * @param symbol - The symbol for the token metadata (case-sensitive for TNS)
  * @param name - The name for the token metadata
  * @param makeImmutable - Whether to make the metadata immutable (required for TNS)
  */

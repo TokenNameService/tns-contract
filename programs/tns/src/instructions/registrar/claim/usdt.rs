@@ -92,6 +92,9 @@ pub fn handler(
 
     validate_platform_fee_bps(platform_fee_bps)?;
 
+    // New owner is the payer, not the mint's update_authority
+    let new_owner = ctx.accounts.payer.key();
+
     // Calculate fee in USD (no Pyth needed - USDT = $1)
     let fee_usd_micro = config.calculate_registration_price_usd(clock.unix_timestamp, years);
 
@@ -116,12 +119,12 @@ pub fn handler(
         platform_fee_bps,
     )?;
 
-    // Update symbol with new owner and mint
+    // Update symbol with new owner (payer) and mint
     update_symbol_on_claim(
         &mut ctx.accounts.token_account,
         SymbolClaimData {
             new_mint,
-            new_owner: ctx.accounts.payer.key(),
+            new_owner,
             expires_at,
         },
     );
@@ -131,7 +134,7 @@ pub fn handler(
         symbol: ctx.accounts.token_account.symbol.clone(),
         previous_owner,
         previous_mint,
-        new_owner: ctx.accounts.payer.key(),
+        new_owner,
         new_mint,
         years,
         fee_paid: usdt_amount,

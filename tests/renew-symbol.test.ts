@@ -45,7 +45,7 @@ describe("TNS - Renew Symbol", () => {
     );
     testTokenMetadata = getMetadataPda(testTokenMint);
 
-    // Register a symbol to renew (as admin since Phase 1 requires admin for non-whitelisted)
+    // Register a symbol to renew (as admin since Phase 1 is admin-only)
     tokenPda = getTokenPda(ctx.program.programId, testSymbol);
 
     await ctx.program.methods
@@ -184,5 +184,75 @@ describe("TNS - Renew Symbol", () => {
     } catch (err) {
       expect(err.message).to.include("InvalidYears");
     }
+  });
+
+  describe("Grace Period Renewal", () => {
+    const graceSymbol = "RENEWEXP";
+    let graceTokenPda: anchor.web3.PublicKey;
+    let graceTokenMint: anchor.web3.PublicKey;
+    let graceTokenMetadata: anchor.web3.PublicKey;
+
+    before(async () => {
+      graceTokenMint = await createTokenWithMetadata(
+        ctx.provider,
+        ctx.admin,
+        graceSymbol,
+        `${graceSymbol} Token`,
+        true
+      );
+      graceTokenMetadata = getMetadataPda(graceTokenMint);
+      graceTokenPda = getTokenPda(ctx.program.programId, graceSymbol);
+
+      await ctx.program.methods
+        .registerSymbolSol(graceSymbol, 1, MAX_SOL_COST, 0)
+        .accountsPartial({
+          payer: ctx.admin.publicKey,
+          config: ctx.configPda,
+          tokenAccount: graceTokenPda,
+          tokenMint: graceTokenMint,
+          tokenMetadata: graceTokenMetadata,
+          feeCollector: ctx.feeCollectorPubkey,
+          solUsdPriceFeed: ctx.solUsdPythFeed,
+          platformFeeAccount: null,
+        })
+        .rpc();
+    });
+
+    it("can renew symbol that is in grace period", async () => {
+      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+
+      // Set to grace period (just expired but not past grace)
+      const currentTime = Math.floor(Date.now() / 1000);
+      const graceTime = currentTime - 1; // Just expired
+
+      await program.methods
+        .adminUpdateSymbol(null, null, new BN(graceTime))
+        .accountsPartial({
+          admin: admin.publicKey,
+          config: configPda,
+          tokenAccount: graceTokenPda,
+        })
+        .rpc();
+
+      // Verify it's in grace period
+      const tokenBefore = await program.account.token.fetch(graceTokenPda);
+      expect(Number(tokenBefore.expiresAt)).to.be.lessThan(currentTime);
+
+      // Renew should still work during grace period
+      await program.methods
+        .renewSymbolSol(1, MAX_SOL_COST, 0)
+        .accountsPartial({
+          payer: admin.publicKey,
+          config: configPda,
+          tokenAccount: graceTokenPda,
+          feeCollector: feeCollectorPubkey,
+          solUsdPriceFeed: solUsdPythFeed,
+          platformFeeAccount: null,
+        })
+        .rpc();
+
+      const tokenAfter = await program.account.token.fetch(graceTokenPda);
+      expect(Number(tokenAfter.expiresAt)).to.be.greaterThan(currentTime);
+    });
   });
 });

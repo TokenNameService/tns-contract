@@ -100,6 +100,9 @@ pub fn handler(
 
     validate_platform_fee_bps(platform_fee_bps)?;
 
+    // Owner is the payer, not the mint's update_authority
+    let owner = ctx.accounts.payer.key();
+
     // Calculate fees
     let fees = calculate_fees_sol(
         config,
@@ -134,13 +137,13 @@ pub fn handler(
         fees.keeper_reward_lamports,
     )?;
 
-    // Initialize symbol
+    // Initialize symbol - owner is the payer
     initialize_token_account(
         &mut ctx.accounts.token_account,
         SymbolInitData {
             symbol: normalized_symbol.clone(),
             mint,
-            owner: ctx.accounts.payer.key(),
+            owner,
             current_time: clock.unix_timestamp,
             expires_at,
             bump: ctx.bumps.token_account,
@@ -151,7 +154,7 @@ pub fn handler(
         token_account: ctx.accounts.token_account.key(),
         symbol: normalized_symbol,
         mint,
-        owner: ctx.accounts.payer.key(),
+        owner,
         years,
         fee_paid: total_cost,
         platform_fee: platform_fee_paid,

@@ -5,12 +5,6 @@ pub enum TnsError {
     #[msg("Symbol must be 1-10 characters")]
     InvalidSymbolLength,
 
-    #[msg("Symbol argument must be uppercase")]
-    SymbolMustBeUppercase,
-
-    #[msg("Token metadata symbol must be uppercase")]
-    MetadataSymbolMustBeUppercase,
-
     #[msg("Unauthorized: you are not the owner of this symbol")]
     Unauthorized,
 
@@ -53,13 +47,7 @@ pub enum TnsError {
     #[msg("Symbol is reserved for future use")]
     SymbolReserved,
 
-    #[msg("Mint does not match whitelisted token")]
-    WhitelistMintMismatch,
-
-    #[msg("Only the mint authority can register this whitelisted symbol")]
-    NotMintAuthority,
-
-    #[msg("Only admin can register non-whitelisted symbols during Phase 1")]
+    #[msg("Only admin can register during Phase 1")]
     AdminOnlyRegistration,
 
     #[msg("Invalid phase transition - phase can only increase from 1 to 2 to 3")]
@@ -94,4 +82,13 @@ pub enum TnsError {
 
     #[msg("Token metadata must be immutable")]
     MetadataMustBeImmutable,
+
+    #[msg("Not token authority: must be mint authority, update authority, or hold >50% of supply")]
+    NotTokenAuthority,
+
+    #[msg("Already the owner of this symbol")]
+    AlreadyOwner,
+
+    #[msg("No metadata drift detected - symbol still matches")]
+    NoDriftDetected,
 }

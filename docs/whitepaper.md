@@ -81,7 +81,7 @@ TNS mirrors the economics of traditional domain names, but with fixed, immutable
 **Renewal:**
 - Symbols must be renewed before expiration
 - 90-day grace period after expiration
-- After grace period, anyone can call the expiration crank and earn 10% of the original registration fee
+- After grace period + 1 year, anyone can call the cancel crank and earn a fixed 0.05 SOL keeper reward
 - Symbol becomes available for re-registration
 
 Realistically, only dead projects will ever get recycled. If your BONK project never gets off the ground, maybe someone else's will. Someone should have the chance to bring that project to life if it is currently dying on the vine.
@@ -94,29 +94,25 @@ Decentralization is a process, not a starting point. TNS launches with training 
 
 **Phase 1: Genesis (Q1 2026)**
 
-Admin-only registration. Working with the DAO to verify the list of existing symbols and seed them for free for 10 years. Verified tokens are claimed by their mint authority through admin. Reserved tradfi symbols (S&P 500, Russell 3000) and non-whitelisted tokens also require admin approval. Projects not on the whitelist can apply for inclusion.
+Admin seeds verified tokens to their metadata update authority for 2 years. Projects must renew before expiration to retain ownership. Expired symbols return to admin for reassignment. All registrations require admin approval.
 
 | Symbol Type | Who Can Register |
 |-------------|------------------|
-| Verified (BONK, SOL, etc.) | Admin only |
-| Reserved (AAPL, GOOGL, etc.) | Admin only |
-| Not listed | Admin only |
+| Seeding | Admin |
+| All other symbols | Admin |
 
 **Phase 2: Open Registration (Q2 2026)**
 
-Non-whitelisted symbols open to anyone. New tokens can register their symbols without admin approval.
-
-Verified tokens remain protected—only mint authorities can claim their symbols. Reserved tradfi symbols remain admin-only, allowing continued onboarding of legitimate RWA issuers before full decentralization.
+Open registration for non-reserved symbols. Reserved tradfi symbols stay admin-only for legitimate RWA onboarding.
 
 | Symbol Type | Who Can Register |
 |-------------|------------------|
-| Verified (BONK, SOL, etc.) | Mint authority only |
-| Reserved (AAPL, GOOGL, etc.) | Admin only |
-| Not listed | Anyone |
+| Reserved | Admin |
+| All other symbols | Anyone |
 
 **Phase 3: Full Decentralization (Q3-Q4 2026)**
 
-All restrictions removed. Any symbol—including previously reserved traditional finance tickers—becomes available for registration on a first-come, first-served basis.
+All restrictions removed. Any symbol—including reserved finance tickers—becomes first-come, first-served.
 
 | Symbol Type | Who Can Register |
 |-------------|------------------|
@@ -124,7 +120,7 @@ All restrictions removed. Any symbol—including previously reserved traditional
 
 **Phase 4: Immutability (2027+)**
 
-After a stabilization period, the program upgrade authority is permanently revoked. The rules become immutable—no admin, no governance, no changes possible. TNS becomes pure infrastructure, like TCP/IP.
+Upgrade authority permanently revoked. No admin, no governance, no changes. Pure infrastructure, like TCP/IP.
 
 ## Conclusion
 

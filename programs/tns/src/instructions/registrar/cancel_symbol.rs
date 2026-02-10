@@ -44,7 +44,7 @@ pub fn handler(ctx: Context<CancelSymbol>) -> Result<()> {
     // Capture rent before any transfers (closure happens at end via Anchor constraint)
     let rent_returned = ctx.accounts.token_account.to_account_info().lamports();
 
-    // Pay keeper reward from Config PDA (fixed 0.01 SOL)
+    // Pay keeper reward from Config PDA (fixed 0.05 SOL)
     let keeper_reward = KEEPER_REWARD_LAMPORTS;
     let config_info = ctx.accounts.config.to_account_info();
     let config_balance = config_info.lamports();

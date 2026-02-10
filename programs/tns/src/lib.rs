@@ -5,14 +5,14 @@ pub mod state;
 pub mod errors;
 pub mod events;
 pub mod instructions;
-pub mod whitelist;
+pub mod symbol_status;
 
 pub use constants::*;
 pub use state::*;
 pub use errors::*;
 pub use events::*;
 pub use instructions::*;
-pub use whitelist::*;
+pub use symbol_status::*;
 
 declare_id!("TNSxsGQYDPb7ddAtDEJAUhD3q4M232NdhmTXutVXQ12");
 
@@ -32,6 +32,7 @@ pub mod tns {
         paused: Option<bool>,
         new_phase: Option<u8>,
         tns_usd_pyth_feed: Option<Pubkey>,
+        keeper_reward_lamports: Option<u64>,
     ) -> Result<()> {
         instructions::admin::update_config::handler(
             ctx,
@@ -39,13 +40,15 @@ pub mod tns {
             paused,
             new_phase,
             tns_usd_pyth_feed,
+            keeper_reward_lamports,
         )
     }
 
     /// Seed the registry with a verified token (admin only, no fee)
-    /// Sets owner to mint authority, configurable expiration (1-10 years)
-    pub fn seed_symbol(ctx: Context<SeedSymbol>, symbol: String, years: u8) -> Result<()> {
-        instructions::admin::seed_symbol::handler(ctx, symbol, years)
+    /// Owner is passed explicitly - off-chain script should pass update_authority
+    /// for legitimate tokens, or admin for tokens with burned authority.
+    pub fn seed_symbol(ctx: Context<SeedSymbol>, symbol: String, years: u8, owner: Pubkey) -> Result<()> {
+        instructions::admin::seed_symbol::handler(ctx, symbol, years, owner)
     }
 
     /// Force-update a symbol's owner, mint, or expiration (admin only)
@@ -222,9 +225,31 @@ pub mod tns {
         instructions::registrar::transfer_ownership::handler(ctx, new_owner)
     }
 
+    /// Claim ownership of a symbol by proving token authority
+    ///
+    /// Allows the rightful owner of a token to claim the TNS record even if
+    /// someone else registered it first. Three paths to claim:
+    /// 1. Mint authority - if you control the mint, you control the token
+    /// 2. Metadata update authority - if you control metadata, you control the brand
+    /// 3. Majority holder (>50%) - if you hold majority supply, you have economic control
+    ///
+    /// This creates a clear ownership hierarchy where token authority always
+    /// takes precedence over TNS ownership.
+    pub fn claim_ownership(ctx: Context<ClaimOwnership>) -> Result<()> {
+        instructions::registrar::claim_ownership::handler(ctx)
+    }
+
     /// Cancel an abandoned symbol (1+ year past grace period)
     /// Closes the account, keeper receives rent + keeper reward
     pub fn cancel_symbol(ctx: Context<CancelSymbol>) -> Result<()> {
-      instructions::registrar::cancel_symbol::handler(ctx)
-  }
+        instructions::registrar::cancel_symbol::handler(ctx)
+    }
+
+    /// Verify that a registered symbol still matches its mint's metadata.
+    /// If the metadata symbol has drifted (owner changed it), the account
+    /// is closed and keeper receives the rent as reward.
+    /// Economic enforcement: change metadata = lose registration + rent
+    pub fn verify_or_close(ctx: Context<VerifyOrClose>) -> Result<()> {
+        instructions::registrar::verify_or_close::handler(ctx)
+    }
 }

@@ -7,7 +7,9 @@ use crate::instructions::registrar::helpers::{
 };
 
 /// Admin-only instruction to seed the registry with verified tokens.
-/// No fee, sets owner to mint authority, configurable expiration (1-10 years).
+/// No fee, owner is passed explicitly, configurable expiration (1-10 years).
+/// The off-chain script should look up the mint's update_authority and pass it
+/// as the owner for legitimate tokens, or pass admin for tokens with burned authority.
 #[derive(Accounts)]
 #[instruction(symbol: String, years: u8)]
 pub struct SeedSymbol<'info> {
@@ -30,7 +32,7 @@ pub struct SeedSymbol<'info> {
     )]
     pub token_account: Account<'info, Token>,
 
-    /// The verified token mint - owner becomes the mint authority
+    /// The verified token mint
     pub token_mint: InterfaceAccount<'info, Mint>,
 
     /// CHECK: Metaplex metadata account for token_mint - validated in handler
@@ -39,7 +41,7 @@ pub struct SeedSymbol<'info> {
     pub system_program: Program<'info, System>,
 }
 
-pub fn handler(ctx: Context<SeedSymbol>, symbol: String, years: u8) -> Result<()> {
+pub fn handler(ctx: Context<SeedSymbol>, symbol: String, years: u8, owner: Pubkey) -> Result<()> {
     let clock = Clock::get()?;
 
     let normalized_symbol = validate_symbol_format(&symbol)?;
@@ -50,15 +52,12 @@ pub fn handler(ctx: Context<SeedSymbol>, symbol: String, years: u8) -> Result<()
         clock.unix_timestamp,
     )?;
 
+    // Validate mint metadata matches symbol
     validate_mint_metadata(
         &ctx.accounts.token_metadata,
         &ctx.accounts.token_mint.key(),
         &normalized_symbol,
     )?;
-
-    // Get the mint authority - this becomes the symbol owner
-    let owner = ctx.accounts.token_mint.mint_authority
-        .ok_or(TnsError::InvalidMint)?;
 
     ctx.accounts.token_account.symbol = normalized_symbol.clone();
     ctx.accounts.token_account.mint = ctx.accounts.token_mint.key();

@@ -130,6 +130,23 @@ pub struct OwnershipTransferred {
     pub transferred_at: i64,
 }
 
+/// Emitted when token authority claims ownership of a symbol
+#[event]
+pub struct OwnershipClaimed {
+    /// The PDA address of the Symbol account
+    pub token_account: Pubkey,
+    /// The symbol string
+    pub symbol: String,
+    /// Previous owner (who lost ownership)
+    pub old_owner: Pubkey,
+    /// New owner (the claimant)
+    pub new_owner: Pubkey,
+    /// How ownership was claimed: "mint_authority", "update_authority", or "majority_holder"
+    pub claim_type: String,
+    /// Unix timestamp
+    pub claimed_at: i64,
+}
+
 /// Emitted when config is updated
 #[event]
 pub struct ConfigUpdated {
@@ -169,7 +186,7 @@ pub struct SymbolSeeded {
     pub symbol: String,
     /// The mint this symbol is registered to
     pub mint: Pubkey,
-    /// Owner (mint authority)
+    /// Owner (update authority)
     pub owner: Pubkey,
     /// Number of years registered for
     pub years: u8,
@@ -219,4 +236,25 @@ pub struct SymbolClosedByAdmin {
     pub admin: Pubkey,
     /// Unix timestamp
     pub closed_at: i64,
+}
+
+/// Emitted when symbol drift is detected and account is closed
+#[event]
+pub struct SymbolDriftDetected {
+    /// The PDA address of the Token account (now closed)
+    pub token_account: Pubkey,
+    /// The registered symbol (what TNS had stored)
+    pub symbol: String,
+    /// The new metadata symbol (what the owner changed it to)
+    pub new_metadata_symbol: String,
+    /// The mint address
+    pub mint: Pubkey,
+    /// Previous owner who lost their registration
+    pub previous_owner: Pubkey,
+    /// Keeper who detected the drift and receives rent
+    pub keeper: Pubkey,
+    /// Unix timestamp when drift was detected
+    pub detected_at: i64,
+    /// Rent returned to keeper in lamports
+    pub rent_returned: u64,
 }

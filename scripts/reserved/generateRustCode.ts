@@ -1,22 +1,20 @@
 /**
  * Generate Rust code from reserved symbol JSON files
  *
- * This reads the JSON files in priority order and generates phf::Set definitions.
- * Symbols that appear in higher-priority lists are COMMENTED OUT in lower-priority
- * lists to avoid duplicate on-chain storage while maintaining transparency.
+ * Creates a SINGLE deduplicated RESERVED_TRADFI phf_set from all sources.
+ * Sources are documented in header comments for transparency.
  *
- * Priority order:
- *   1. Dow Jones (30 blue chips)
- *   2. S&P 500 (large cap)
- *   3. S&P 400 (mid cap)
- *   4. S&P 600 (small cap)
- *   5. NASDAQ 100 (tech-heavy)
- *   6. FMP Stocks (everything else - international, OTC, REITs, etc.)
- *   7. FMP ETFs (if included)
+ * Sources (merged in this order):
+ *   1. Dow Jones Industrial Average
+ *   2. S&P 500
+ *   3. S&P 400 (Mid Cap)
+ *   4. S&P 600 (Small Cap)
+ *   5. NASDAQ 100
+ *   6. FMP Stocks (all global securities)
+ *   7. FMP ETFs
  *
  * Usage:
- *   npx tsx scripts/reserved/generateRustCode.ts              # Full lists (Phase 3)
- *   npx tsx scripts/reserved/generateRustCode.ts --phase1     # Minimal lists (Phase 1 - saves rent)
+ *   npx tsx scripts/reserved/generateRustCode.ts
  */
 
 import { readFileSync, writeFileSync, existsSync } from "fs";
@@ -40,38 +38,48 @@ interface JsonData {
   }>;
 }
 
-// Priority order - earlier = higher priority
-const SOURCES = [
+interface SourceInfo {
+  file: string;
+  displayName: string;
+  url: string;
+}
+
+// Sources in priority order
+const SOURCES: SourceInfo[] = [
   {
     file: "dow.json",
-    rustName: "DOW_SYMBOLS",
     displayName: "Dow Jones Industrial Average",
+    url: "https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average",
   },
-  { file: "sp500.json", rustName: "SP500_SYMBOLS", displayName: "S&P 500" },
+  {
+    file: "sp500.json",
+    displayName: "S&P 500",
+    url: "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
+  },
   {
     file: "sp400.json",
-    rustName: "SP400_SYMBOLS",
     displayName: "S&P 400 Mid Cap",
+    url: "https://en.wikipedia.org/wiki/List_of_S%26P_400_companies",
   },
   {
     file: "sp600.json",
-    rustName: "SP600_SYMBOLS",
     displayName: "S&P 600 Small Cap",
+    url: "https://en.wikipedia.org/wiki/List_of_S%26P_600_companies",
   },
   {
     file: "nasdaq100.json",
-    rustName: "NASDAQ100_SYMBOLS",
     displayName: "NASDAQ 100",
+    url: "https://en.wikipedia.org/wiki/Nasdaq-100",
   },
   {
     file: "fmp-stocks.json",
-    rustName: "FMP_OTHER_SYMBOLS",
-    displayName: "FMP Other Stocks (International, OTC, REITs, etc.)",
+    displayName: "FMP Global Stocks",
+    url: "https://financialmodelingprep.com/api/v3/stock/list",
   },
   {
     file: "fmp-etfs.json",
-    rustName: "FMP_ETF_SYMBOLS",
     displayName: "FMP ETFs",
+    url: "https://financialmodelingprep.com/api/v3/etf/list",
   },
 ];
 
@@ -88,232 +96,124 @@ function escapeRustString(s: string): string {
 }
 
 function main() {
-  const dataDir = join(__dirname, "data");
-  const seenSymbols = new Set<string>();
-  const phase1Mode = process.argv.includes("--phase1");
+  const dataDir = join(__dirname, "..", "data", "reserved");
 
-  if (phase1Mode) {
-    console.log("\n🚀 Phase 1 Mode: Generating minimal lists to save rent\n");
-    console.log(
-      "   Only first symbol per list will be active, rest commented out.\n"
-    );
-  }
-
-  const phase1Header = phase1Mode
-    ? `//!
-//! ⚠️  PHASE 1 MODE: Most symbols are commented out to minimize program size and rent.
-//!     Admin manually controls registrations during Phase 1.
-//!     Run \`npm run generate:reserved\` (without --phase1) for full lists in Phase 3.
-//!
-`
-    : "";
-
-  let rustCode = `//! Auto-generated reserved symbol lists
-//!
-//! Generated: ${new Date().toISOString()}
-//!
-//! These symbols are reserved for TradFi assets and cannot be registered
-//! until Phase 3 (RWA tokenization).
-${phase1Header}//!
-//! Priority order (duplicates commented out in lower-priority lists):
-//!   1. Dow Jones (30 blue chips)
-//!   2. S&P 500 (large cap)
-//!   3. S&P 400 (mid cap)
-//!   4. S&P 600 (small cap)
-//!   5. NASDAQ 100 (tech-heavy)
-//!   6. FMP Other (international, OTC, REITs, etc.)
-//!   7. FMP ETFs
-
-use phf::phf_set;
-
-`;
-
-  const stats: Array<{
+  // Collect all unique symbols
+  const allSymbols = new Set<string>();
+  const sourceStats: Array<{
     name: string;
+    url: string;
+    fetchedAt: string;
     total: number;
-    active: number;
-    commented: number;
-    phase1Commented: number;
+    unique: number;
   }> = [];
+
+  console.log("\n=== Loading Reserved Symbol Sources ===\n");
 
   for (const source of SOURCES) {
     const filePath = join(dataDir, source.file);
     const data = loadJson(filePath);
 
     if (!data) {
-      console.log(`  Skipping ${source.file} (not found)`);
+      console.log(`  ⚠ Skipping ${source.file} (not found)`);
       continue;
     }
 
-    console.log(`  Processing ${source.file}...`);
-
-    // Separate into active and commented (duplicates)
-    const activeSymbols: string[] = [];
-    const commentedSymbols: Array<{ symbol: string; reason: string }> = [];
-    const phase1Commented: string[] = []; // Symbols commented out for Phase 1 rent savings
+    const beforeCount = allSymbols.size;
 
     for (const item of data.symbols) {
-      const symbol = item.symbol.toUpperCase();
-
-      if (seenSymbols.has(symbol)) {
-        commentedSymbols.push({
-          symbol,
-          reason: "duplicate from higher-priority list",
-        });
-      } else {
-        // In Phase 1 mode, only keep the first symbol active per list
-        if (phase1Mode && activeSymbols.length >= 1) {
-          phase1Commented.push(symbol);
-        } else {
-          activeSymbols.push(symbol);
-        }
-        seenSymbols.add(symbol);
+      const symbol = item.symbol.toUpperCase().trim();
+      if (symbol && symbol.length <= 10 && /^[A-Z0-9]+$/.test(symbol)) {
+        allSymbols.add(symbol);
       }
     }
 
-    stats.push({
+    const uniqueAdded = allSymbols.size - beforeCount;
+
+    sourceStats.push({
       name: source.displayName,
+      url: data.source || source.url,
+      fetchedAt: data.fetchedAt,
       total: data.symbols.length,
-      active: activeSymbols.length,
-      commented: commentedSymbols.length,
-      phase1Commented: phase1Commented.length,
+      unique: uniqueAdded,
     });
 
-    // Generate the phf_set
-    rustCode += `/// ${source.displayName}\n`;
-    rustCode += `/// Source: ${data.source}\n`;
-    rustCode += `/// Fetched: ${data.fetchedAt}\n`;
-    if (phase1Mode) {
-      rustCode += `/// Total: ${data.symbols.length}, Active: ${activeSymbols.length}, Phase1 Commented: ${phase1Commented.length}, Duplicates: ${commentedSymbols.length}\n`;
-    } else {
-      rustCode += `/// Total: ${data.symbols.length}, Active: ${activeSymbols.length}, Commented: ${commentedSymbols.length}\n`;
-    }
-    rustCode += `pub static ${source.rustName}: phf::Set<&'static str> = phf_set! {\n`;
-
-    // Add active symbols
-    for (const symbol of activeSymbols.sort()) {
-      rustCode += `    "${escapeRustString(symbol)}",\n`;
-    }
-
-    rustCode += `};\n\n`;
-
-    // Add Phase 1 commented symbols (for rent savings, will be enabled in Phase 3)
-    if (phase1Commented.length > 0) {
-      rustCode += `// Phase 1: ${phase1Commented.length} symbols commented to save rent (enable in Phase 3):\n`;
-      for (const symbol of phase1Commented.sort()) {
-        rustCode += `// "${escapeRustString(symbol)}",\n`;
-      }
-      rustCode += `\n`;
-    }
-
-    // Add commented duplicates as documentation
-    if (commentedSymbols.length > 0) {
-      rustCode += `// Duplicates from ${source.displayName} (already in higher-priority list):\n`;
-      for (const { symbol } of commentedSymbols.sort((a, b) =>
-        a.symbol.localeCompare(b.symbol)
-      )) {
-        rustCode += `// "${escapeRustString(symbol)}",\n`;
-      }
-      rustCode += `\n`;
-    }
+    console.log(
+      `  ✓ ${source.displayName}: ${data.symbols.length} total, ${uniqueAdded} unique added`
+    );
   }
 
-  // Generate the check functions
-  rustCode += `/// Check if a symbol is in any reserved list
-pub fn is_reserved(symbol: &str) -> bool {
+  console.log(`\n  Total unique symbols: ${allSymbols.size}\n`);
+
+  // Generate Rust code
+  const sortedSymbols = Array.from(allSymbols).sort();
+
+  let rustCode = `//! Auto-generated reserved TradFi symbols
+//!
+//! Generated: ${new Date().toISOString()}
+//!
+//! These symbols are reserved for traditional finance assets and cannot be
+//! registered by users. They are blocked to prevent ticker squatting on
+//! stock symbols, ETFs, and other securities.
+//!
+//! Total unique symbols: ${allSymbols.size}
+//!
+//! Sources (merged and deduplicated):
+`;
+
+  // Add source documentation
+  for (const stat of sourceStats) {
+    rustCode += `//!   - ${stat.name}: ${stat.total} total, ${stat.unique} unique\n`;
+    rustCode += `//!     URL: ${stat.url}\n`;
+    rustCode += `//!     Fetched: ${stat.fetchedAt}\n`;
+  }
+
+  rustCode += `//!
+//! DO NOT EDIT MANUALLY - regenerate with: npm run generate:reserved
+
+use phf::phf_set;
+
+/// Reserved TradFi symbols - stocks, ETFs, and other securities
+/// These cannot be registered until Phase 3 (RWA tokenization)
+pub static RESERVED_TRADFI: phf::Set<&'static str> = phf_set! {
+`;
+
+  // Add all symbols
+  for (const symbol of sortedSymbols) {
+    rustCode += `    "${escapeRustString(symbol)}",\n`;
+  }
+
+  rustCode += `};
+
+/// Total number of reserved TradFi symbols
+pub const RESERVED_TRADFI_COUNT: usize = ${allSymbols.size};
+
+/// Check if a symbol is reserved for TradFi
+#[inline]
+pub fn is_reserved_tradfi(symbol: &str) -> bool {
     let upper = symbol.to_uppercase();
-    let s = upper.as_str();
-
-    DOW_SYMBOLS.contains(s)
-        || SP500_SYMBOLS.contains(s)
-        || SP400_SYMBOLS.contains(s)
-        || SP600_SYMBOLS.contains(s)
-        || NASDAQ100_SYMBOLS.contains(s)
-        || FMP_OTHER_SYMBOLS.contains(s)
-        || FMP_ETF_SYMBOLS.contains(s)
-}
-
-/// Check which list a symbol belongs to (returns first match by priority)
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ReservedList {
-    Dow,
-    Sp500,
-    Sp400,
-    Sp600,
-    Nasdaq100,
-    FmpOther,
-    FmpEtf,
-}
-
-pub fn get_reserved_list(symbol: &str) -> Option<ReservedList> {
-    let upper = symbol.to_uppercase();
-    let s = upper.as_str();
-
-    if DOW_SYMBOLS.contains(s) {
-        Some(ReservedList::Dow)
-    } else if SP500_SYMBOLS.contains(s) {
-        Some(ReservedList::Sp500)
-    } else if SP400_SYMBOLS.contains(s) {
-        Some(ReservedList::Sp400)
-    } else if SP600_SYMBOLS.contains(s) {
-        Some(ReservedList::Sp600)
-    } else if NASDAQ100_SYMBOLS.contains(s) {
-        Some(ReservedList::Nasdaq100)
-    } else if FMP_OTHER_SYMBOLS.contains(s) {
-        Some(ReservedList::FmpOther)
-    } else if FMP_ETF_SYMBOLS.contains(s) {
-        Some(ReservedList::FmpEtf)
-    } else {
-        None
-    }
+    RESERVED_TRADFI.contains(upper.as_str())
 }
 `;
 
   // Write the Rust file
-  const rustDir = join(__dirname, "../../programs/tns/src/whitelist");
-  const rustPath = join(rustDir, "reserved.rs");
+  const rustPath = join(
+    __dirname,
+    "../../programs/tns/src/symbol_status/reserved.rs"
+  );
   writeFileSync(rustPath, rustCode);
-  console.log(`\nWrote Rust code to: ${rustPath}`);
 
-  // Print summary
-  console.log("\n=== Summary ===\n");
-  let totalActive = 0;
-  let totalCommented = 0;
-  let totalPhase1Commented = 0;
+  console.log(`=== Summary ===\n`);
+  console.log(`  Generated: ${rustPath}`);
+  console.log(`  Total symbols: ${allSymbols.size}`);
+  console.log(
+    `  Estimated size: ~${((sortedSymbols.join("").length + sortedSymbols.length * 10) / 1024).toFixed(0)} KB\n`
+  );
 
-  for (const stat of stats) {
-    console.log(`  ${stat.name}:`);
-    if (phase1Mode) {
-      console.log(
-        `    Total: ${stat.total}, Active: ${stat.active}, Phase1 Commented: ${stat.phase1Commented}, Duplicates: ${stat.commented}`
-      );
-    } else {
-      console.log(
-        `    Total: ${stat.total}, Active: ${stat.active}, Commented: ${stat.commented}`
-      );
-    }
-    totalActive += stat.active;
-    totalCommented += stat.commented;
-    totalPhase1Commented += stat.phase1Commented;
-  }
-
-  console.log(`\n  Overall:`);
-  console.log(`    Active symbols (on-chain): ${totalActive}`);
-  if (phase1Mode) {
-    console.log(
-      `    Phase 1 commented (rent savings): ${totalPhase1Commented}`
-    );
-  }
-  console.log(`    Duplicates commented: ${totalCommented}`);
-  console.log(`    Total unique: ${seenSymbols.size}`);
-
-  if (phase1Mode) {
-    console.log(
-      `\n  💰 Estimated rent savings: ~${(
-        (totalPhase1Commented * 50) /
-        1_000_000
-      ).toFixed(2)} MB less program size`
-    );
+  // Print source breakdown
+  console.log(`  Source breakdown:`);
+  for (const stat of sourceStats) {
+    console.log(`    ${stat.name}: ${stat.unique} unique (${stat.total} total)`);
   }
 }
 

@@ -9,13 +9,14 @@
  *   npx tsx demo.ts update-mint <symbol> <new_mint>       - Update mint for a symbol (pays with SOL)
  *   npx tsx demo.ts transfer <symbol> <new_owner>         - Transfer symbol ownership
  *   npx tsx demo.ts cancel <symbol>                       - Cancel and close symbol account
+ *   npx tsx demo.ts verify <symbol>                       - Verify symbol matches metadata (keeper enforcement)
  *   npx tsx demo.ts lookup <symbol>                       - Lookup symbol details
  *   npx tsx demo.ts lookup-mint <mint>                    - Reverse lookup by mint
  *   npx tsx demo.ts pda <symbol>                          - Derive token PDA
  *
  * Admin commands:
  *   npx tsx demo.ts config                                - View current config state (paused, phase, etc.)
- *   npx tsx demo.ts seed <symbol> <mint> [years]          - Seed a symbol (admin only, free, default 10 years)
+ *   npx tsx demo.ts seed <symbol> <mint> <owner> [years]  - Seed a symbol (admin only, free, default 2 years)
  *   npx tsx demo.ts unpause                               - Unpause the protocol (admin only)
  *   npx tsx demo.ts pause                                 - Pause the protocol (admin only)
  *   npx tsx demo.ts set-phase <phase>                     - Set protocol phase 1/2/3 (admin only)
@@ -36,6 +37,7 @@ import {
   getAssociatedTokenAddressSync,
   createAssociatedTokenAccountInstruction,
   TOKEN_PROGRAM_ID,
+  TOKEN_2022_PROGRAM_ID,
 } from "@solana/spl-token";
 import * as fs from "fs";
 import * as os from "os";
@@ -49,6 +51,11 @@ const TNS_MINT = new PublicKey("6jwcLLjhEcUrnnPtnWvqVKEeAzSTXT6qtV1GEjcopump");
 // Program ID: set via TNS_PROGRAM_ID env var (required for deployed program)
 const PROGRAM_ID = new PublicKey(
   process.env.TNS_PROGRAM_ID || "TNSxsGQYDPb7ddAtDEJAUhD3q4M232NdhmTXutVXQ12"
+);
+
+// Token Metadata Program ID (Metaplex)
+const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
+  "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
 );
 
 // RPC URL: defaults to local surfpool/validator, override with SOLANA_RPC_URL env var
@@ -67,6 +74,10 @@ function loadIDL() {
     process.exit(1);
   }
   return JSON.parse(fs.readFileSync(IDL_PATH, "utf-8"));
+}
+
+function getProgram(provider: AnchorProvider): Program {
+  return new Program(loadIDL(), provider);
 }
 
 function loadKeypair(): Keypair {
@@ -95,12 +106,24 @@ function getConfigPda(): PublicKey {
 }
 
 function getTokenPda(symbol: string): PublicKey {
-  // Symbols must be uppercase - contract rejects lowercase letters
+  // Symbols are case-sensitive (mSOL != MSOL)
   const [tokenPda] = PublicKey.findProgramAddressSync(
     [Buffer.from("token"), Buffer.from(symbol)],
     PROGRAM_ID
   );
   return tokenPda;
+}
+
+function getMetadataPda(mint: PublicKey): PublicKey {
+  const [metadataPda] = PublicKey.findProgramAddressSync(
+    [
+      Buffer.from("metadata"),
+      TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+      mint.toBuffer(),
+    ],
+    TOKEN_METADATA_PROGRAM_ID
+  );
+  return metadataPda;
 }
 
 function formatDate(timestamp: number): string {
@@ -125,7 +148,7 @@ function getSymbolStatus(expiresAt: number): string {
 async function initConfig(feeCollectorPubkey?: string) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
   const configPda = getConfigPda();
 
   const admin = provider.wallet.publicKey;
@@ -163,7 +186,13 @@ async function initConfig(feeCollectorPubkey?: string) {
   } catch (err: unknown) {
     const error = err as Error;
     if (error.message?.includes("already in use")) {
-      console.log("\nConfig already initialized.");
+      // Fetch and display actual on-chain config
+      const config = await (program.account as any).config.fetch(configPda);
+      console.log("\nConfig already initialized. Current on-chain values:");
+      console.log(`  Admin: ${config.admin}`);
+      console.log(`  Fee Collector: ${config.feeCollector}`);
+      console.log(`  Paused: ${config.paused}`);
+      console.log(`  Phase: ${config.phase}`);
     } else {
       throw err;
     }
@@ -173,11 +202,12 @@ async function initConfig(feeCollectorPubkey?: string) {
 async function registerSymbol(symbol: string, mint: string, years: number) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const mintPubkey = new PublicKey(mint);
   const configPda = getConfigPda();
   const tokenPda = getTokenPda(symbol);
+  const tokenMetadata = getMetadataPda(mintPubkey);
 
   // Get fee collector and price feed from config
   const config = await (program.account as any).config.fetch(configPda);
@@ -198,14 +228,16 @@ async function registerSymbol(symbol: string, mint: string, years: number) {
 
   const tx = await program.methods
     .registerSymbolSol(symbol, years, maxSolCost, platformFeeBps)
-    .accounts({
+    .accountsPartial({
       payer: provider.wallet.publicKey,
       config: configPda,
       tokenAccount: tokenPda,
       tokenMint: mintPubkey,
+      tokenMetadata: tokenMetadata,
+      systemProgram: SystemProgram.programId,
       feeCollector: feeCollector,
       solUsdPriceFeed: solUsdPriceFeed,
-      systemProgram: SystemProgram.programId,
+      platformFeeAccount: null,
     })
     .rpc();
 
@@ -217,7 +249,7 @@ async function registerSymbol(symbol: string, mint: string, years: number) {
 async function renewSymbol(symbol: string, years: number) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const configPda = getConfigPda();
   const tokenPda = getTokenPda(symbol);
@@ -261,7 +293,7 @@ async function renewSymbol(symbol: string, years: number) {
 async function updateMint(symbol: string, newMint: string) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const newMintPubkey = new PublicKey(newMint);
   const configPda = getConfigPda();
@@ -300,7 +332,7 @@ async function updateMint(symbol: string, newMint: string) {
 async function transferOwnership(symbol: string, newOwner: string) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const newOwnerPubkey = new PublicKey(newOwner);
   const configPda = getConfigPda();
@@ -329,7 +361,7 @@ async function transferOwnership(symbol: string, newOwner: string) {
 async function cancelSymbol(symbol: string) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const configPda = getConfigPda();
   const tokenPda = getTokenPda(symbol);
@@ -353,10 +385,66 @@ async function cancelSymbol(symbol: string) {
   console.log(`  Transaction: ${tx}`);
 }
 
+async function verifyOrClose(symbol: string) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = getProgram(provider);
+
+  const configPda = getConfigPda();
+  const tokenPda = getTokenPda(symbol);
+
+  // Check if symbol exists
+  let tokenAccount;
+  try {
+    tokenAccount = await (program.account as any).token.fetch(tokenPda);
+  } catch {
+    console.log(`Symbol "${symbol}" not found.`);
+    return;
+  }
+
+  // Get metadata PDA
+  const tokenMetadata = getMetadataPda(tokenAccount.mint);
+
+  console.log("Verifying symbol matches metadata...");
+  console.log(`  Symbol: ${symbol}`);
+  console.log(`  Mint: ${tokenAccount.mint}`);
+  console.log(`  Owner: ${tokenAccount.owner}`);
+
+  try {
+    const tx = await program.methods
+      .verifyOrClose()
+      .accountsPartial({
+        keeper: provider.wallet.publicKey,
+        config: configPda,
+        tokenAccount: tokenPda,
+        tokenMetadata: tokenMetadata,
+      })
+      .rpc();
+
+    // If we get here, either symbol matched (no closure) or it was closed
+    // Check if account still exists
+    try {
+      await (program.account as any).token.fetch(tokenPda);
+      console.log("\nSymbol verified! Metadata matches.");
+      console.log(`  Transaction: ${tx}`);
+    } catch {
+      console.log("\nSymbol DRIFTED! Account closed due to metadata mismatch.");
+      console.log("  Rent returned to keeper as reward.");
+      console.log(`  Transaction: ${tx}`);
+    }
+  } catch (err: any) {
+    if (err.message?.includes("MetadataSymbolMismatch")) {
+      console.log("\nSymbol drift detected but closure may have failed.");
+    } else {
+      throw err;
+    }
+  }
+}
+
 async function lookupSymbol(symbol: string) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const tokenPda = getTokenPda(symbol);
 
@@ -386,7 +474,7 @@ async function lookupSymbol(symbol: string) {
 async function lookupByMint(mint: string) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const mintPubkey = new PublicKey(mint);
 
@@ -419,8 +507,8 @@ function showPda(symbol: string) {
 
 function getPhaseDescription(phase: number): string {
   switch (phase) {
-    case 1: return "Genesis (admin-only for non-whitelisted, mint authority for verified)";
-    case 2: return "Open (anyone can register non-whitelisted, reserved still protected)";
+    case 1: return "Genesis (admin-only)";
+    case 2: return "Open (anyone can register, reserved tradfi still protected)";
     case 3: return "Full (all restrictions removed)";
     default: return `Unknown (${phase})`;
   }
@@ -429,7 +517,7 @@ function getPhaseDescription(phase: number): string {
 async function showConfig() {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
   const configPda = getConfigPda();
 
   try {
@@ -441,7 +529,7 @@ async function showConfig() {
     console.log(`  Admin:             ${config.admin}`);
     console.log(`  Fee Collector:     ${config.feeCollector}`);
     console.log(`  SOL/USD Pyth Feed: ${config.solUsdPythFeed}`);
-    console.log(`  TNS/USD Pyth Feed: ${config.tnsUsdPythFeed || "None (TNS pegged at $1)"}`);
+    console.log(`  TNS/USD Pyth Feed: ${config.tnsUsdPythFeed || "None (not configured)"}`);
     console.log("");
     console.log(`  Paused:  ${config.paused ? "YES ⛔ (registrations blocked)" : "NO ✅ (accepting registrations)"}`);
     console.log(`  Phase:   ${config.phase} - ${getPhaseDescription(config.phase)}`);
@@ -465,7 +553,7 @@ async function showConfig() {
 async function updateConfigPaused(paused: boolean) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
   const configPda = getConfigPda();
 
   const config = await (program.account as any).config.fetch(configPda);
@@ -483,6 +571,7 @@ async function updateConfigPaused(paused: boolean) {
       paused,
       null, // new_phase
       null, // tns_usd_pyth_feed
+      null, // keeper_reward_lamports
     )
     .accounts({
       admin: provider.wallet.publicKey,
@@ -501,7 +590,7 @@ async function updateConfigPaused(paused: boolean) {
 async function setPhase(newPhase: number) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
   const configPda = getConfigPda();
 
   const config = await (program.account as any).config.fetch(configPda);
@@ -527,6 +616,7 @@ async function setPhase(newPhase: number) {
       null, // paused
       newPhase,
       null, // tns_usd_pyth_feed
+      null, // keeper_reward_lamports
     )
     .accounts({
       admin: provider.wallet.publicKey,
@@ -542,28 +632,32 @@ async function setPhase(newPhase: number) {
   await showConfig();
 }
 
-async function seedSymbol(symbol: string, mint: string, years: number = 10) {
+async function seedSymbol(symbol: string, mint: string, owner: string, years: number = 2) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const mintPubkey = new PublicKey(mint);
+  const ownerPubkey = new PublicKey(owner);
   const configPda = getConfigPda();
   const tokenPda = getTokenPda(symbol);
+  const tokenMetadata = getMetadataPda(mintPubkey);
 
   console.log("Seeding symbol (admin only, no fee)...");
   console.log(`  Symbol: ${symbol}`);
   console.log(`  Token Mint: ${mintPubkey}`);
+  console.log(`  Owner: ${ownerPubkey}`);
   console.log(`  Years: ${years}`);
   console.log(`  Token PDA: ${tokenPda}`);
 
   const tx = await program.methods
-    .seedSymbol(symbol, years)
-    .accounts({
+    .seedSymbol(symbol, years, ownerPubkey)
+    .accountsPartial({
       admin: provider.wallet.publicKey,
       config: configPda,
       tokenAccount: tokenPda,
       tokenMint: mintPubkey,
+      tokenMetadata: tokenMetadata,
       systemProgram: SystemProgram.programId,
     })
     .rpc();
@@ -581,7 +675,7 @@ async function adminUpdateSymbol(
 ) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const configPda = getConfigPda();
   const tokenPda = getTokenPda(symbol);
@@ -620,7 +714,7 @@ async function adminUpdateSymbol(
 async function adminCloseSymbol(symbol: string) {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
 
   const configPda = getConfigPda();
   const tokenPda = getTokenPda(symbol);
@@ -651,7 +745,7 @@ async function adminCloseSymbol(symbol: string) {
 async function createFeeCollectorAtas() {
   const provider = getProvider();
   anchor.setProvider(provider);
-  const program = new Program(loadIDL(), provider);
+  const program = getProgram(provider);
   const configPda = getConfigPda();
 
   // Fetch fee collector from config
@@ -664,16 +758,16 @@ async function createFeeCollectorAtas() {
   console.log("");
 
   const mints = [
-    { name: "USDC", mint: USDC_MINT },
-    { name: "USDT", mint: USDT_MINT },
-    { name: "TNS", mint: TNS_MINT },
+    { name: "USDC", mint: USDC_MINT, programId: TOKEN_PROGRAM_ID },
+    { name: "USDT", mint: USDT_MINT, programId: TOKEN_PROGRAM_ID },
+    { name: "TNS", mint: TNS_MINT, programId: TOKEN_2022_PROGRAM_ID },
   ];
 
   const transaction = new anchor.web3.Transaction();
   const atasToCreate: { name: string; ata: PublicKey }[] = [];
 
-  for (const { name, mint } of mints) {
-    const ata = getAssociatedTokenAddressSync(mint, feeCollector);
+  for (const { name, mint, programId } of mints) {
+    const ata = getAssociatedTokenAddressSync(mint, feeCollector, false, programId);
 
     // Check if ATA already exists
     const accountInfo = await provider.connection.getAccountInfo(ata);
@@ -688,6 +782,7 @@ async function createFeeCollectorAtas() {
           ata, // ata address
           feeCollector, // owner
           mint, // mint
+          programId, // token program
         )
       );
       atasToCreate.push({ name, ata });
@@ -726,7 +821,7 @@ async function main() {
       case "register":
         if (args.length < 4) {
           console.log("Usage: npx tsx demo.ts register <symbol> <mint> <years>");
-          console.log("Example: npx tsx demo.ts register BONK DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 1");
+          console.log("Example: npx tsx demo.ts register Bonk DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 1");
           process.exit(1);
         }
         await registerSymbol(args[1], args[2], parseInt(args[3]));
@@ -762,6 +857,16 @@ async function main() {
           process.exit(1);
         }
         await cancelSymbol(args[1]);
+        break;
+
+      case "verify":
+        if (args.length < 2) {
+          console.log("Usage: npx tsx demo.ts verify <symbol>");
+          console.log("Checks if symbol still matches its mint's metadata.");
+          console.log("If metadata symbol changed, closes account and returns rent to caller.");
+          process.exit(1);
+        }
+        await verifyOrClose(args[1]);
         break;
 
       case "lookup":
@@ -804,8 +909,8 @@ async function main() {
       case "set-phase":
         if (args.length < 2) {
           console.log("Usage: npx tsx demo.ts set-phase <phase>");
-          console.log("  Phase 1: Genesis (admin-only for non-whitelisted)");
-          console.log("  Phase 2: Open (anyone can register non-whitelisted)");
+          console.log("  Phase 1: Genesis (admin-only)");
+          console.log("  Phase 2: Open (anyone can register unseeded symbols)");
           console.log("  Phase 3: Full (all restrictions removed)");
           process.exit(1);
         }
@@ -813,19 +918,19 @@ async function main() {
         break;
 
       case "seed":
-        if (args.length < 3) {
-          console.log("Usage: npx tsx demo.ts seed <symbol> <mint> [years]");
-          console.log("Example: npx tsx demo.ts seed BONK DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 10");
+        if (args.length < 4) {
+          console.log("Usage: npx tsx demo.ts seed <symbol> <mint> <owner> [years]");
+          console.log("Example: npx tsx demo.ts seed BONK DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 OwnerPubkey123 2");
           process.exit(1);
         }
-        await seedSymbol(args[1], args[2], args[3] ? parseInt(args[3]) : 10);
+        await seedSymbol(args[1], args[2], args[3], args[4] ? parseInt(args[4]) : undefined);
         break;
 
       case "admin-update":
         if (args.length < 2) {
           console.log("Usage: npx tsx demo.ts admin-update <symbol> [--owner <pubkey>] [--mint <pubkey>] [--expires <timestamp>]");
-          console.log("Example: npx tsx demo.ts admin-update BONK --owner NewOwnerPubkey123");
-          console.log("Example: npx tsx demo.ts admin-update BONK --expires 1735689600");
+          console.log("Example: npx tsx demo.ts admin-update Bonk --owner NewOwnerPubkey123");
+          console.log("Example: npx tsx demo.ts admin-update Bonk --expires 1735689600");
           process.exit(1);
         }
         {
@@ -871,6 +976,7 @@ async function main() {
         console.log("  update-mint <symbol> <new_mint>          - Update mint for a symbol (pays SOL)");
         console.log("  transfer <symbol> <new_owner>            - Transfer symbol ownership (free)");
         console.log("  cancel <symbol>                          - Cancel symbol and reclaim rent");
+        console.log("  verify <symbol>                          - Verify symbol matches metadata (keeper)");
         console.log("  lookup <symbol>                          - Lookup symbol details");
         console.log("  lookup-mint <mint>                       - Reverse lookup by mint");
         console.log("  pda <symbol>                             - Derive token PDA address");
@@ -879,15 +985,15 @@ async function main() {
         console.log("  unpause                                  - Unpause protocol (allow registrations)");
         console.log("  pause                                    - Pause protocol (block registrations)");
         console.log("  set-phase <1|2|3>                        - Advance protocol phase");
-        console.log("  seed <symbol> <mint> [years]             - Seed a symbol (free, default 10 years)");
+        console.log("  seed <symbol> <mint> <owner> [years]     - Seed a symbol (free, default 2 years)");
         console.log("  admin-update <symbol> [options]          - Force-update owner/mint/expiration");
         console.log("    --owner <pubkey>                       - Set new owner");
         console.log("    --mint <pubkey>                        - Set new mint");
         console.log("    --expires <timestamp>                  - Set new expiration (unix timestamp)");
         console.log("  admin-close <symbol>                     - Force-close and delete a symbol");
         console.log("\nProtocol Phases:");
-        console.log("  1 - Genesis: Admin-only for non-whitelisted, mint authority for verified");
-        console.log("  2 - Open:    Anyone can register non-whitelisted, reserved still protected");
+        console.log("  1 - Genesis: Admin-only, verified tokens seeded via admin scripts");
+        console.log("  2 - Open:    Anyone can register unseeded symbols, reserved tradfi protected");
         console.log("  3 - Full:    All restrictions removed, anyone can register anything");
         console.log("\nPricing:");
         console.log("  Base price: ~$10/year (converted to SOL via Pyth oracle)");
@@ -897,10 +1003,10 @@ async function main() {
         console.log("\nExamples:");
         console.log("  npx tsx demo.ts init                     # Initialize (starts paused)");
         console.log("  npx tsx demo.ts config                   # Check current state");
-        console.log("  npx tsx demo.ts seed BONK DezXAZ...263   # Seed verified token (while paused)");
+        console.log("  npx tsx demo.ts seed Bonk DezXAZ...263   # Seed verified token (while paused)");
         console.log("  npx tsx demo.ts unpause                  # Go live");
         console.log("  npx tsx demo.ts register TEST ...mint... 5");
-        console.log("  npx tsx demo.ts lookup BONK");
+        console.log("  npx tsx demo.ts lookup Bonk");
         break;
     }
   } catch (err) {

@@ -25,3 +25,5 @@ pub(crate) use registrar::__client_accounts_claim_expired_symbol_usdc;
 pub(crate) use registrar::__client_accounts_claim_expired_symbol_usdt;
 pub(crate) use registrar::__client_accounts_cancel_symbol;
 pub(crate) use registrar::__client_accounts_transfer_ownership;
+pub(crate) use registrar::__client_accounts_claim_ownership;
+pub(crate) use registrar::__client_accounts_verify_or_close;

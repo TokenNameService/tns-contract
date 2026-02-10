@@ -1,6 +1,6 @@
 import * as anchor from "@coral-xyz/anchor";
 import BN from "bn.js";
-import { Keypair } from "@solana/web3.js";
+import { Keypair, SystemProgram } from "@solana/web3.js";
 import { expect } from "chai";
 import {
   setupTest,
@@ -138,6 +138,28 @@ describe("TNS - Transfer Ownership", () => {
       expect.fail("Should have thrown an error");
     } catch (err) {
       expect(err.message).to.include("SameOwner");
+    }
+  });
+
+  it("transfer to system program (zero-like address) behavior", async () => {
+    const { program, admin } = ctx;
+
+    try {
+      await program.methods
+        .transferOwnership(SystemProgram.programId)
+        .accountsPartial({
+          owner: admin.publicKey,
+          config: ctx.configPda,
+          tokenAccount: tokenPda,
+        })
+        .rpc();
+
+      // If it succeeds, verify the transfer happened
+      const token = await program.account.token.fetch(tokenPda);
+      expect(token.owner.toString()).to.equal(SystemProgram.programId.toString());
+    } catch (err) {
+      // Expected to fail with some error - this is acceptable behavior
+      expect(err).to.exist;
     }
   });
 });

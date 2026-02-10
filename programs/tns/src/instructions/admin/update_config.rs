@@ -25,6 +25,7 @@ pub fn handler(
     paused: Option<bool>,
     new_phase: Option<u8>,
     tns_usd_pyth_feed: Option<Pubkey>,
+    keeper_reward_lamports: Option<u64>,
 ) -> Result<()> {
     let config = &mut ctx.accounts.config;
 
@@ -49,6 +50,10 @@ pub fn handler(
 
     if let Some(feed) = tns_usd_pyth_feed {
         config.tns_usd_pyth_feed = Some(feed);
+    }
+
+    if let Some(reward) = keeper_reward_lamports {
+        config.keeper_reward_lamports = reward;
     }
 
     emit!(ConfigUpdated {

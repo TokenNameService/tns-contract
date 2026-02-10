@@ -11,8 +11,8 @@
     "fetch:reserved:all": "npx tsx scripts/reserved/fetchAllReserved.ts --include-etfs",
     "fetch:all": "pnpm run fetch:tokens && pnpm run fetch:reserved",
     "generate:reserved": "npx tsx scripts/reserved/generateRustCode.ts",
-    "generate:reserved:phase1": "npx tsx scripts/reserved/generateRustCode.ts --phase1",
-    "generate:whitelist": "npx tsx scripts/generate-whitelist.ts"
+    "seed:genesis": "npx tsx scripts/seed-genesis.ts",
+    "verify:genesis": "npx tsx scripts/verify-genesis.ts"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.32.1",

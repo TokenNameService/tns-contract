@@ -1,0 +1,1297 @@
+{
+  "generatedAt": "2026-02-15T22:05:02.019Z",
+  "description": "Verified tokens that fail contract validation rules",
+  "count": 215,
+  "failures": [
+    {
+      "symbol": "$TEKASHITEK",
+      "mint": "TengNGeocJ5GWmBZC9x8mEnFdau4kuKMQfFZkvBUaL7",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "AANDEELHOUDER",
+      "mint": "AUXXw8iRvSb57upRB74xVrUiPWpfoxzKgRs9j2fEzsVC",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "AANDEELHOUDERS",
+      "mint": "5g7f9b5HbUVAgPkeDDZFHZ6QP9U8AT4KXMx4pAfUU8Ni",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Aandelen-Sibon-BV",
+      "mint": "97j6myGGo1o3r3PW23cbycQXwdm1VUePC4LtL5pzYhnV",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "AANDELHOUDER",
+      "mint": "3uytqzAsQnTVZxDEz9u7yvgidvQCteHzWsoVUVFps1XR",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "aaUSDC-USDC",
+      "mint": "AVC7uVb6R9B34T8zWxQMEK8twvYk26U71gworsujxFNv",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "aaUSDT-USDT",
+      "mint": "AVTrxHq5P57fYZTYjMuCRWFqsrLmom2gGThNtgEgK1ip",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "aaWBTC-renBTC",
+      "mint": "AVBDpg1UYpDYQLbzEnRY76R3u82PYHtDuc3NBdFS2k39",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "abBTCB-renBTC",
+      "mint": "ALPb4SssuKFScyUFnTcXLtF3NAkwFuFpQFric5yo4Qpo",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "abBUSD-USDC",
+      "mint": "BUSDjE9NEQ15aRFTxKFAjUf5vzqBhEgTNbYevWcSB5qp",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "abETH-weWETH",
+      "mint": "ALPi51sXwH9kNcQuneDwz7kPzJs3hJ5xV6SmnuyqodQP",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "abUSDC-USDC",
+      "mint": "ALPX6x8FkkdQyn9YuoVZjPAapL4nUC7vjJ3AtwStmj9P",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "abUSDT-USDT",
+      "mint": "ALPaPPo6xmeGv3a63Pc4S8NJFAAuchhD7XnkkWJqzvXJ",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "acEUR-agEUR",
+      "mint": "WLPJD4jW6gnWKfwfL5jyJwcxEPHKLMbncNfQwMmkzKz",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "aeFEI-wtUST",
+      "mint": "ALPDpWSYbwNkkuVB3wd1nZx7dZBLV7fEGvbDu9KJxLik",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "aeMIM-wtUST",
+      "mint": "ALPfb7HJd4oenNBknjzCbVc2RooC5N1H6N391hbZ82ky",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "aeUSDC-USDC",
+      "mint": "AECpyKJWfXVyWnk2d9md5dUj3RuzHRKfQra8MakjuVRz",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "aeUSDT-USDT",
+      "mint": "aeTwxcJhujVCq6rwbJri3s6ViYifsJUCFirMjLHgHZ7",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "afBTC-renBTC",
+      "mint": "ALPoQFUuKsoN6P4gLBiKXMSaYFP9YChniKwvKAFRPvn5",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "afETH-weWETH",
+      "mint": "ALPGFAuqQsWDB8NSKQ7rgQVhShj4LBCNC72ebdZrJs2e",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "afUSDC-USDC",
+      "mint": "ALP8mkba7FHrpn18hGMRURF1aRNS7P2y1SRzqE6ra3Zo",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "ahBTC-renBTC",
+      "mint": "HLPPmd7NzTTNiqKR6rAZYgrH9VhU47kxftecQSk2oD6J",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "ahUSDT-USDC",
+      "mint": "HLPC9r4gbeP6KagT3qJLzFj7iWcYTJs245k9tuHFQGyR",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "AMSTERDAMCOIN",
+      "mint": "9AKfTcjQ5yVKbrySSgU1GKtRJrMCz5RY9DtA5wdnDMcE",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "APESZN_HOODIE",
+      "mint": "4qzEcYvT6TuJME2EMZ5vjaLvQja6R4hKjarA73WQUwt6",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "APESZN_TEE_SHIRT",
+      "mint": "APhyVWtzjdTVYhyta9ngSiCDk2pLi8eEZKsHGSbsmwv6",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "apUSDC-USDC",
+      "mint": "APUVVYA8Xf7T1PqLyDvNxLtwQ9rRDf3RUxfMttreVzHP",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "apUSDT-USDT",
+      "mint": "PLYJZgSkcV8UXTWhTyf2WLCMeBoZum1Y4rXgXkoYiNj",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "atLUNA-LUNA",
+      "mint": "KWAMdUrCdQ2j1t9S1HD29Z4RxXymXkwSh2c94598amY",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "BABYFLOKISOL",
+      "mint": "F5f9hLQ6FNHwuU3dS8CUCRy9r2deJXYCinDL6RAxsPeX",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Bitcoin Tram",
+      "mint": "AgdBQN2Sy2abiZ2KToWeUsQ9PHdCv95wt6kVWRf5zDkx",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "BITXBIT/USDC",
+      "mint": "De6ogKa5E8LTYgjPFASNeM815Yqrbb9JWjtJVwMEtY8i",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "BokitaPasion",
+      "mint": "5AJhdosQ88U1g2a4bhmxXpRVGiujKRwrWcAmd7iuWtQe",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CARDSHARKSMINT",
+      "mint": "2JBr8X9zABjCbh21t2ZrrWFAT58VRe8jRtaHMPcXqPvo",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "cartoonkids",
+      "mint": "CartMGitU7CXZA8XBWv8tKYhU8mV594LHLred2U8kHQe",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CHANGPENGUIN",
+      "mint": "8b9mQo6ZU2rwZQgSFqGNQvXzrUSHDTRpKSKi9XXdGmqN",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Charles Hoskinson",
+      "mint": "7RpFk44cMTAUt9CcjEMWnZMypE9bYQsjBiSNLn5qBvhP",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CHICKS/USDC",
+      "mint": "8Ncps4M6Le7U3cxxvAwsE7LfVmLArBdFpwg3byx2YXKz",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CLOSEDLHMINT",
+      "mint": "2KKhXL6Ajkhedp9rRNHXen1CzhZnYfonkBno7iVcHpsD",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CONDOMS/USDC",
+      "mint": "EKGM73Femgd7Nm6u7pMP6U7C5aZAQrp1txLjS4kFYUtG",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CORALTRIBENFT",
+      "mint": "pMMTGYZ4CjvxTxN3TuwCx11y5CW6zz2MBhXMfWsCGvP",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CorsairCoin",
+      "mint": "GUvq7jCQq7arzs3aQHNHoFkAxQwPY8gsn2D5pfsJ7vPN",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CRAFTYSTATS",
+      "mint": "5uo9kB3MrosZPaVAQuiKA9d5CvHe29zS9AsShqynGfuq",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "cUSDC-cUSDT",
+      "mint": "SUSeGZEV69Xy7rQfhDffyTysHgEP3nJUDMxEZJSvJr1",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CUSEGOVERNANCE",
+      "mint": "BtndwmZJ6QSJpb2dQFm9VyuaQPfKGFB9NrLXeY7rHvT8",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "CUSEGOVERNANCELP",
+      "mint": "DWXDRm1TbZBxy4Gtyg746Ms2moW7HtNT6j8dYtKs8u8y",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "cyberbabychimps",
+      "mint": "2D2oVygEnGoWrqZVaDvPNPV1iXzJP8NDZ16K2G7Nct9E",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "DOGETH/USDC",
+      "mint": "7pGw7vJx3c4RhmrNWi7G49czNhcyvvR7yD9LTTsi9ZVW",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "DoggyStyle/USDC",
+      "mint": "9jY6sYGU5eEs1cL6sv3jHJWxvLyYq5TvYErQFPCRTrHv",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "DONKEY/USDC",
+      "mint": "2v86BfdwPkLPmyXDPLsdYRMheBaLmMsEuj9o54YG79Fa",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "DOODLEBUNNYWL",
+      "mint": "GkJdRCiKg9oJK4ZJjsQAUQiTtFT7BzRtMCPms4neShVP",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "DragonMonke$",
+      "mint": "Ao6oTCHGkLNpPCgyrSHHuZSrxx7AkaEaxoKeYR8ES4hq",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "DXLSTAKE_V1",
+      "mint": "AXYEG84MRYcJoYhJh7Z9btYXdw4G4pdQGYaCubwMkksg",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "EAGLEZ-TOKEN",
+      "mint": "EagLEdVKrm6QRfBQzZZjNBY9k3RjGXRhENL77QP7SnXj",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "ETH/USDT-SRM",
+      "mint": "EhBAmhkgEsMa8McFB5bpqZaRpZvGBBJ4jN59T5xToPdG",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "EURO-GUARANTEE",
+      "mint": "ECRJG22BfVD5wmGZeCNy6f74zdmzGR5DQFczqMypkpfe",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "EuroStableCoin",
+      "mint": "FFAhu8UWFQzCg7kfib54hhVuxF6a5zGztNYVTcbQ43n9",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "FLOKIS/USDC",
+      "mint": "65yAE3W6MoA9KeUYo2iGwddAaqT1qLedYWettprJznWQ",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "FluffyDegenerate",
+      "mint": "CvkDiC6FziAnX5e8XufNDjFXCWNyRCSoCfhdEq2e5res",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "FRANCIUM-CP",
+      "mint": "Hjibp1cn2bSk1dkTdpbxez3YAiBGTLjzc8xZ8LbCCUHS",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "GALAXY/USDC",
+      "mint": "6p5FXaUsWLRKnyUDUNNBuQX8sBxt2wwf4C5F3ezSF4kE",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "GAMESHIB/USDC",
+      "mint": "DCvHY1Do3gdCttENXxZbg5KeKF76LpYSjwCWp4WjbM6r",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "GCC-PRESALE",
+      "mint": "6sy3PgbjxNtTJuujA8Ppwxz7JLQDdpt5m1y3iuv9gnG6",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "GojiraWhitelist",
+      "mint": "Gj5CxKTz5m6vMaaq7ksgAPLbZFGTC97EpNinLggB2yax",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "INTRODUCTION",
+      "mint": "6WP1cizTmefsGBhKu2Fyb2XLS7G29h1ktNp6NWD628FB",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "JANJAAP-WALLET",
+      "mint": "GZdhs47e6BkHyisqbGe8FKZNHbQVqm1bq9uYciSCkvdH",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "JELLY_WL_ONE",
+      "mint": "6G2pWrzW5SzsQbpU6LLn5AJwV9FASCWvTNfAPKyFCKHV",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "JELLY_WL_THREE",
+      "mint": "73pWtZwP3bq5XUYQdPi4jkchGKJpL3pR5U93rh1oFJV3",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "JELLY_WL_TWO",
+      "mint": "9VthVfjnNoeBzPpN4Dk8U4Nhn5g96ddLb8aAc9xJKiGv",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "July22ppUSDC",
+      "mint": "7AfuD3nqZEJSF7oaQgEPmeo7zJi1n8Dh7BedYtgRugFk",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "July22pyUSDC",
+      "mint": "4Fo8dh9kHn7WGxPy3MdhaBXLjY5DYStbRPwZudCTo5W4",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "KARSTSHEPHERD",
+      "mint": "6terYqZ87xoDQMKfynYZRJ7jCDc6WVZ5RUkoJVFX3jLT",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "KILLER-WHALE",
+      "mint": "kLwhLkZRt6CadPHRBsgfhRCKXX426WMBnhoGozTduvk",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LEONIDAS-USDC",
+      "mint": "G45ASjWvWiWy6HcczTDhxe2JcSTNVr3hEdrKVo5X6PPU",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LEONIDAS/USDC",
+      "mint": "5AHYsFrBTHZdHGgC8zh4UM1JnwEBeEd9Pp5awqxwgjH2",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LHBRONZECHEST",
+      "mint": "CFowe8TTZgwawPdRggJtAb2GjfCaPDg5qnUY5HP3UJWZ",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LHGOLDCHEST",
+      "mint": "A4W75bfTm8YLfR2BwtunZKWxeSzxbKuiMCZgTdGYLvVG",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LHSILVERCHEST",
+      "mint": "6AierQY71omEf7gbUiwvQJC2Q3vYBgQ3UZojwGtjqb9S",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LIQ-RAY-BATTERY-USDC",
+      "mint": "FExy4ZgUdvJeAcb7E2kciNEfz8wzvr4uVUufvX6jMHX7",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LIZARD/USDC",
+      "mint": "AVDrUiPiC74NjEK78C6U5aPwRjHjnTgCDCS9dZtio7uZ",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxBHD448",
+      "mint": "3cVsanUhbo91Qcuzrzx7qZAutpXYcaMr64jfq5Cs17es",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxDAPE9989",
+      "mint": "jAi1KmJZrrDVSroQXXAqASpES4qLvZcW5p9s5a5ksG4",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxK2SOLAND",
+      "mint": "G4iSJWW63sU8yRWtV4AkcQ5JJmEdbUHEG68aDyHbaqr3",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxMOON345",
+      "mint": "AUNHT5DSvHqgaQCeB7bs9XQMjyx2gfVv8nzmUf5jX3Et",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxPP5445",
+      "mint": "9QCTc8SEomtoYPBAZ5uU5G42buLBZKr8ic54jPMSZ8U8",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxSLSKIN1",
+      "mint": "HMWEz1fMBSaCEFVqM7ZFvpNKm4kbPpEYamkt27eQX51U",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxSLSKIN2",
+      "mint": "4a9Lu5A1a2eoREUpv5AfENUnmT2N3N5NTbaYE4GHTWSa",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxSLSKIN3",
+      "mint": "CSTVeXB1oBAfRz3JsJmHz37ViJ2uRRv7qHnWRPnF2fQG",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxSMB3719",
+      "mint": "Duch2MmgCar9UGt76smK5HcJ7anBRa31uNZZvNJt3b5S",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "LNFTxTHUG0160",
+      "mint": "HCBPNDD9iz683PszPBZzoy7xEub4GQ7rHBJxM57cLQpf",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "MAHDIROSTAMI",
+      "mint": "3JPyHnGXWDBbDyfiKYRAY12XXxqrpcm94tTWESZWTroT",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "MEKAPRESALE",
+      "mint": "54CPSwxTvPNtqoPc9Q5pmE9tC6nTM7FNAZvSUCe7sYG7",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "MOSQUITOWARRIORS",
+      "mint": "DrdaGQsBnxUByKPqm3GFPnobW3FF3YNbKmvnLbjvK5v9",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "mSOL-SOL-LP",
+      "mint": "LPmSozJJ8Jh69ut2WP3XmVohTjL4ipR18yiCzxrUmVj",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "mSOL/SOL[stable]",
+      "mint": "576ABEdvLG1iFU3bLC8AMJ3mo5LhfgPPhMtTeVAGG6u7",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Need for Speed",
+      "mint": "29PEpZeuqWf9tS2gwCjpeXNdXLkaZSMR2s1ibkvGsfnP",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "NEKOJOKE$$$",
+      "mint": "AR5z7CDpfqGgbhHQkKwDAiknkDSRJVjB1gFRLp3AA8CY",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Nordic Energy Token",
+      "mint": "CjpDCj8zLSM37669qng5znYP25JuoDPCvLSLLd7pxAsr",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "NovaMindNFT",
+      "mint": "NovaAMdJA1MCNWG3TiY8C37ezHd8GEpLVE4mTGXjetQ",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "ODYSSEUS-SOL",
+      "mint": "49nyHUT4U1egBqyQ9D9WdmS4vDhN9syTeay74rp5iXRq",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "OliveBranch",
+      "mint": "9RdHu9BZx4fjVjoptaSMYe3NGkt1UGjMTpt54f44tAWF",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "OLIVEBRANCH",
+      "mint": "2Hei1NUr23AyyG4rszQQysRkuQyvr2Z2EjHWVf8ZqjAS",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "OOMintTicket",
+      "mint": "62Unc9Dm8buA2iY35tTUCJ4ERoUp5Q7K8EWFiRTDfBp2",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "OtakuOriginsWL",
+      "mint": "HVtfDhSpbuUQwXxEL6RmVEfEeWbpmfUt6Tbh8iRrosZP",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "PANDA-WHALE",
+      "mint": "stedjBnitxnJCRuWfsHP5x7pjXQhHsvbQMwq5ip8jQN",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "PARTICIPANT",
+      "mint": "4T2ytRMHfLtmSeFfzErEQ53x4MhVhFSGaY33dV2AXgLw",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "pBTC-renBTC",
+      "mint": "pBTCmyG7FaZx4uk3Q2pT5jHKWmWDn84npdc7gZXpQ1x",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "phantom-webdge",
+      "mint": "C15c651KE8HGUrbb2YZXYMEPj2iadkng7FgpHMFbHkUj",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "PHISHINGSCAM",
+      "mint": "13cbpw6uN6wXVaQk6ngedAErceLLhyo1mgzoDpoUgCJE",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Planetarians",
+      "mint": "PLANEQfzaxbUy9KWm3FerN1Zu26EfYgCByonaKq926i",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "pSOL-prtSOL",
+      "mint": "PSopTFPXzTRysj2H6W8oTvYBZmJHtRcVaQaDkckifAy",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "pUSDT-pUSDC",
+      "mint": "PortuzxBGYMQXeNmM9Kc6AtHLBwqSrb6xWwZ4trQ1en",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "QT-AMSTERDAM",
+      "mint": "Ck7DzPFmKVUDJ7VUKFpesgPATYDcD25sK2KPjP61T98r",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "rayTICKET-SOL",
+      "mint": "5HF5GxkFT8QcurPAygeTejS7Mikut7JuxLpwmP7uTXX7",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "rayTICKET-USDC",
+      "mint": "ENA76HKkDfDbAaeosGvfFXB6NPFY8L8V2KkBAwnT6JXF",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "renBTC-USDC",
+      "mint": "CTEpsih91ZLo5gunvryLpJ3pzMjmt5jbS6AnSQrzYw7V",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "renDOGE-USDC",
+      "mint": "Hb8KnZNKvRxu7pgMRWJgoMSMcepfvNiBFFDDrdf9o3wA",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "RetroWolvesWL",
+      "mint": "EX84m74hxaHQDwasohSQt3NwMxfiU7Tzr65HY91X8BAi",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "rinTICKET-USDC",
+      "mint": "FKQX91BgH633Ww72Jpeq2g11MC3MTP97k4Nd2bk2W2Vn",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Satoshi BTC",
+      "mint": "9rw5hyDngBQ3yDsCRHqgzGHERpU2zaLh1BXBUjree48J",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Satoshi Closeup",
+      "mint": "2gn1PJdMAU92SU5inLSp4Xp16ZC5iLF6ScEi7UBvp8ZD",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Satoshi Nakamoto",
+      "mint": "9Vvre2DxBB9onibwYDHeMsY1cj6BDKtEDccBPWRN215E",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SBreakpoint",
+      "mint": "7mNihWEjzWv9yCZc8capE4mS8v5Xvp5YH2yQhtZrQV5B",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "scnSOL-JSOL",
+      "mint": "SoLaUA1vvCaidtQLYwt4yszBv1LtbYJDjEbwC4bzxca",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "scnSOL-mSOL",
+      "mint": "FP9C3p1r19tVyUDLgN98wcu4Rdzsu5hAcqFwY3MzbLpE",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SFC-BATTERY",
+      "mint": "6GK4nhV3h2RDKmjY4u43N3HJWNs6nYSB1qSBnsj6a2px",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SFC-PRESALE",
+      "mint": "AoYS2EzUPNKWSm4BH4bvzL16hA76XSmCkxgftxojVgLA",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SHBL LP token",
+      "mint": "GWRYczsoTksFqiwcrBRiXjihcL9g9udaAQAMeBSczf6h",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SHROOMZ/USDC",
+      "mint": "CLA2WB7Sm7Pc5f6FKcsdS6YewHXqAxYT4dDRqepYyPxL",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SINGULARITY",
+      "mint": "3xXMjiMyu4hthrVWmsxvBrKtehBWFgSKRnGB9Je4mmdA",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SOL-GUARANTEE",
+      "mint": "7vgM43XjNMgdWecddTcpwYNmk8tK4EdfGvyThisb99FR",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SOL/USDT-SRM",
+      "mint": "E4cthfUFaDd4x5t1vbeBNBHm7isqhM8kapthPzPJz1M2",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SolanaIdols",
+      "mint": "GdK4LNeHCMnBgWJewgeJ11usnd59UHQ7avUmVmFomUz3",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SOLBERRY/USDC",
+      "mint": "5CGnktbzR3xeyzmk29avbPnN23vCLSnjCXh9Wqvmo5r1",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "solUST-USDH",
+      "mint": "USTRHDiTkhjE1oDydHqNkPJNDeBKTTbz9crTmiYc2w9",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SPACEROBOTS",
+      "mint": "GENR71rjoC56vFf8RzfMTutEEHcQV8mr5kSsUzs7kHbc",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SQUIDGAME/USDC",
+      "mint": "691CkaRvYyPJSRFgomyBymiVDfuw8c7VcceNC2kecRgx",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "SRM tee-shirt",
+      "mint": "7TRzvCqXN8KSXggbSyeEG2Z9YBBhEFmbtmv6FLbd4mmd",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "STRAYAPE-WL",
+      "mint": "3E4YuX7XdEVCF54KtimWVBhBpeN5P2dehGnCff65q559",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "stSOL/wstETH",
+      "mint": "3kT3oYuS1rCfhmqfgy6EKcbZdaJimaVEjoy25QiuEaoj",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "swimUSD-auroUSDC",
+      "mint": "9qRe2nBrR2rTXxRaV1PZN9hZnqq3UXgoFWTbP6NE3MEu",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "swimUSD-auroUSDT",
+      "mint": "4XPDxtGbcM7bAPKZxALd2s862n3WoG4xPPvyCPVULKAb",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "swimUSD-auroUSN",
+      "mint": "3eXCU7YoiCq3rZ6787pPFJE7TXBsKuTZ49wH2kFnuTeF",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "swimUSD-avalUSDC",
+      "mint": "DKwsWeqHrB8R1u2DFMHKtq4iqaQNgPgUbHTJyXPqkTzK",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "swimUSD-avalUSDT",
+      "mint": "5rwvDmUbcnZTwZ4Zywev2wnDbyDDD2vcsGU2Xmy7aRNS",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "swimUSD-fantUSDC",
+      "mint": "J5ifGexAQTg76TresJhJSqTPJLT6BNxrV5rwNJTTz4Cx",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "swimUSD-polyUSDC",
+      "mint": "ANFojEXhiEQQoovhBs77XmBQuqbe59UBygRWViyf4945",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "swimUSD-polyUSDT",
+      "mint": "2Nx6L79dHHgHcJtNfZWukQkWZvf5h4bps34zuh1gjtdP",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Takashironin",
+      "mint": "RoniLMQHDYpTFqs3wKrWwT2eVv8XSPSR9XuxKiRt8RN",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "TakeoCatsWL",
+      "mint": "8BdWjY3KPmr5KjrXRyaWr3K7gA9KFdjugcEodjpTDSxx",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Testtokentb",
+      "mint": "BXHUUQvD8YaEv4eModMzK9ds1f5g6Zx3iUY7MgTANjGf",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "THANKSANDI2",
+      "mint": "9tH3azxj7QxjtKnE9Qepgg7UmNLR56VLXJg8F23F1Grs",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "TheSaintsWL",
+      "mint": "TdnwZyyXjwJxe21As5vjKKfJn9Y7mBeEuKLsHxAKvFV",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "ThugPenguin",
+      "mint": "6MpQesMjehBwJzgDRDsbUXqjHetf1LGE94H7FDzRVL9Y",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "TrumpcoinXSOL",
+      "mint": "B6NyNs3k2DZm6XYNL5wyC8sWEkEL4S8eekonRaSjjD7B",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Uni Christmas",
+      "mint": "8T4vXgwZUWwsbCDiptHFHjdfexvLG9UP8oy1psJWEQdS",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "UNIVERSE/USDC",
+      "mint": "rQ3TuSc95MJ44SvuqGiFtHEhL1gCXS2CafhaZXaziAd",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "Unlimited Energy",
+      "mint": "91fSFQsPzMLat9DHwLdQacW3i3EGnWds5tA5mt7yLiT9",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "USDC-acUSDC",
+      "mint": "GEcowHQW46CrEkfAdbcsdt4SV7taCetZF4sFBXN4USDC",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "USDC-USDT-PAI",
+      "mint": "9s6dXtMgV5E6v3rHqBF2LejHcA2GWoZb7xNUkgXgsBqt",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "USDC-USDT-UST",
+      "mint": "57h4LEnBooHrKbacYWGCFghmrTzYPVn8PwZkzTzRLvHa",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "USDC-wUSDC-wUSDT-wDAI",
+      "mint": "DSmqf5Je3FEUmZntxBzG7c7EYJN3WK3feBV5Zgidukjj",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "USDC/USDT-SRM",
+      "mint": "8qNqTaKKbdZuzQPWWXy5wNVkJh54ex8zvvnEnTFkrKMP",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "USDC/USDT[stable]",
+      "mint": "GjpXgKwn4VW4J2pZdS3dovM58hiXWLJtopTfqG83zY2f",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "USTv2-3Pool",
+      "mint": "DJjevoCBomzgNe76pNDd8stAcMS4x7Y99giuNpqGLa2f",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "VIKINGxFLOKI",
+      "mint": "3BYQt5MtdUSDkGwPa7F5pxFNx6csyUK2zAqNgoAsQ96h",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "W technology",
+      "mint": "UgMdvGuY2HNMmCJQdY6aGty1yDxHBxm9Q9KJVefVjwJ",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "waUniDAIETH",
+      "mint": "CvG3gtKYJtKRzEUgMeb42xnd8HDjESgLtyJqQ2kuLncp",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "waUniLENDETH",
+      "mint": "Hc1zHQxg1k2JVwvuv3kqbCyZDEJYfDdNftBMab4EMUx9",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "waUniLINKETH",
+      "mint": "KcHygDp4o7ENsHjevYM4T3u6R7KHa5VyvkJ7kpmJcYo",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "waUniMKRETH",
+      "mint": "9PejEmx6NKDHgf6jpgAWwZsibURKifBakjzDQdtCtAXT",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "waUniSETHETH",
+      "mint": "7LUdsedi7qpTJGnFpZo6mWqVtKKpccr9XrQGxJ2xUDPT",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "waUniUSDCETH",
+      "mint": "GSv5ECZaMfaceZK4WKKzA4tKVDkqtfBASECcmYFWcy4G",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wbBUSD-4Pool",
+      "mint": "FcjViE1oVbXFza5ry9Q7WZ9XNd95zu1LqEiSUdeJMPTP",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wbBUSD-USDC",
+      "mint": "WLPR8Sy6Fbnf2sZHVg8Z7uW1QnRThnjhb244kf4ddCS",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wbUSDC-USDC",
+      "mint": "WLPsu8oyn1muh5nimxvBsgo6hh6t5jAdUtZ1VmJkohs",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wbUSDT-USDT",
+      "mint": "WLPAEUgB95YrU7Vk1FVPeSP5C3e66bf63frHRgsyxHv",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wBUSDV1-USDC",
+      "mint": "BUSDaZjarCrQJLeHpWi7aLaKptdR1S8DFpwdDuuZu9p3",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wCAPS_v1/USDC",
+      "mint": "CH7ZBJNnJRsUXUK8j2SQhoZbvU4mLWX1M6T98rUejwYT",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wDAIV1-USDC",
+      "mint": "Daimhb91DY4e3aVaa7YCW5GgwaMT9j1ALSi2GriBvDNh",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "weBUSD-USDC",
+      "mint": "BSCNZ4GLnpZYv4BLk5edymk4qty8a6ZpiMbfvtv9gAzL",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "weHBTC-renBTC",
+      "mint": "WLP9zHZ3FcsPAcM891AQBn4ZWyS3wYgddiLPbSyzmDm",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wen-token-2",
+      "mint": "9axWWN2FY8njSSQReepkiSE56U2yAvPFGuaXRQNdkZaS",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "weUSDC-USDC",
+      "mint": "USDCgfM1psLGhAbx99iPA72mTySvUcVq33qhCJpm65c",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "weUSDT-USDT",
+      "mint": "USDTJZL2vH92K5QeCvQTTzvMXUYAdvk3v46CwZyfsue",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wFRAXV1-USDC",
+      "mint": "FRAXXvt2ucEsxYPK4nufDy5zKhb2xysieqRBE1dQTqnK",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wHBTCV1-renBTC",
+      "mint": "HBTCNvkwjMsEtwe2PeXUuMcu8C4Hobw6HDP2m6vpWHGo",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "whETH-aeWETH",
+      "mint": "AET3m1Mp2SLi7QX3tSypcZWyEtk1d8dUGcwhweDiZdaR",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wHUSDV1-USDC",
+      "mint": "HUSDgP5YieANhAAHD42yivX9aFS1zbodTut2Dvvkj8QS",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wibBTC-renBTC",
+      "mint": "WLP9nwD2FUJyNeKWGEi8QnF1a5G3VC7zM9uCqE1W8tx",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wibBTCV1-BTC",
+      "mint": "BADGsQo6rTxKZuqkY1kSoqhriQwZW3ZVgyPjgDk9mvyo",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wibBTCV1-renBTC",
+      "mint": "BRENm9SgYJZuCxM4ZJiH6CmZqEBn4MLpD9cnBZDnJgeT",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "WL-Makaliilabs",
+      "mint": "98Cz3pqMoNhR2w5UCAf4LBZ1FVc1L1yNxEk7gYyJV4NY",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wLUNA-renLUNA",
+      "mint": "LUN1p1dZwSBgTv1JSdn2apdUuLanHKtgNcnpDydVFTU",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wLUNAV1-renLUNA",
+      "mint": "LUNkiLcb2wxcqULmJvMjuM6YQhpFBadG5KZBe7qBpSE",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wpUSDC-USDC",
+      "mint": "WLPyXq7WRfdWLiP4fvRfSisrfDzLiPmCeVTE6okKQWE",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wpUSDT-USDT",
+      "mint": "WLP59xUDvQMQdzC2SgPmZeRF1oj2RSvGZiQLksj4bwj",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wUniLENDETH",
+      "mint": "4aqNtSCr77eiEZJ9u9BhPErjEMju6FFdLeBKkE1pdxuK",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wUniLINKETH",
+      "mint": "FSSTfbb1vh1TRe8Ja64hC65QTc7pPUhwHh5uTAWj5haH",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wUnisETHETH",
+      "mint": "7gersKTtU65ERNBNTZKjYgKf7HypR7PDMprcuhQJChaq",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wUniUSDCETH",
+      "mint": "7NFin546WNvWkhtfftfY77z8C1TrxLbUcKmw5TpHGGtC",
+      "source": "orca",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wUSDKV1-USDC",
+      "mint": "uSdKg2Cs5bCtFSeNXs7aRVNzZJauX58eCkdsfssxTdW",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "wUSTV1-USDC",
+      "mint": "UST32f2JtPGocLzsL41B3VBBoJzTm1mK1j3rwyM3Wgc",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "xBTC-renBTC",
+      "mint": "xBTCPvRuEuRgz5DuuUd3ju3VP5XtR2Dsu1AxyW9JpXK",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-apUSDC-USDC",
+      "mint": "yAC4RaXvFZpNhnXZVgiiYj4cgC1G5SbgX5jzdaEXgyA",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-cUSDC-cUSDT",
+      "mint": "yCUh3GqnQdus9rj7iEheJDNVsbwYnd4WYgwjQkwnHSH",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-mSOL-2Pool",
+      "mint": "yMmSMGXaLqyMc9Vo9LR6BhX7m789xrVdJmiUYUKk4aB",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-PAI-3Pool",
+      "mint": "yP3PcccLpc22nSrJRbRLySuroYpKiVT2ENRfiQGNNAB",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-stSOL-2Pool",
+      "mint": "yMstKuGEW6v34MB4d3wBd4BTEsHhexLzZca6cCg2DPy",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-USDT-USDC",
+      "mint": "y2poavXfuAHWRizzK52vegqzzkHUo5CzooxFzDDX6vp",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-USN-4Pool",
+      "mint": "yUNZUz7N5gfvdfgPaz3ddSVcKD3UbgHQYoSWitTt6jL",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-UST-3Pool",
+      "mint": "yM3pjpurEuod4TQ3m4KoV2Rj6Jjge4EGexX7NyiRL2P",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-USTv2-3Pool",
+      "mint": "yPAhSbua2wEWLtRR2nyxV1xsXogx41JUV3kPmJ9NNxW",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-wbBUSD-4Pool",
+      "mint": "yM4piMddLe45SVccNqbRfZFPCQzNByXERjL3VKxFRWP",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    },
+    {
+      "symbol": "y-wUSD-4Pool",
+      "mint": "yLP4agSHVPv7oxDFQ38fuwJGQA4MV1kJJy4SuNbDEHj",
+      "source": "solana",
+      "reason": "Symbol too long (>10 chars)"
+    }
+  ]
+}

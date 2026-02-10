@@ -88,6 +88,7 @@ pub fn handler(ctx: Context<UpdateMintTns>, platform_fee_bps: u16) -> Result<()>
     
     validate_mint_different(&ctx.accounts.token_account.mint, &new_mint)?;
 
+    // Validate metadata matches - owner unchanged (already verified as signer)
     validate_mint_metadata(
         &ctx.accounts.new_mint_metadata,
         &new_mint,

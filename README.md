@@ -2,6 +2,8 @@
 
 On-chain registry mapping token symbols to verified mints. DNS for Solana token symbols.
 
+**[Whitepaper](./docs/whitepaper.md)**
+
 ## Quick Start
 
 ```bash
@@ -44,29 +46,47 @@ const account = await program.account.symbol.fetch(symbolPda);
 
 ## Instructions
 
+### Admin
+
 | Instruction | Description |
 |-------------|-------------|
-| `initialize` | Initialize protocol config (admin) |
-| `update_config` | Update config parameters (admin) |
-| `register_symbol` | Register a new symbol |
-| `renew_symbol` | Extend registration |
-| `expire_symbol` | Crank to expire past grace period |
-| `update_mint` | Change associated mint (owner) |
-| `transfer_ownership` | Transfer symbol ownership |
-| `update_sns_domain` | Link SNS .sol domain |
+| `initialize` | Initialize protocol config |
+| `update_config` | Update config parameters (fee collector, phase, paused, keeper reward) |
+| `seed_symbol` | Seed verified tokens during genesis (no fee) |
+| `admin_update_symbol` | Force-update symbol owner/mint/expiration |
+| `admin_close_symbol` | Force-close symbol account |
+
+### Registration (SOL, TNS, USDC, USDT variants)
+
+| Instruction | Description |
+|-------------|-------------|
+| `register_symbol_*` | Register a new symbol (TNS gets 25% discount) |
+| `renew_symbol_*` | Extend registration |
+| `claim_expired_symbol_*` | Claim expired symbol past grace period |
+| `update_mint_*` | Change associated mint (owner, 50% of base fee) |
+
+### Ownership & Maintenance
+
+| Instruction | Description |
+|-------------|-------------|
+| `transfer_ownership` | Transfer symbol to new owner |
+| `claim_ownership` | Claim via mint/metadata authority or >50% token holdings |
+| `cancel_symbol` | Close abandoned symbol 1yr+ past grace (keeper earns rent + reward) |
+| `verify_or_close` | Verify metadata match or close drifted symbol (keeper earns rent) |
 
 ## Pricing
 
 - Base: $10/year (USD, converted via Pyth SOL/USD oracle)
 - Multi-year discounts: 5% (2yr) → 25% (10yr)
 - 90-day grace period after expiration
-- 10% keeper reward for expire cranks
+- Fixed 0.05 SOL keeper reward for cranks (cancel/verify)
 
 ## Phases
 
-1. **Genesis**: Admin-only registration for all symbol types
-2. **Open**: Verified → mint authority, Reserved → admin, Not listed → anyone
-3. **Full**: All restrictions removed, anyone can register any symbol
+1. **Genesis**: Admin seeds verified tokens; all registrations require admin approval
+2. **Open Registration**: Anyone can register, except reserved TradFi symbols (admin only)
+3. **Full Decentralization**: All restrictions removed, anyone can register any symbol
+4. **Immutability**: Upgrade authority revoked, protocol becomes pure infrastructure
 
 ## Reserved Symbols
 

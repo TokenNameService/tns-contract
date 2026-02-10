@@ -4,7 +4,7 @@ use mpl_token_metadata::accounts::Metadata;
 use crate::{
     Config, Token, TnsError,
     MAX_SYMBOL_LENGTH, MAX_REGISTRATION_YEARS, SECONDS_PER_YEAR,
-    whitelist::{get_symbol_status, SymbolStatus},
+    symbol_status::{get_symbol_status, SymbolStatus},
 };
 
 /// Validate common requirements for registration and renewal
@@ -14,17 +14,11 @@ pub fn validate_not_paused(config: &Config) -> Result<()> {
     Ok(())
 }
 
-/// Validate symbol format: length and uppercase requirement
+/// Validate symbol format: length only (case-sensitive, preserves original case)
 pub fn validate_symbol_format(symbol: &str) -> Result<String> {
     require!(
         !symbol.is_empty() && symbol.len() <= MAX_SYMBOL_LENGTH,
         TnsError::InvalidSymbolLength
-    );
-
-    // Symbol must be uppercase (no lowercase letters allowed)
-    require!(
-        !symbol.chars().any(|c| c.is_lowercase()),
-        TnsError::SymbolMustBeUppercase
     );
 
     Ok(symbol.to_string())
@@ -94,94 +88,63 @@ pub fn validate_platform_fee_bps(platform_fee_bps: u16) -> Result<()> {
     Ok(())
 }
 
-/// Validate whitelist/phase access for registration
+/// Validate phase access for registration
 /// Returns Ok(()) if the payer is allowed to register this symbol
+///
+/// Phase logic:
+/// - Phase 1 (Genesis): Admin only - verified tokens are seeded by admin scripts
+/// - Phase 2 (Open): Anyone can register, except TradFi reserved symbols (admin only)
+/// - Phase 3+: No restrictions - anyone can register anything (RWA tokenization)
 pub fn validate_registration_access(
   config: &Config,
   symbol: &str,
-  mint: &Pubkey,
+  _mint: &Pubkey,
   payer: &Pubkey,
-  token_mint: &Mint,
+  _token_mint: &Mint,
 ) -> Result<()> {
   let symbol_status = get_symbol_status(symbol);
 
-  // Phase 1 (Genesis): Everything admin-controlled except verified tokens
+  // Phase 1 (Genesis): Admin-controlled
+  // Verified tokens are seeded via admin scripts, not user registration
   if config.phase == 1 {
-      if let SymbolStatus::Verified(whitelisted_mint) = symbol_status {
-          require!(*mint == whitelisted_mint, TnsError::WhitelistMintMismatch);
-          
-          let mint_authority = token_mint.mint_authority;
-          
-          require!(
-              mint_authority.is_some() && mint_authority.unwrap() == *payer,
-              TnsError::NotMintAuthority
-          );
-      } else if matches!(symbol_status, SymbolStatus::Reserved(_)) {
-          // Reserved symbols require admin
-          require!(*payer == config.admin, TnsError::SymbolReserved);
-      } else {
-          // NotListed requires admin in Phase 1
-          require!(*payer == config.admin, TnsError::AdminOnlyRegistration);
-      }
-  
-  // Phase 2 (Open): NotListed opens up, reserved stays protected
-  } else if config.phase == 2 {
-      if let SymbolStatus::Verified(whitelisted_mint) = symbol_status {
-          require!(*mint == whitelisted_mint, TnsError::WhitelistMintMismatch);
-          
-          let mint_authority = token_mint.mint_authority;
-          
-          require!(
-              mint_authority.is_some() && mint_authority.unwrap() == *payer,
-              TnsError::NotMintAuthority
-          );
-      } else if matches!(symbol_status, SymbolStatus::Reserved(_)) {
-          // Reserved symbols require admin
-          require!(*payer == config.admin, TnsError::SymbolReserved);
-      }
-      // NotListed: no restrictions
+      require!(*payer == config.admin, TnsError::AdminOnlyRegistration);
+
+  // Phase 2 (Open): Anyone can register, except reserved TradFi symbols
+  } else if config.phase == 2 && matches!(symbol_status, SymbolStatus::ReservedTradfi) {
+      require!(*payer == config.admin, TnsError::SymbolReserved);
   }
   // Phase 3+: No restrictions - anyone can register anything
 
   Ok(())
 }
 
-/// Validate mint's Metaplex metadata:
-/// 1. Metadata account key matches the derived PDA for the mint
-/// 2. Metadata symbol is uppercase
-/// 3. Symbol matches the expected symbol exactly
-/// 4. Metadata is immutable (is_mutable == false)
+/// Parse and validate a mint's Metaplex metadata account.
+/// Returns the deserialized Metadata if valid.
+pub fn parse_metadata(
+    metadata_info: &AccountInfo,
+    mint: &Pubkey,
+) -> Result<Metadata> {
+    let (expected_pda_key, _) = Metadata::find_pda(mint);
+    
+    require!(metadata_info.key() == expected_pda_key, TnsError::InvalidMetadata);
+
+    Metadata::safe_deserialize(&metadata_info.data.borrow())
+        .map_err(|_| TnsError::InvalidMetadata.into())
+}
+
+/// Validate mint's Metaplex metadata symbol matches expected symbol exactly (case-sensitive).
 pub fn validate_mint_metadata(
     metadata_info: &AccountInfo,
     mint: &Pubkey,
     expected_symbol: &str,
 ) -> Result<()> {
-    // Verify metadata account key matches the derived PDA
-    let (expected_pda_key, _) = Metadata::find_pda(mint);
-
-    require!(metadata_info.key() == expected_pda_key, TnsError::InvalidMetadata);
-
-    // Deserialize metadata account
-    let metadata = Metadata::safe_deserialize(&metadata_info.data.borrow())
-        .map_err(|_| TnsError::InvalidMetadata)?;
-
-    // Trim null bytes from Metaplex padding (pads to fixed 10-byte length)
+    let metadata = parse_metadata(metadata_info, mint)?;
     let metadata_symbol = metadata.symbol.trim_matches('\0');
 
-    // Metadata symbol must be uppercase (no lowercase letters allowed)
-    require!(
-        !metadata_symbol.chars().any(|c| c.is_lowercase()),
-        TnsError::MetadataSymbolMustBeUppercase
-    );
-
-    // Symbol must match exactly
     require!(
         metadata_symbol == expected_symbol,
         TnsError::MetadataSymbolMismatch
     );
-
-    // Must be immutable
-    require!(!metadata.is_mutable, TnsError::MetadataMustBeImmutable);
 
     Ok(())
 }

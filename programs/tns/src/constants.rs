@@ -25,9 +25,9 @@ pub const BASE_PRICE_USD_MICRO: u64 = 10_000_000;
 /// Annual price increase in basis points (700 = 7%, inspired by ICANN pricing)
 pub const ANNUAL_INCREASE_BPS: u16 = 700;
 
-/// Fixed keeper reward in lamports (0.01 SOL = 10,000,000 lamports)
-/// This is a flat fee paid to the symbol account for whoever cranks expiration
-pub const KEEPER_REWARD_LAMPORTS: u64 = 10_000_000;
+/// Fixed keeper reward in lamports (0.05 SOL = 50,000,000 lamports)
+/// Paid to keepers who close abandoned symbols or detect metadata drift
+pub const KEEPER_REWARD_LAMPORTS: u64 = 50_000_000;
 
 /// Fee for updating mint in basis points of base price (5000 = 50%)
 pub const UPDATE_FEE_BPS: u16 = 5000;
