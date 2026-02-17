@@ -1,6 +1,6 @@
 {
   "_comment": "Static Pyth SOL/USD fixture at $200. Timestamp set to 2030 to avoid staleness checks - regenerate after 2030.",
-  "pubkey": "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix",
+  "pubkey": "H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG",
   "account": {
     "lamports": 23942400,
     "data": [

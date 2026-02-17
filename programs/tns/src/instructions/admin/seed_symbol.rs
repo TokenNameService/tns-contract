@@ -19,7 +19,7 @@ pub struct SeedSymbol<'info> {
     #[account(
         seeds = [Config::SEED_PREFIX],
         bump = config.bump,
-        has_one = admin @ TnsError::Unauthorized,
+        has_one = admin @ TnsError::UnauthorizedAdmin,
     )]
     pub config: Account<'info, Config>,
 

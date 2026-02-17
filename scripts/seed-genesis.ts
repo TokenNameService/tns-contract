@@ -322,48 +322,16 @@ async function main() {
     try {
       const tx = new Transaction();
 
-      // Pre-fetch update authorities for the batch
-      const batchWithOwners: Array<{
-        symbol: string;
-        mint: string;
-        owner: PublicKey;
-        metadataPda: PublicKey;
-      }> = [];
-      const skippedInBatch: Array<{ symbol: string; mint: string }> = [];
+      // Use admin as owner for all seeds - rightful owners can claim via claim_ownership
+      const owner = adminKeypair.publicKey;
 
       for (const { symbol, mint } of batch) {
+        const tokenPda = getTokenPda(symbol, PROGRAM_ID);
         const mintPubkey = new PublicKey(mint);
         const metadataPda = getMetadataPda(mintPubkey);
 
-        // Fetch update_authority from metadata
-        const owner = await getUpdateAuthority(connection, mintPubkey);
-        if (!owner) {
-          console.log(`    ${symbol}: No metadata found, skipping`);
-          skippedInBatch.push({ symbol, mint });
-          results.tokens.push({
-            symbol,
-            mint,
-            status: "failed",
-            reason: "No metadata found - update_authority could not be determined",
-          });
-          results.totalFailed++;
-          continue;
-        }
-
-        batchWithOwners.push({ symbol, mint, owner, metadataPda });
-      }
-
-      if (batchWithOwners.length === 0) {
-        console.log(`  All tokens in batch skipped due to missing metadata`);
-        continue;
-      }
-
-      for (const { symbol, mint, owner, metadataPda } of batchWithOwners) {
-        const tokenPda = getTokenPda(symbol, PROGRAM_ID);
-        const mintPubkey = new PublicKey(mint);
-
         const ix = await (program.methods as any)
-          .seedSymbol(symbol, 2, owner) // 2 years for genesis seeding, pass owner
+          .seedSymbol(symbol, 2, owner) // 2 years for genesis seeding, admin as owner
           .accounts({
             admin: adminKeypair.publicKey,
             config: configPda,
@@ -393,28 +361,15 @@ async function main() {
       console.error(`  Failed: ${error.message}`);
 
       // Try each one individually to find which failed
+      const owner = adminKeypair.publicKey;
       for (const { symbol, mint } of batch) {
         try {
           const tokenPda = getTokenPda(symbol, PROGRAM_ID);
           const mintPubkey = new PublicKey(mint);
           const metadataPda = getMetadataPda(mintPubkey);
 
-          // Fetch update_authority from metadata
-          const owner = await getUpdateAuthority(connection, mintPubkey);
-          if (!owner) {
-            console.log(`    ${symbol}: No metadata found, skipping`);
-            results.tokens.push({
-              symbol,
-              mint,
-              status: "failed",
-              reason: "No metadata found - update_authority could not be determined",
-            });
-            results.totalFailed++;
-            continue;
-          }
-
           const sig = await (program.methods as any)
-            .seedSymbol(symbol, 2, owner) // 2 years for genesis seeding, pass owner
+            .seedSymbol(symbol, 2, owner) // 2 years for genesis seeding, admin as owner
             .accounts({
               admin: adminKeypair.publicKey,
               config: configPda,

@@ -5,8 +5,11 @@ pub enum TnsError {
     #[msg("Symbol must be 1-10 characters")]
     InvalidSymbolLength,
 
-    #[msg("Unauthorized: you are not the owner of this symbol")]
-    Unauthorized,
+    #[msg("Unauthorized: caller is not the admin")]
+    UnauthorizedAdmin,
+
+    #[msg("Unauthorized: caller is not the owner of this symbol")]
+    UnauthorizedOwner,
 
     #[msg("Protocol is paused")]
     Paused,

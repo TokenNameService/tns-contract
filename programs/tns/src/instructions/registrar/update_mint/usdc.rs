@@ -24,7 +24,7 @@ pub struct UpdateMintUsdc<'info> {
         mut,
         seeds = [Token::SEED_PREFIX, token_account.symbol.as_bytes()],
         bump = token_account.bump,
-        has_one = owner @ TnsError::Unauthorized,
+        has_one = owner @ TnsError::UnauthorizedOwner,
     )]
     pub token_account: Account<'info, Token>,
 

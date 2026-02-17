@@ -4,9 +4,9 @@ ledger = ".surfpool/ledger"
 rpc_port = 8899
 url = "https://api.mainnet-beta.solana.com"
 
-# Load local fixtures
+# Load Pyth SOL/USD price feed from fixture (timestamp set to 2030 to avoid staleness)
 [[validator.account]]
-address = "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix"
+address = "H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG"
 filename = "tests/fixtures/sol-usd-pyth-feed.json"
 
 [[validator.account]]

@@ -209,6 +209,19 @@ async function registerSymbol(symbol: string, mint: string, years: number) {
   const tokenPda = getTokenPda(symbol);
   const tokenMetadata = getMetadataPda(mintPubkey);
 
+  // Check if symbol already exists
+  try {
+    const existing = await (program.account as any).token.fetch(tokenPda);
+    console.log(`\nError: Symbol "${symbol}" is already registered.`);
+    console.log(`  Owner: ${existing.owner}`);
+    console.log(`  Mint: ${existing.mint}`);
+    console.log(`  Expires: ${formatDate(existing.expiresAt.toNumber())}`);
+    console.log(`\nTo renew: npx tsx demo.ts renew ${symbol} <years>`);
+    process.exit(1);
+  } catch {
+    // Account doesn't exist - good, we can register
+  }
+
   // Get fee collector and price feed from config
   const config = await (program.account as any).config.fetch(configPda);
   const feeCollector = config.feeCollector;
@@ -642,6 +655,18 @@ async function seedSymbol(symbol: string, mint: string, owner: string, years: nu
   const configPda = getConfigPda();
   const tokenPda = getTokenPda(symbol);
   const tokenMetadata = getMetadataPda(mintPubkey);
+
+  // Check if symbol already exists
+  try {
+    const existing = await (program.account as any).token.fetch(tokenPda);
+    console.log(`\nError: Symbol "${symbol}" is already registered.`);
+    console.log(`  Owner: ${existing.owner}`);
+    console.log(`  Mint: ${existing.mint}`);
+    console.log(`  Expires: ${formatDate(existing.expiresAt.toNumber())}`);
+    process.exit(1);
+  } catch {
+    // Account doesn't exist - good, we can seed
+  }
 
   console.log("Seeding symbol (admin only, no fee)...");
   console.log(`  Symbol: ${symbol}`);

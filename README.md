@@ -9,33 +9,96 @@ On-chain registry mapping token symbols to verified mints. DNS for Solana token 
 ```bash
 # Build and run all tests
 anchor test
+
+# Setup demo CLI
+cd app && npm install
 ```
 
+## Demo CLI
+
+All commands run from the `app/` directory.
+
 ```bash
-# Setup
 cd app && npm install
+```
 
-# Register a symbol (5 years, pays SOL via Pyth oracle)
+### Setup & Config
+
+```bash
+# Initialize config (one-time, starts PAUSED)
 npx tsx demo.ts init
-npx tsx demo.ts register BONK DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 5
 
-# Lookup
-npx tsx demo.ts lookup BONK
+# View current config state
+npx tsx demo.ts config
+
+# Create fee collector ATAs for USDC/USDT/TNS
+npx tsx demo.ts create-atas
+```
+
+### Registration & Management
+
+```bash
+# Register a symbol (1-10 years, pays with SOL)
+npx tsx demo.ts register Bonk DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 5
+
+# Renew a symbol
+npx tsx demo.ts renew Bonk 3
+
+# Update mint for a symbol
+npx tsx demo.ts update-mint Bonk <NEW_MINT>
+
+# Transfer symbol ownership
+npx tsx demo.ts transfer Bonk <NEW_OWNER>
+
+# Cancel and close symbol account
+npx tsx demo.ts cancel Bonk
+
+# Verify symbol matches metadata (keeper enforcement)
+npx tsx demo.ts verify Bonk
+```
+
+### Lookup
+
+```bash
+# Lookup symbol details
+npx tsx demo.ts lookup Bonk
+
+# Reverse lookup by mint
 npx tsx demo.ts lookup-mint DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263
-npx tsx demo.ts pda BONK
 
-# Manage
-npx tsx demo.ts renew BONK 3                        # extend registration
-npx tsx demo.ts update-mint BONK <NEW_MINT>          # change associated mint
-npx tsx demo.ts transfer BONK <NEW_OWNER>            # transfer ownership
-npx tsx demo.ts cancel BONK                          # cancel and reclaim rent
+# Derive token PDA
+npx tsx demo.ts pda Bonk
+```
+
+### Admin Commands
+
+```bash
+# Unpause the protocol
+npx tsx demo.ts unpause
+
+# Pause the protocol
+npx tsx demo.ts pause
+
+# Set protocol phase (1/2/3)
+npx tsx demo.ts set-phase 2
+
+# Seed a symbol (admin only, free, default 2 years)
+npx tsx demo.ts seed Bonk DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 <OWNER_PUBKEY> 10
+
+# Force-update a symbol
+npx tsx demo.ts admin-update Bonk --owner <NEW_OWNER>
+npx tsx demo.ts admin-update Bonk --mint <NEW_MINT>
+npx tsx demo.ts admin-update Bonk --expires 1735689600
+
+# Force-close a symbol
+npx tsx demo.ts admin-close Bonk
 ```
 
 ## On-Chain Lookup
 
 ```typescript
 const [symbolPda] = PublicKey.findProgramAddressSync(
-  [Buffer.from("symbol"), Buffer.from("BONK")],
+  [Buffer.from("symbol"), Buffer.from("Bonk")],
   TNS_PROGRAM_ID
 );
 const account = await program.account.symbol.fetch(symbolPda);
