@@ -1,11 +1,14 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
-use crate::{Config, Token, SymbolRegistered, TnsError, TNS_MINT, TNS_DISCOUNT_BPS};
+use crate::{
+    Config, Token, SymbolRegistered, TnsError, TNS_MINT, TNS_DISCOUNT_BPS,
+    PUMP_POOL_TNS_RESERVE, PUMP_POOL_SOL_RESERVE, calculate_tns_for_usd,
+};
 use super::super::helpers::{
-    validate_not_paused, validate_years, validate_symbol_format,
-    validate_and_calculate_expiration, validate_registration_access,
+    validate_not_paused, validate_symbol_format,
+    validate_and_calculate_expiration, validate_registration_access, validate_mint_metadata,
     initialize_token_account, validate_platform_fee_bps,
-    transfer_token_fees_with_platform, PlatformTokenFeeAccounts, usd_micro_to_token_amount,
+    transfer_token_fees_with_platform, PlatformTokenFeeAccounts,
     SymbolInitData,
 };
 
@@ -23,19 +26,22 @@ pub struct RegisterSymbolTns<'info> {
         seeds = [Config::SEED_PREFIX],
         bump = config.bump,
     )]
-    pub config: Account<'info, Config>,
+    pub config: Box<Account<'info, Config>>,
 
     #[account(
         init,
         payer = payer,
         space = 8 + Token::INIT_SPACE,
-        seeds = [Token::SEED_PREFIX, symbol.to_uppercase().as_bytes()],
+        seeds = [Token::SEED_PREFIX, symbol.as_bytes()],
         bump
     )]
-    pub token_account: Account<'info, Token>,
+    pub token_account: Box<Account<'info, Token>>,
 
     /// The token mint being registered - validated as real SPL/Token-2022 mint
     pub token_mint: InterfaceAccount<'info, Mint>,
+
+    /// CHECK: Metaplex metadata account for token_mint - validated in handler
+    pub token_metadata: AccountInfo<'info>,
 
     pub system_program: Program<'info, System>,
 
@@ -63,6 +69,19 @@ pub struct RegisterSymbolTns<'info> {
     /// CHECK: Platform fee recipient token account. Validated in handler if provided.
     #[account(mut)]
     pub platform_fee_account: Option<AccountInfo<'info>>,
+
+    // Pool pricing accounts for TNS market price
+
+    /// CHECK: Pyth SOL/USD price feed - validated in get_sol_price_micro
+    pub sol_usd_price_feed: AccountInfo<'info>,
+
+    /// CHECK: Pool's TNS reserve token account - validated against constant
+    #[account(address = PUMP_POOL_TNS_RESERVE @ TnsError::InvalidPoolReserve)]
+    pub pool_tns_reserve: AccountInfo<'info>,
+
+    /// CHECK: Pool's SOL reserve token account - validated against constant
+    #[account(address = PUMP_POOL_SOL_RESERVE @ TnsError::InvalidPoolReserve)]
+    pub pool_sol_reserve: AccountInfo<'info>,
 }
 
 pub fn handler(
@@ -77,9 +96,15 @@ pub fn handler(
 
     // Validate
     validate_not_paused(config)?;
-    validate_years(years)?;
-    validate_platform_fee_bps(platform_fee_bps)?;
+
     let normalized_symbol = validate_symbol_format(&symbol)?;
+
+    let expires_at = validate_and_calculate_expiration(
+        clock.unix_timestamp,
+        years,
+        clock.unix_timestamp,
+    )?;
+
     validate_registration_access(
         config,
         &normalized_symbol,
@@ -87,18 +112,31 @@ pub fn handler(
         &ctx.accounts.payer.key(),
         &ctx.accounts.token_mint,
     )?;
-    let expires_at = validate_and_calculate_expiration(
-        clock.unix_timestamp,
-        years,
+
+    validate_mint_metadata(
+        &ctx.accounts.token_metadata,
+        &mint,
+        &normalized_symbol,
+    )?;
+
+    validate_platform_fee_bps(platform_fee_bps)?;
+
+    // Owner is the payer, not the mint's update_authority
+    let owner = ctx.accounts.payer.key();
+
+    // Calculate fee in USD
+    let fee_usd_micro = config.calculate_registration_price_usd(clock.unix_timestamp, years);
+
+    // Convert to TNS tokens at market price from DEX pool
+    let tns_amount = calculate_tns_for_usd(
+        fee_usd_micro,
+        &ctx.accounts.pool_tns_reserve,
+        &ctx.accounts.pool_sol_reserve,
+        &ctx.accounts.sol_usd_price_feed,
         clock.unix_timestamp,
     )?;
 
-    // Calculate fee in USD (TNS uses $1 peg)
-    let fee_usd_micro = config.calculate_registration_price_usd(clock.unix_timestamp, years);
-    let keeper_reward_lamports = config.get_keeper_reward_lamports();
-
-    // Convert to TNS tokens and apply 25% discount
-    let tns_amount = usd_micro_to_token_amount(fee_usd_micro);
+    // Apply 25% discount
     let discount = tns_amount * TNS_DISCOUNT_BPS as u64 / 10000;
     let tns_discounted = tns_amount - discount;
 
@@ -116,6 +154,8 @@ pub fn handler(
         platform_fee_bps,
     )?;
 
+    let keeper_reward_lamports = config.get_keeper_reward_lamports();
+
     // Transfer keeper reward in SOL to Config PDA
     anchor_lang::system_program::transfer(
         CpiContext::new(
@@ -128,28 +168,24 @@ pub fn handler(
         keeper_reward_lamports,
     )?;
 
-    // Initialize symbol
-    let token_account_key = ctx.accounts.token_account.key();
-    let payer_key = ctx.accounts.payer.key();
-    let bump = ctx.bumps.token_account;
-
+    // Initialize symbol - owner is the payer
     initialize_token_account(
         &mut ctx.accounts.token_account,
         SymbolInitData {
             symbol: normalized_symbol.clone(),
             mint,
-            owner: payer_key,
+            owner,
             current_time: clock.unix_timestamp,
             expires_at,
-            bump,
+            bump: ctx.bumps.token_account,
         },
     );
 
     emit!(SymbolRegistered {
-        token_account: token_account_key,
+        token_account: ctx.accounts.token_account.key(),
         symbol: normalized_symbol,
         mint,
-        owner: payer_key,
+        owner,
         years,
         fee_paid: tns_discounted,
         platform_fee: platform_fee_paid,

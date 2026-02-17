@@ -31,26 +31,20 @@ pub struct CancelSymbol<'info> {
 
 pub fn handler(ctx: Context<CancelSymbol>) -> Result<()> {
     let clock = Clock::get()?;
-    let token_account = &ctx.accounts.token_account;
 
     // Validate not paused
     validate_not_paused(&ctx.accounts.config)?;
 
     // Verify the symbol is cancelable (1 year past grace period)
     require!(
-        token_account.is_cancelable(clock.unix_timestamp),
+        ctx.accounts.token_account.is_cancelable(clock.unix_timestamp),
         TnsError::NotYetCancelable
     );
 
-    // Capture values for event before account is closed
-    let token_account_key = ctx.accounts.token_account.key();
-    let symbol_str = token_account.symbol.clone();
-    let previous_owner = token_account.owner;
-    let previous_mint = token_account.mint;
-    let keeper_key = ctx.accounts.keeper.key();
+    // Capture rent before any transfers (closure happens at end via Anchor constraint)
     let rent_returned = ctx.accounts.token_account.to_account_info().lamports();
 
-    // Pay keeper reward from Config PDA (fixed 0.01 SOL)
+    // Pay keeper reward from Config PDA (fixed 0.05 SOL)
     let keeper_reward = KEEPER_REWARD_LAMPORTS;
     let config_info = ctx.accounts.config.to_account_info();
     let config_balance = config_info.lamports();
@@ -68,11 +62,11 @@ pub fn handler(ctx: Context<CancelSymbol>) -> Result<()> {
     }
 
     emit!(SymbolCanceled {
-        token_account: token_account_key,
-        symbol: symbol_str,
-        previous_owner,
-        previous_mint,
-        canceled_by: keeper_key,
+        token_account: ctx.accounts.token_account.key(),
+        symbol: ctx.accounts.token_account.symbol.clone(),
+        previous_owner: ctx.accounts.token_account.owner,
+        previous_mint: ctx.accounts.token_account.mint,
+        canceled_by: ctx.accounts.keeper.key(),
         canceled_at: clock.unix_timestamp,
         rent_returned,
     });

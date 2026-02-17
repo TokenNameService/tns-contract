@@ -1,0 +1,649 @@
+{
+  "generatedAt": "2026-02-15T22:29:19.020Z",
+  "source": "https://cache.jup.ag/tokens",
+  "title": "Jupiter Cache API - Internal Symbol Duplicates",
+  "description": "Same symbol maps to different mint addresses within Jupiter verified token cache",
+  "count": 44,
+  "duplicates": [
+    {
+      "symbol": "TRUMP",
+      "count": 4,
+      "tokens": [
+        {
+          "name": "MAGA (Wormhole)",
+          "mint": "HaP8r3ksG76PhQLTqR8FYBeNiQpejcFbQmiHbg787Ut1"
+        },
+        {
+          "name": "TRUMP",
+          "mint": "AwRErBEFGTnohzfLeRSBH9HddQEy2oeRxnWLrbvFFh95"
+        },
+        {
+          "name": "MoonTrump",
+          "mint": "BqhNdGtS1Nqtzi2MvZ7G8NN1vRuHZ12UpHGJKe71e1JT"
+        },
+        {
+          "name": "Donald Trump",
+          "mint": "4h8LjZWUfUQVgbEZ29UzTuGXNW6rwrJis78ZU66ekkPV"
+        }
+      ]
+    },
+    {
+      "symbol": "EGG",
+      "count": 3,
+      "tokens": [
+        {
+          "name": "Eggdog",
+          "mint": "EXA537HSBVpsFijENbt6Muuy9AADUN8dUmYKD4oKbjJE"
+        },
+        {
+          "name": "JustAnEgg",
+          "mint": "wo1zgt8rfrYpvdVi4nidoj1SYfcR4pQx69bmNv2JLhQ"
+        },
+        {
+          "name": "EGG",
+          "mint": "4ynyx6BzY2XGFgjjun9Cruj1bSRo8FLsAqNnPsW6jDsu"
+        }
+      ]
+    },
+    {
+      "symbol": "NINJA",
+      "count": 3,
+      "tokens": [
+        {
+          "name": "NINJA TURTLES",
+          "mint": "DFrJxDoLMYt6bNYeNe8Wrjzj2UPUSLZLEMMYBLuTKcTk"
+        },
+        {
+          "name": "NINJA",
+          "mint": "FgX1WD9WzMU3yLwXaFSarPfkgzjLb2DZCqmkx9ExpuvJ"
+        },
+        {
+          "name": "Shinobi",
+          "mint": "2xP43MawHfU7pwPUmvkc6AUWg4GX8xPQLTGMkSZfCEJT"
+        }
+      ]
+    },
+    {
+      "symbol": "PEPE",
+      "count": 3,
+      "tokens": [
+        {
+          "name": "PEPESOLANA",
+          "mint": "CYuXNHURE8cF3rQc1687DZnmsWx9ATNG3mZPFmryu22S"
+        },
+        {
+          "name": "Pepe",
+          "mint": "F9CpWoyeBJfoRB8f2pBe2ZNPbPsEE76mWZWme3StsvHK"
+        },
+        {
+          "name": "Pepe",
+          "mint": "ox698TZsZAN2miNQj1FQb48A58FZ546c4sWqq9Y9vmU"
+        }
+      ]
+    },
+    {
+      "symbol": "SHIB",
+      "count": 3,
+      "tokens": [
+        {
+          "name": "shibwifhat",
+          "mint": "F6qoefQq4iCBLoNZ34RjEqHjHkD8vtmoRSdw9Nd55J1k"
+        },
+        {
+          "name": "SHIBA INU",
+          "mint": "5MBBsoCVddAuF8XixvCcXNbHAw6WfpZ8WyTKMmczxxRN"
+        },
+        {
+          "name": "Shiba Inu (Portal)",
+          "mint": "CiKu4eHsVrc1eueVQeHn7qhXTcVu95gSQmBpX4utjL9z"
+        }
+      ]
+    },
+    {
+      "symbol": "ACHI",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "ACHI INU",
+          "mint": "HvQKzBzp1YhXdqDUrUB8fqrfbJ6rU9CytzscMyG7EFAe"
+        },
+        {
+          "name": "achi",
+          "mint": "4rUfhWTRpjD1ECGjw1UReVhA8G63CrATuoFLRVRkkqhs"
+        }
+      ]
+    },
+    {
+      "symbol": "AI",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Any Inu (Wormhole)",
+          "mint": "ACeWC77UeW2DBZMe7YBsuXoxLvk4dHMnPzneApau1Au6"
+        },
+        {
+          "name": "AI",
+          "mint": "99ouK5YUK3JPGCPX9joNtHsMU7NPpU7w91JN4kdQ97po"
+        }
+      ]
+    },
+    {
+      "symbol": "ANON",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "anon coin",
+          "mint": "A53BzB7297SXdF6mguQQ8kzqjVYt8pUeHW5m1i8pD6hf"
+        },
+        {
+          "name": "Anonymous",
+          "mint": "8VJ51bdE3xorQ1zB7FEa8CsHdM4kw77xCFiCgbnL2qbT"
+        }
+      ]
+    },
+    {
+      "symbol": "AVAX",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "AVAX (Allbridge from Avalanche)",
+          "mint": "AUrMpCDYYcPuHhyNX8gEEqbmDPFUpBpHrNW3vPeCFn5Z"
+        },
+        {
+          "name": "AVAX (Portal)",
+          "mint": "KgV1GvrHQmRBY8sHQQeUKwTm2r2h8t4C8qt12Cw1HVE"
+        }
+      ]
+    },
+    {
+      "symbol": "BABY",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Baby Samo Coin",
+          "mint": "Uuc6hiKT9Y6ASoqs2phonGGw2LAtecfJu9yEohppzWH"
+        },
+        {
+          "name": "Baby",
+          "mint": "5hmf8Jt9puwoqiFQTb3vr22732ZTKYRLRw9Vo7tN3rcz"
+        }
+      ]
+    },
+    {
+      "symbol": "BAG",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "catwifbag",
+          "mint": "D8r8XTuCrUhLheWeGXSwC3G92RhASficV3YA7B2XWcLv"
+        },
+        {
+          "name": "BIRKIN",
+          "mint": "Dnpy7ZkE1LvhyTC1hmTb8opJ6g9rgt2oRvN8z7y35WRJ"
+        }
+      ]
+    },
+    {
+      "symbol": "BCAT",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Buisness Cat",
+          "mint": "7ABhUfzLKT7acJ9rFRZJUBvcqYfCfHLakTvZM75kAVPS"
+        },
+        {
+          "name": "Bodega Cat",
+          "mint": "7bQsj9DciGXs6cTkhB3D1WbcEjuMpmD7amQRWjEVBpu"
+        }
+      ]
+    },
+    {
+      "symbol": "BORG",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Cyborg Apes BORG",
+          "mint": "CFbdjaKonbBQTYG2GC6CmB7exofgDYGCDR8tp8KVGS7T"
+        },
+        {
+          "name": "SwissBorg Token",
+          "mint": "3dQTr7ror2QPKQ3GbBCokJUmjErGg8kTJzdnYjNfvi3Z"
+        }
+      ]
+    },
+    {
+      "symbol": "DADDY",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "DADDY TATE",
+          "mint": "4Cnk9EPnW5ixfLZatCPJjDB1PUtcRpVVgTQukm9epump"
+        },
+        {
+          "name": "DADDY ANSEM",
+          "mint": "2J5uSgqgarWoh7QDBmHSDA3d7UbfBKDZsdy1ypTSpump"
+        }
+      ]
+    },
+    {
+      "symbol": "ENG",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "ENGLAND",
+          "mint": "4XQvdipJBdrb5hUgUrbZPPFmp6BCav41n55dc7KDYW3m"
+        },
+        {
+          "name": "ENG Token",
+          "mint": "GtLBsmS6Z4FC9gmnCFS2ZzCKmb9vYL3kELnjVmxHurnh"
+        }
+      ]
+    },
+    {
+      "symbol": "EYE",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "NftEyez Coin",
+          "mint": "G7eETAaUzmsBPKhokZyfbaT4tD9igdZSmfQGEYWem8Sw"
+        },
+        {
+          "name": "SolEye - OFFCHAIN TRACKER",
+          "mint": "74Eyos32V2B6ineYgAcRMZsiDpz65z7sXHq7D5MSMYgF"
+        }
+      ]
+    },
+    {
+      "symbol": "FOOD",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Food Token",
+          "mint": "EcK2evV2cDECVsmvY2FxU51eu3fp4w48zrZxuA92AAAN"
+        },
+        {
+          "name": "Food",
+          "mint": "foodQJAztMzX1DKpLaiounNe2BDMds5RNuPC6jsNrDG"
+        }
+      ]
+    },
+    {
+      "symbol": "GCR",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Golden Celestial Ratio",
+          "mint": "7dGbPgUxKpB5qWiLRKcTQSC3om1fPzUpgGAFfwej9hXx"
+        },
+        {
+          "name": "GCRClassic",
+          "mint": "791hZNiCJy1qGSGzAvqUU8X6gejiBJ2mBV8JjYoVnzBR"
+        }
+      ]
+    },
+    {
+      "symbol": "GM",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "GM Solana",
+          "mint": "CmSryDa4mnDYUicq7qSESsTKAdgBP26jSYcg8zavVoJd"
+        },
+        {
+          "name": "GM",
+          "mint": "3acxNNmfdKKZj9i35P4VDBFm74Ufdt8ojKWceVGynwC5"
+        }
+      ]
+    },
+    {
+      "symbol": "HARAMBE",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "HARAMBE",
+          "mint": "Fch1oixTPri8zxBnmdCEADoJW2toyFHxqDZacQkwdvSP"
+        },
+        {
+          "name": "HarambeCoin (Wormhole)",
+          "mint": "CNL2opdqaQDY7yudm5V4MAaTwuuY32LTKqNP93jZM8X6"
+        }
+      ]
+    },
+    {
+      "symbol": "LEGEND",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "THE Legend",
+          "mint": "EEAy5QjPS5F3Jqqd51MYfHo8enAKtgFZxNnFjbeVpump"
+        },
+        {
+          "name": "Legends of SOL",
+          "mint": "LGNDeXXXaDDeRerwwHfUtPBNz5s6vrn1NMSt9hdaCwx"
+        }
+      ]
+    },
+    {
+      "symbol": "MAGA",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "MAGA",
+          "mint": "sfYDFZJguyF4YLZjje7qwwh41NRymFfZ3QXZbVm7Eyg"
+        },
+        {
+          "name": "TRUMP’S HAT",
+          "mint": "AwduJQUJoSCZm5BUdhF99iZkUTUGHU34TPft8w5kNbw1"
+        }
+      ]
+    },
+    {
+      "symbol": "MEDIA",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Solmedia",
+          "mint": "BNT4uhSStq1beFADv3cq4wQAVfWB392PjAaxTBpNeWxu"
+        },
+        {
+          "name": "Media Network",
+          "mint": "ETAtLmCmsoiEEKfNrHKJ2kYy3MoABhU6NQvpSfij5tDs"
+        }
+      ]
+    },
+    {
+      "symbol": "MILK",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "MILK",
+          "mint": "MLKmUCaj1dpBY881aFsrBwR9RUMoKic8SWT3u1q5Nkj"
+        },
+        {
+          "name": "Tiddy Juice Coin",
+          "mint": "CCKDRAd4Xwjoovtf2s1duu3d4TPTmFRyh1hfrb3ZUGR2"
+        }
+      ]
+    },
+    {
+      "symbol": "MOON",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "MoonMarket",
+          "mint": "CcPYxgVbSmP9VgNRLdT7KkznZJQ7DyFJ2ZvSPwgdN62e"
+        },
+        {
+          "name": "SolarMoon",
+          "mint": "2kMpEJCZL8vEDZe7YPLMCS9Y3WKSAMedXBn7xHPvsWvi"
+        }
+      ]
+    },
+    {
+      "symbol": "NYAN",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "NYAN",
+          "mint": "NYANpAp9Cr7YarBNrby7Xx4xU6No6JKTBuohNA3yscP"
+        },
+        {
+          "name": "Nyan Cat",
+          "mint": "49ztDWXk7qEfz8Y1t8owmhLhewiA3ptVNPpRGAjRd8Wh"
+        }
+      ]
+    },
+    {
+      "symbol": "OPOS",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Only Possible On Solana",
+          "mint": "BqVHWpwUDgMik5gbTciFfozadpE2oZth5bxCDrgbDt52"
+        },
+        {
+          "name": "OPOS Coin",
+          "mint": "3byG6HEKhG5gUZ5PZU9zKkFaEHYPveGEtvs68LYR8R5N"
+        }
+      ]
+    },
+    {
+      "symbol": "PAI",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "PAI (Parrot USD)",
+          "mint": "Ea5SjE2Y6yvCeW5dYTn7PYMuW5ikXkvbGdcmSnXeaLjS"
+        },
+        {
+          "name": "Procreation AI",
+          "mint": "2TybzwN2X1g7Y6GRbB4cRx4KPK7bqdK9tYCozBXxiTfr"
+        }
+      ]
+    },
+    {
+      "symbol": "PAW",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "PayPaw",
+          "mint": "pawSXHWsonrTey4SX7tz1fM9ksuLpE13Y54K57ym4Rg"
+        },
+        {
+          "name": "CopyCats token",
+          "mint": "3WV4fTWGvtWNvQb8oVU4t99By8KztDLtExqHnkPfHAA9"
+        }
+      ]
+    },
+    {
+      "symbol": "ROCKY",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Rocky",
+          "mint": "4icEZCrEYNop2ZaMMCkRHaNzkt6xG9BpijMCQV7mpw6Z"
+        },
+        {
+          "name": "Rocky",
+          "mint": "DhTNFBp4NjaxWqf6LwG57GrJQZfXrso1qK9FcMZt9sv7"
+        }
+      ]
+    },
+    {
+      "symbol": "SC",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Shark Cat",
+          "mint": "6D7NaB2xsLd7cauWu1wKk6KBsJohJmP2qZH9GEfVi5Ui"
+        },
+        {
+          "name": "STAR CAT",
+          "mint": "A2GHnfpZvyeZX5Pr63jdMmo9uYbpaaKqHHuPD5xD2n6v"
+        }
+      ]
+    },
+    {
+      "symbol": "SHARK",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "White Shark Coin",
+          "mint": "8JF4ekdgw7VTdrrdCABAKAxLc55mGu9ptasNiamih4a9"
+        },
+        {
+          "name": "Sharky",
+          "mint": "SHARKSYJjqaNyxVfrpnBN9pjgkhwDhatnMyicWPnr1s"
+        }
+      ]
+    },
+    {
+      "symbol": "SIUUU",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "SIUUU",
+          "mint": "siuwworrVnkjU3AE6Zj6uieFGC9JSXiGJ7YWxyScGxT"
+        },
+        {
+          "name": "crustieno renaldo",
+          "mint": "BQ74oddoJCJKz9W4QaDzLFh1JvLbmXRCvdaC65P7anex"
+        }
+      ]
+    },
+    {
+      "symbol": "SKULL",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Skeleton Crew",
+          "mint": "SKu11EypaFU3gvr8VSAbi13zEC2CPvqbz9s83N3tWHM"
+        },
+        {
+          "name": "PEPE SKULL",
+          "mint": "3X36yhq35MJnt2JjwodeFDfv2MFPb99RC53yUyNrpump"
+        }
+      ]
+    },
+    {
+      "symbol": "SOLC",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "SolCard",
+          "mint": "DLUNTKRQt7CrpqSX1naHUYoBznJ9pvMP65uCeWQgYnRK"
+        },
+        {
+          "name": "Solcubator",
+          "mint": "Bx1fDtvTN6NvE4kjdPHQXtmGSg582bZx9fGy4DQNMmAT"
+        }
+      ]
+    },
+    {
+      "symbol": "SOUL",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Soul Scanner",
+          "mint": "J4ywFdm8H7hjwKzCaEQujhkDRfCnRviVnHMvFNDAoLNQ"
+        },
+        {
+          "name": "SOUL",
+          "mint": "F6weWmuc1vwdL4u38Ro9jKXHEMjP9BoNdWMF5o5TvtJf"
+        }
+      ]
+    },
+    {
+      "symbol": "SPIKE",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Spike",
+          "mint": "BX9yEgW8WkoWV8SvqTMMCynkQWreRTJ9ZS81dRXYnnR9"
+        },
+        {
+          "name": "Spike",
+          "mint": "sPiKEYAqoaGYYBAnPxro8NLSYLu93sr56n352jJRLN5"
+        }
+      ]
+    },
+    {
+      "symbol": "sRLY",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "sRLY (Rally Solana)",
+          "mint": "sRLY3migNrkC1HLgqotpvi66qGkdNedqPZ9TJpAQhyh"
+        },
+        {
+          "name": "Rally (Legacy - deprecated)",
+          "mint": "RLYv2ubRMDLcGG2UyvPmnPmkfuQTsMbg4Jtygc7dmnq"
+        }
+      ]
+    },
+    {
+      "symbol": "SWOLE",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Swole Doge",
+          "mint": "4BzxVoBQzwKoqm1dQc78r42Yby3EzAeZmMiYFdCjeu5Z"
+        },
+        {
+          "name": "SWOLE",
+          "mint": "sio28ienC3iABUKJFzkikHknbR3xyhjzhJE34tipyDP"
+        }
+      ]
+    },
+    {
+      "symbol": "UPT",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "UPROCK",
+          "mint": "UPTx1d24aBWuRgwxVnFmX4gNraj3QGFzL3QqBgxtWQG"
+        },
+        {
+          "name": "UPTOBER",
+          "mint": "9CPWiCFL11DWr92dsTrzLf5cKz6zKhLz3xzRcYCQ3Nd2"
+        }
+      ]
+    },
+    {
+      "symbol": "WHALES",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Catalina Whale Mixer Floor Index",
+          "mint": "DSXWF79VQ3RzFBB67WeNfCzfzAQq5X6m97zi85bq1TRx"
+        },
+        {
+          "name": "Whales Market",
+          "mint": "GTH3wG3NErjwcf7VGCoXEXkgXSHvYhx5gtATeeM5JAS1"
+        }
+      ]
+    },
+    {
+      "symbol": "WOLF",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "LandWolf",
+          "mint": "Faf89929Ni9fbg4gmVZTca7eW6NFg877Jqn6MizT3Gvw"
+        },
+        {
+          "name": "WOLF SOLANA",
+          "mint": "HmKqChBkZEvqFnH8sxja694n77ziYMBWaucZRKfJDRr2"
+        }
+      ]
+    },
+    {
+      "symbol": "WSB",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Wall Street Baby",
+          "mint": "7zBbQAPGgoKvqcK74Yua8qGwEkEjAZxUPb5m3kKvvHyF"
+        },
+        {
+          "name": "Wall Street Bets",
+          "mint": "AkVt31h8vgji5wF4nVbq1QmBV5wBoe8JdSoDTkDhQwEw"
+        }
+      ]
+    },
+    {
+      "symbol": "ZOOMER",
+      "count": 2,
+      "tokens": [
+        {
+          "name": "Zoomer",
+          "mint": "9MBzpyMRkj2r5nTQZMMnxnCm5j1MAAFSYUtbSKjAF3WU"
+        },
+        {
+          "name": "ZOOMER (Wormhole)",
+          "mint": "nBZEcHSG771mRbi4y2sSgKjfDUH8jsM2Eo5fNcASLeU"
+        }
+      ]
+    }
+  ]
+}

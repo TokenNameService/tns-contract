@@ -1,10 +1,13 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
-use crate::{Config, Token, MintUpdated, TnsError, TNS_MINT, TNS_DISCOUNT_BPS};
+use crate::{
+    Config, Token, MintUpdated, TnsError, TNS_MINT, TNS_DISCOUNT_BPS,
+    PUMP_POOL_TNS_RESERVE, PUMP_POOL_SOL_RESERVE, calculate_tns_for_usd,
+};
 use super::super::helpers::{
-    validate_not_paused, validate_symbol_can_update, validate_mint_different,
+    validate_not_paused, validate_symbol_not_expired, validate_mint_different, validate_mint_metadata,
     validate_platform_fee_bps, transfer_token_fees_with_platform, PlatformTokenFeeAccounts,
-    usd_micro_to_token_amount, update_symbol_mint,
+    update_symbol_mint,
 };
 
 #[derive(Accounts)]
@@ -16,7 +19,7 @@ pub struct UpdateMintTns<'info> {
         seeds = [Config::SEED_PREFIX],
         bump = config.bump,
     )]
-    pub config: Account<'info, Config>,
+    pub config: Box<Account<'info, Config>>,
 
     #[account(
         mut,
@@ -24,7 +27,7 @@ pub struct UpdateMintTns<'info> {
         bump = token_account.bump,
         has_one = owner @ TnsError::Unauthorized,
     )]
-    pub token_account: Account<'info, Token>,
+    pub token_account: Box<Account<'info, Token>>,
 
     pub system_program: Program<'info, System>,
 
@@ -55,6 +58,22 @@ pub struct UpdateMintTns<'info> {
 
     /// The new mint to update the symbol to (validated as a real mint)
     pub new_mint: InterfaceAccount<'info, Mint>,
+
+    /// CHECK: Metaplex metadata account for new_mint - validated in handler
+    pub new_mint_metadata: AccountInfo<'info>,
+
+    // Pool pricing accounts for TNS market price
+
+    /// CHECK: Pyth SOL/USD price feed - validated in get_sol_price_micro
+    pub sol_usd_price_feed: AccountInfo<'info>,
+
+    /// CHECK: Pool's TNS reserve token account - validated against constant
+    #[account(address = PUMP_POOL_TNS_RESERVE @ TnsError::InvalidPoolReserve)]
+    pub pool_tns_reserve: AccountInfo<'info>,
+
+    /// CHECK: Pool's SOL reserve token account - validated against constant
+    #[account(address = PUMP_POOL_SOL_RESERVE @ TnsError::InvalidPoolReserve)]
+    pub pool_sol_reserve: AccountInfo<'info>,
 }
 
 pub fn handler(ctx: Context<UpdateMintTns>, platform_fee_bps: u16) -> Result<()> {
@@ -64,25 +83,39 @@ pub fn handler(ctx: Context<UpdateMintTns>, platform_fee_bps: u16) -> Result<()>
 
     // Validate
     validate_not_paused(config)?;
-    validate_symbol_can_update(&ctx.accounts.token_account, clock.unix_timestamp)?;
+    
+    validate_symbol_not_expired(&ctx.accounts.token_account, clock.unix_timestamp)?;
+    
     validate_mint_different(&ctx.accounts.token_account.mint, &new_mint)?;
+
+    // Validate metadata matches - owner unchanged (already verified as signer)
+    validate_mint_metadata(
+        &ctx.accounts.new_mint_metadata,
+        &new_mint,
+        &ctx.accounts.token_account.symbol,
+    )?;
+
     validate_platform_fee_bps(platform_fee_bps)?;
 
-    // Calculate fee in USD (TNS uses $1 peg)
+    // Calculate fee in USD
     let yearly_price_usd_micro = config.get_current_yearly_price_usd(clock.unix_timestamp);
     let fee_usd_micro = yearly_price_usd_micro * config.update_fee_bps as u64 / 10000;
 
-    // Convert to TNS token amount (1 TNS = $1, 6 decimals)
-    let tns_amount = usd_micro_to_token_amount(fee_usd_micro);
+    // Convert to TNS tokens at market price from DEX pool
+    let tns_amount = calculate_tns_for_usd(
+        fee_usd_micro,
+        &ctx.accounts.pool_tns_reserve,
+        &ctx.accounts.pool_sol_reserve,
+        &ctx.accounts.sol_usd_price_feed,
+        clock.unix_timestamp,
+    )?;
 
     // Apply 25% discount for TNS payments
     let discount = tns_amount * TNS_DISCOUNT_BPS as u64 / 10000;
     let tns_fee = tns_amount - discount;
 
-    let token_account_key = ctx.accounts.token_account.key();
+    // Capture old mint before mutation
     let old_mint = ctx.accounts.token_account.mint;
-    let symbol_str = ctx.accounts.token_account.symbol.clone();
-    let owner_key = ctx.accounts.owner.key();
 
     // Transfer TNS tokens with optional platform fee split
     let platform_fee_paid = transfer_token_fees_with_platform(
@@ -105,11 +138,11 @@ pub fn handler(ctx: Context<UpdateMintTns>, platform_fee_bps: u16) -> Result<()>
     );
 
     emit!(MintUpdated {
-        token_account: token_account_key,
-        symbol: symbol_str,
+        token_account: ctx.accounts.token_account.key(),
+        symbol: ctx.accounts.token_account.symbol.clone(),
         old_mint,
         new_mint,
-        owner: owner_key,
+        owner: ctx.accounts.owner.key(),
         fee_paid: tns_fee, // Log TNS amount (after discount)
         platform_fee: platform_fee_paid,
         updated_at: clock.unix_timestamp,

@@ -25,9 +25,9 @@ pub const BASE_PRICE_USD_MICRO: u64 = 10_000_000;
 /// Annual price increase in basis points (700 = 7%, inspired by ICANN pricing)
 pub const ANNUAL_INCREASE_BPS: u16 = 700;
 
-/// Fixed keeper reward in lamports (0.01 SOL = 10,000,000 lamports)
-/// This is a flat fee paid to the symbol account for whoever cranks expiration
-pub const KEEPER_REWARD_LAMPORTS: u64 = 10_000_000;
+/// Fixed keeper reward in lamports (0.05 SOL = 50,000,000 lamports)
+/// Paid to keepers who close abandoned symbols or detect metadata drift
+pub const KEEPER_REWARD_LAMPORTS: u64 = 50_000_000;
 
 /// Fee for updating mint in basis points of base price (5000 = 50%)
 pub const UPDATE_FEE_BPS: u16 = 5000;
@@ -49,8 +49,8 @@ pub const PYTH_PROGRAM_ID: Pubkey = pubkey!("FsJ3A3u2vn5cTVofAjvy6y5kwABJAqYWpe4
 /// Discount for paying with TNS token in basis points (2500 = 25%)
 pub const TNS_DISCOUNT_BPS: u16 = 2500;
 
-/// TNS token mint address on mainnet (TODO: replace with real address before launch)
-pub const TNS_MINT: Pubkey = pubkey!("11111111111111111111111111111111");
+/// TNS token mint address on mainnet
+pub const TNS_MINT: Pubkey = pubkey!("6jwcLLjhEcUrnnPtnWvqVKEeAzSTXT6qtV1GEjcopump");
 
 /// USDC mint address on mainnet
 pub const USDC_MINT: Pubkey = pubkey!("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
@@ -66,3 +66,18 @@ pub const STABLECOIN_MULTIPLIER: u64 = 1_000_000;
 /// Maximum platform fee in basis points (1000 = 10%)
 /// Platforms (launchpads like pump.fun) can receive up to 10% of registration fees
 pub const MAX_PLATFORM_FEE_BPS: u16 = 1000;
+
+/// Wrapped SOL mint address
+pub const WSOL_MINT: Pubkey = pubkey!("So11111111111111111111111111111111111111112");
+
+/// Pump AMM pool for TNS/SOL pricing
+pub const PUMP_TNS_SOL_POOL: Pubkey = pubkey!("4vvoQ1icW9kQJcoqsUxFm9cxyYKJgUHafRo7Bxiyf5Cp");
+
+/// Pool's TNS reserve token account (holds TNS tokens in the pool)
+pub const PUMP_POOL_TNS_RESERVE: Pubkey = pubkey!("8UGTQaaDjjWoye9YiG9YuGUc5RHcTb8sHcr877Eg5L73");
+
+/// Pool's SOL reserve token account (holds WSOL tokens in the pool)
+pub const PUMP_POOL_SOL_RESERVE: Pubkey = pubkey!("B4PNGmGrdPbPjb2iu7MAKHBovQduv5gjLJdC9i5UNQaJ");
+
+/// SOL decimals (9 decimals)
+pub const SOL_DECIMALS: u8 = 9;

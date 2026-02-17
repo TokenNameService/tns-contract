@@ -6,7 +6,16 @@ import {
   Keypair,
   LAMPORTS_PER_SOL,
   SystemProgram,
+  Transaction,
+  sendAndConfirmTransaction,
+  TransactionInstruction,
 } from "@solana/web3.js";
+import { createMint } from "@solana/spl-token";
+
+// Token Metadata Program ID (Metaplex)
+export const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
+  "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+);
 
 // Devnet SOL/USD Pyth price feed (legacy v2 push-based, cloned to localnet for testing)
 export const SOL_USD_PYTH_FEED = new PublicKey(
@@ -54,7 +63,7 @@ export function getConfigPda(programId: PublicKey): PublicKey {
 
 export function getTokenPda(programId: PublicKey, symbol: string): PublicKey {
   const [tokenPda] = PublicKey.findProgramAddressSync(
-    [Buffer.from("token"), Buffer.from(symbol.toUpperCase())],
+    [Buffer.from("token"), Buffer.from(symbol)],
     programId
   );
   return tokenPda;
@@ -268,6 +277,30 @@ export async function refreshConfigState(ctx: TestContext): Promise<void> {
   ctx.solUsdPythFeed = config.solUsdPythFeed;
 }
 
+// Ensure protocol is unpaused (for test isolation)
+export async function ensureUnpaused(ctx: TestContext): Promise<void> {
+  const { program, admin, configPda } = ctx;
+  const config = await program.account.config.fetch(configPda);
+
+  if (config.paused) {
+    await program.methods
+      .updateConfig(null, false, null, null, null)
+      .accountsPartial({
+        admin: admin.publicKey,
+        config: configPda,
+      })
+      .rpc();
+  }
+}
+
+// Reset config to phase 1 if possible (for test isolation)
+// Note: Phase can only go forward, so this only works on fresh validator
+export async function ensurePhase1(ctx: TestContext): Promise<void> {
+  const { program, configPda } = ctx;
+  const config = await program.account.config.fetch(configPda);
+  ctx.currentPhase = config.phase;
+}
+
 export function setupTest(): TestContext {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
@@ -312,4 +345,147 @@ export async function getBalance(
   account: PublicKey
 ): Promise<number> {
   return provider.connection.getBalance(account);
+}
+
+/**
+ * Derive the Metaplex metadata PDA for a given mint.
+ */
+export function getMetadataPda(mint: PublicKey): PublicKey {
+  const [metadataPda] = PublicKey.findProgramAddressSync(
+    [
+      Buffer.from("metadata"),
+      TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+      mint.toBuffer(),
+    ],
+    TOKEN_METADATA_PROGRAM_ID
+  );
+  return metadataPda;
+}
+
+
+/**
+ * Create a CreateMetadataAccountV3 instruction manually.
+ * Uses Borsh serialization compatible with Token Metadata program.
+ *
+ * Instruction layout:
+ * - discriminator: u8 (33 for CreateMetadataAccountV3)
+ * - data: DataV2 (name, symbol, uri, seller_fee_basis_points, creators, collection, uses)
+ * - is_mutable: bool
+ * - collection_details: Option<CollectionDetails>
+ */
+function createMetadataV3Instruction(
+  metadataPda: PublicKey,
+  mint: PublicKey,
+  mintAuthority: PublicKey,
+  payer: PublicKey,
+  updateAuthority: PublicKey,
+  name: string,
+  symbol: string,
+  uri: string,
+  isMutable: boolean
+): TransactionInstruction {
+  // Borsh serialize a string: 4-byte little-endian length + UTF-8 bytes
+  const serializeString = (str: string): Buffer => {
+    const bytes = Buffer.from(str, "utf8");
+    const lenBuf = Buffer.alloc(4);
+    lenBuf.writeUInt32LE(bytes.length, 0);
+    return Buffer.concat([lenBuf, bytes]);
+  };
+
+  // Build the instruction data using Borsh format
+  const parts: Buffer[] = [];
+
+  // 1. Discriminator for CreateMetadataAccountV3 = 33
+  parts.push(Buffer.from([33]));
+
+  // 2. DataV2 fields:
+  // - name: String
+  parts.push(serializeString(name));
+  // - symbol: String
+  parts.push(serializeString(symbol));
+  // - uri: String
+  parts.push(serializeString(uri));
+  // - seller_fee_basis_points: u16
+  const feeBuf = Buffer.alloc(2);
+  feeBuf.writeUInt16LE(0, 0);
+  parts.push(feeBuf);
+  // - creators: Option<Vec<Creator>> = None (0)
+  parts.push(Buffer.from([0]));
+  // - collection: Option<Collection> = None (0)
+  parts.push(Buffer.from([0]));
+  // - uses: Option<Uses> = None (0)
+  parts.push(Buffer.from([0]));
+
+  // 3. is_mutable: bool
+  parts.push(Buffer.from([isMutable ? 1 : 0]));
+
+  // 4. collection_details: Option<CollectionDetails> = None (0)
+  parts.push(Buffer.from([0]));
+
+  const data = Buffer.concat(parts);
+
+  return new TransactionInstruction({
+    keys: [
+      { pubkey: metadataPda, isSigner: false, isWritable: true },
+      { pubkey: mint, isSigner: false, isWritable: false },
+      { pubkey: mintAuthority, isSigner: true, isWritable: false },
+      { pubkey: payer, isSigner: true, isWritable: true },
+      { pubkey: updateAuthority, isSigner: false, isWritable: false },
+      { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+    ],
+    programId: TOKEN_METADATA_PROGRAM_ID,
+    data,
+  });
+}
+
+/**
+ * Create a token mint with Metaplex metadata.
+ * Returns the mint public key.
+ *
+ * @param provider - Anchor provider
+ * @param payer - Keypair that pays for transactions
+ * @param symbol - The symbol for the token metadata (case-sensitive for TNS)
+ * @param name - The name for the token metadata
+ * @param makeImmutable - Whether to make the metadata immutable (required for TNS)
+ */
+export async function createTokenWithMetadata(
+  provider: anchor.AnchorProvider,
+  payer: Keypair | anchor.Wallet,
+  symbol: string,
+  name: string = `${symbol} Token`,
+  makeImmutable: boolean = true
+): Promise<PublicKey> {
+  const payerKeypair = "payer" in payer ? payer.payer : payer;
+  const connection = provider.connection;
+
+  // Create the mint
+  const mint = await createMint(
+    connection,
+    payerKeypair,
+    payerKeypair.publicKey,
+    null,
+    9
+  );
+
+  // Derive metadata PDA
+  const metadataPda = getMetadataPda(mint);
+
+  // Create metadata instruction
+  const createMetadataIx = createMetadataV3Instruction(
+    metadataPda,
+    mint,
+    payerKeypair.publicKey,
+    payerKeypair.publicKey,
+    payerKeypair.publicKey,
+    name,
+    symbol,
+    "", // uri
+    !makeImmutable // isMutable = false if we want immutable
+  );
+
+  // Send create metadata transaction
+  const tx = new Transaction().add(createMetadataIx);
+  await sendAndConfirmTransaction(connection, tx, [payerKeypair]);
+
+  return mint;
 }

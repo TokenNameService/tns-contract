@@ -115,7 +115,7 @@ async function main() {
     process.exit(1);
   }
 
-  const dataDir = join(__dirname, "data");
+  const dataDir = join(__dirname, "..", "data", "reserved");
   mkdirSync(dataDir, { recursive: true });
 
   console.log("\n=== Fetching Index Constituents from Wikipedia ===\n");

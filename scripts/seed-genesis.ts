@@ -24,6 +24,11 @@ import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
+// Token Metadata Program ID (Metaplex)
+const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
+  "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+);
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Configuration
@@ -40,9 +45,6 @@ interface VerifiedTokensFile {
   tokens: Record<string, string>;
 }
 
-interface TradFiSymbolsFile {
-  symbols: string[];
-}
 
 interface GenesisRecord {
   seededAt: string;
@@ -63,7 +65,7 @@ interface GenesisRecord {
 
 function getTokenPda(symbol: string, programId: PublicKey): PublicKey {
   const [pda] = PublicKey.findProgramAddressSync(
-    [Buffer.from("token"), Buffer.from(symbol.toUpperCase())],
+    [Buffer.from("token"), Buffer.from(symbol)],
     programId
   );
   return pda;
@@ -75,6 +77,44 @@ function getConfigPda(programId: PublicKey): PublicKey {
     programId
   );
   return pda;
+}
+
+function getMetadataPda(mint: PublicKey): PublicKey {
+  const [pda] = PublicKey.findProgramAddressSync(
+    [
+      Buffer.from("metadata"),
+      TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+      mint.toBuffer(),
+    ],
+    TOKEN_METADATA_PROGRAM_ID
+  );
+  return pda;
+}
+
+/**
+ * Fetch the update_authority from a mint's metadata account.
+ * Returns null if metadata doesn't exist or can't be parsed.
+ */
+async function getUpdateAuthority(
+  connection: Connection,
+  mint: PublicKey
+): Promise<PublicKey | null> {
+  try {
+    const metadataPda = getMetadataPda(mint);
+    const accountInfo = await connection.getAccountInfo(metadataPda);
+    if (!accountInfo) return null;
+
+    // Metadata account structure:
+    // - key: u8 (offset 0)
+    // - update_authority: Pubkey (offset 1, 32 bytes)
+    const data = accountInfo.data;
+    if (data.length < 33) return null;
+
+    const updateAuthority = new PublicKey(data.slice(1, 33));
+    return updateAuthority;
+  } catch {
+    return null;
+  }
 }
 
 function chunk<T>(arr: T[], size: number): T[][] {
@@ -104,74 +144,36 @@ async function main() {
   console.log("");
 
   // Load verified tokens
-  const verifiedPath = join(__dirname, "data", "verified-tokens.json");
+  const verifiedPath = join(__dirname, "data", "verified", "verified-tokens.json");
   if (!existsSync(verifiedPath)) {
     console.error(
-      "Error: verified-tokens.json not found. Run fetch-jupiter-tokens.ts first."
+      "Error: verified-tokens.json not found. Run: npm run fetch:tokens"
     );
     process.exit(1);
   }
   const verifiedData: VerifiedTokensFile = JSON.parse(
     readFileSync(verifiedPath, "utf-8")
   );
-  console.log(
-    `Loaded ${verifiedData.count} verified tokens from ${verifiedData.source}`
-  );
+  console.log(`Loaded ${verifiedData.count} verified tokens`);
 
-  // Load TradFi reserved symbols
-  const tradfiPath = join(__dirname, "data", "tradfi-symbols.json");
-  let reservedSymbols = new Set<string>();
-  if (existsSync(tradfiPath)) {
-    const tradfiData: TradFiSymbolsFile = JSON.parse(
-      readFileSync(tradfiPath, "utf-8")
-    );
-    reservedSymbols = new Set(tradfiData.symbols.map((s) => s.toUpperCase()));
-    console.log(`Loaded ${reservedSymbols.size} reserved TradFi symbols`);
-  } else {
-    console.log(
-      "Warning: tradfi-symbols.json not found, no symbols will be filtered"
-    );
-  }
-
-  // Filter tokens
+  // Filter tokens (crypto wins over TradFi - no TradFi collision check)
   const tokensToSeed: Array<{ symbol: string; mint: string }> = [];
   const skippedTokens: Array<{ symbol: string; mint: string; reason: string }> =
     [];
 
   for (const [symbol, mint] of Object.entries(verifiedData.tokens)) {
-    const upperSymbol = symbol.toUpperCase();
-
-    // Skip if reserved TradFi symbol
-    if (reservedSymbols.has(upperSymbol)) {
+    // Skip if symbol too long (contract MAX_SYMBOL_LENGTH = 10)
+    if (symbol.length > 10) {
       skippedTokens.push({
-        symbol: upperSymbol,
-        mint,
-        reason: "Reserved TradFi symbol",
-      });
-      continue;
-    }
-
-    // Skip if symbol too long
-    if (upperSymbol.length > 10) {
-      skippedTokens.push({
-        symbol: upperSymbol,
+        symbol,
         mint,
         reason: "Symbol too long (>10 chars)",
       });
       continue;
     }
 
-    // Skip if symbol has invalid characters
-    if (!/^[A-Z0-9]+$/.test(upperSymbol)) {
-      skippedTokens.push({
-        symbol: upperSymbol,
-        mint,
-        reason: "Invalid characters",
-      });
-      continue;
-    }
-
-    tokensToSeed.push({ symbol: upperSymbol, mint });
+    // Preserve original case
+    tokensToSeed.push({ symbol, mint });
   }
 
   console.log("");
@@ -287,11 +289,11 @@ async function main() {
     })),
   };
 
-  // Continue from specific symbol if specified
+  // Continue from specific symbol if specified (case-sensitive match)
   let startIndex = 0;
   if (continueFrom) {
     const idx = tokensToSeed.findIndex(
-      (t) => t.symbol === continueFrom.toUpperCase()
+      (t) => t.symbol === continueFrom
     );
     if (idx >= 0) {
       startIndex = idx;
@@ -320,17 +322,54 @@ async function main() {
     try {
       const tx = new Transaction();
 
+      // Pre-fetch update authorities for the batch
+      const batchWithOwners: Array<{
+        symbol: string;
+        mint: string;
+        owner: PublicKey;
+        metadataPda: PublicKey;
+      }> = [];
+      const skippedInBatch: Array<{ symbol: string; mint: string }> = [];
+
       for (const { symbol, mint } of batch) {
+        const mintPubkey = new PublicKey(mint);
+        const metadataPda = getMetadataPda(mintPubkey);
+
+        // Fetch update_authority from metadata
+        const owner = await getUpdateAuthority(connection, mintPubkey);
+        if (!owner) {
+          console.log(`    ${symbol}: No metadata found, skipping`);
+          skippedInBatch.push({ symbol, mint });
+          results.tokens.push({
+            symbol,
+            mint,
+            status: "failed",
+            reason: "No metadata found - update_authority could not be determined",
+          });
+          results.totalFailed++;
+          continue;
+        }
+
+        batchWithOwners.push({ symbol, mint, owner, metadataPda });
+      }
+
+      if (batchWithOwners.length === 0) {
+        console.log(`  All tokens in batch skipped due to missing metadata`);
+        continue;
+      }
+
+      for (const { symbol, mint, owner, metadataPda } of batchWithOwners) {
         const tokenPda = getTokenPda(symbol, PROGRAM_ID);
         const mintPubkey = new PublicKey(mint);
 
         const ix = await (program.methods as any)
-          .seedSymbol(symbol)
+          .seedSymbol(symbol, 2, owner) // 2 years for genesis seeding, pass owner
           .accounts({
             admin: adminKeypair.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
             tokenMint: mintPubkey,
+            tokenMetadata: metadataPda,
             systemProgram: SystemProgram.programId,
           })
           .instruction();
@@ -358,14 +397,30 @@ async function main() {
         try {
           const tokenPda = getTokenPda(symbol, PROGRAM_ID);
           const mintPubkey = new PublicKey(mint);
+          const metadataPda = getMetadataPda(mintPubkey);
+
+          // Fetch update_authority from metadata
+          const owner = await getUpdateAuthority(connection, mintPubkey);
+          if (!owner) {
+            console.log(`    ${symbol}: No metadata found, skipping`);
+            results.tokens.push({
+              symbol,
+              mint,
+              status: "failed",
+              reason: "No metadata found - update_authority could not be determined",
+            });
+            results.totalFailed++;
+            continue;
+          }
 
           const sig = await (program.methods as any)
-            .seedSymbol(symbol)
+            .seedSymbol(symbol, 2, owner) // 2 years for genesis seeding, pass owner
             .accounts({
               admin: adminKeypair.publicKey,
               config: configPda,
               tokenAccount: tokenPda,
               tokenMint: mintPubkey,
+              tokenMetadata: metadataPda,
               systemProgram: SystemProgram.programId,
             })
             .rpc();

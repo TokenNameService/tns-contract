@@ -2,7 +2,6 @@ import * as anchor from "@coral-xyz/anchor";
 import BN from "bn.js";
 import { Keypair } from "@solana/web3.js";
 import { expect } from "chai";
-import { createMint } from "@solana/spl-token";
 import {
   setupTest,
   TestContext,
@@ -11,6 +10,9 @@ import {
   getTokenPda,
   getBalance,
   refreshConfigState,
+  ensureUnpaused,
+  createTokenWithMetadata,
+  getMetadataPda,
 } from "./helpers/setup";
 
 // Max slippage for tests (1 SOL)
@@ -18,7 +20,24 @@ const MAX_SOL_COST = new BN(1_000_000_000);
 
 describe("TNS - Register Symbol", () => {
   let ctx: TestContext;
-  let testTokenMint: anchor.web3.PublicKey;
+  // Store mints for each symbol
+  const tokenMints: Map<string, anchor.web3.PublicKey> = new Map();
+
+  // Helper to get or create a token mint with matching metadata
+  async function getOrCreateTokenMint(symbol: string): Promise<anchor.web3.PublicKey> {
+    if (tokenMints.has(symbol)) {
+      return tokenMints.get(symbol)!;
+    }
+    const mint = await createTokenWithMetadata(
+      ctx.provider,
+      ctx.admin,
+      symbol,
+      `${symbol} Token`,
+      true // immutable
+    );
+    tokenMints.set(symbol, mint);
+    return mint;
+  }
 
   before(async () => {
     ctx = setupTest();
@@ -28,35 +47,32 @@ describe("TNS - Register Symbol", () => {
     // Refresh config to get current state (fee collector may have changed from other tests)
     await refreshConfigState(ctx);
 
-    // Create a test token mint
-    testTokenMint = await createMint(
-      ctx.provider.connection,
-      ctx.admin.payer,
-      ctx.admin.publicKey,
-      null,
-      9
-    );
+    // Ensure protocol is unpaused (test isolation)
+    await ensureUnpaused(ctx);
   });
 
   it("registers a new symbol for 1 year", async () => {
     const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
       ctx;
-    const symbol = "TEST1"; // Non-whitelisted symbol
+    const symbol = "TEST1"; // Unseeded symbol
     const tokenPda = getTokenPda(program.programId, symbol);
+    const tokenMint = await getOrCreateTokenMint(symbol);
+    const tokenMetadata = getMetadataPda(tokenMint);
 
     const feeCollectorBalanceBefore = await getBalance(
       ctx.provider,
       feeCollectorPubkey
     );
 
-    // In Phase 1, only admin can register non-whitelisted symbols
+    // In Phase 1, only admin can register
     await program.methods
       .registerSymbolSol(symbol, 1, MAX_SOL_COST, 0)
       .accountsPartial({
         payer: admin.publicKey,
         config: configPda,
         tokenAccount: tokenPda,
-        tokenMint: testTokenMint,
+        tokenMint: tokenMint,
+        tokenMetadata: tokenMetadata,
         feeCollector: feeCollectorPubkey,
         solUsdPriceFeed: solUsdPythFeed,
         platformFeeAccount: null,
@@ -65,8 +81,8 @@ describe("TNS - Register Symbol", () => {
 
     const tokenAccount = await program.account.token.fetch(tokenPda);
 
-    expect(tokenAccount.symbol).to.equal(symbol.toUpperCase());
-    expect(tokenAccount.mint.toString()).to.equal(testTokenMint.toString());
+    expect(tokenAccount.symbol).to.equal(symbol);
+    expect(tokenAccount.mint.toString()).to.equal(tokenMint.toString());
     expect(tokenAccount.owner.toString()).to.equal(admin.publicKey.toString());
 
     // Verify expiration is ~1 year from now
@@ -87,8 +103,10 @@ describe("TNS - Register Symbol", () => {
   it("registers a symbol for 5 years with discount", async () => {
     const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
       ctx;
-    const symbol = "TEST5"; // Non-whitelisted symbol
+    const symbol = "TEST5"; // Unseeded symbol
     const tokenPda = getTokenPda(program.programId, symbol);
+    const tokenMint = await getOrCreateTokenMint(symbol);
+    const tokenMetadata = getMetadataPda(tokenMint);
 
     await program.methods
       .registerSymbolSol(symbol, 5, MAX_SOL_COST, 0)
@@ -96,7 +114,8 @@ describe("TNS - Register Symbol", () => {
         payer: admin.publicKey,
         config: configPda,
         tokenAccount: tokenPda,
-        tokenMint: testTokenMint,
+        tokenMint: tokenMint,
+        tokenMetadata: tokenMetadata,
         feeCollector: feeCollectorPubkey,
         solUsdPriceFeed: solUsdPythFeed,
         platformFeeAccount: null,
@@ -114,34 +133,13 @@ describe("TNS - Register Symbol", () => {
     );
   });
 
-  it("normalizes symbol to uppercase", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
-      ctx;
-    const symbol = "testlc"; // lowercase input (non-whitelisted)
-    const tokenPda = getTokenPda(program.programId, "TESTLC"); // uppercase in PDA
-
-    await program.methods
-      .registerSymbolSol(symbol, 1, MAX_SOL_COST, 0)
-      .accountsPartial({
-        payer: admin.publicKey,
-        config: configPda,
-        tokenAccount: tokenPda,
-        tokenMint: testTokenMint,
-        feeCollector: feeCollectorPubkey,
-        solUsdPriceFeed: solUsdPythFeed,
-        platformFeeAccount: null,
-      })
-      .rpc();
-
-    const tokenAccount = await program.account.token.fetch(tokenPda);
-    expect(tokenAccount.symbol).to.equal("TESTLC");
-  });
-
   it("fails to register an already registered symbol", async () => {
     const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
       ctx;
     const symbol = "TEST1"; // Already registered above
     const tokenPda = getTokenPda(program.programId, symbol);
+    const tokenMint = await getOrCreateTokenMint(symbol);
+    const tokenMetadata = getMetadataPda(tokenMint);
 
     try {
       await program.methods
@@ -151,7 +149,8 @@ describe("TNS - Register Symbol", () => {
           config: configPda,
           feeCollector: feeCollectorPubkey,
           solUsdPriceFeed: solUsdPythFeed,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
           platformFeeAccount: null,
         })
@@ -169,6 +168,8 @@ describe("TNS - Register Symbol", () => {
       ctx;
     const symbol = "ZERO";
     const tokenPda = getTokenPda(program.programId, symbol);
+    const tokenMint = await getOrCreateTokenMint(symbol);
+    const tokenMetadata = getMetadataPda(tokenMint);
 
     try {
       await program.methods
@@ -178,7 +179,8 @@ describe("TNS - Register Symbol", () => {
           config: configPda,
           feeCollector: feeCollectorPubkey,
           solUsdPriceFeed: solUsdPythFeed,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
           platformFeeAccount: null,
         })
@@ -195,6 +197,8 @@ describe("TNS - Register Symbol", () => {
       ctx;
     const symbol = "ELEVEN";
     const tokenPda = getTokenPda(program.programId, symbol);
+    const tokenMint = await getOrCreateTokenMint(symbol);
+    const tokenMetadata = getMetadataPda(tokenMint);
 
     try {
       await program.methods
@@ -204,7 +208,8 @@ describe("TNS - Register Symbol", () => {
           config: configPda,
           feeCollector: feeCollectorPubkey,
           solUsdPriceFeed: solUsdPythFeed,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
           platformFeeAccount: null,
         })
@@ -212,7 +217,7 @@ describe("TNS - Register Symbol", () => {
 
       expect.fail("Should have thrown an error");
     } catch (err) {
-      expect(err.message).to.include("InvalidYears");
+      expect(err.message).to.include("ExceedsMaxYears");
     }
   });
 
@@ -221,6 +226,9 @@ describe("TNS - Register Symbol", () => {
       ctx;
     const symbol = "";
     const tokenPda = getTokenPda(program.programId, symbol);
+    // Use any existing token for this test (will fail on symbol validation before metadata)
+    const tokenMint = await getOrCreateTokenMint("EMPTY");
+    const tokenMetadata = getMetadataPda(tokenMint);
 
     try {
       await program.methods
@@ -230,7 +238,8 @@ describe("TNS - Register Symbol", () => {
           config: configPda,
           feeCollector: feeCollectorPubkey,
           solUsdPriceFeed: solUsdPythFeed,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
           platformFeeAccount: null,
         })
@@ -247,6 +256,9 @@ describe("TNS - Register Symbol", () => {
       ctx;
     const symbol = "TOOLONGSYMBOL"; // > 10 chars
     const tokenPda = getTokenPda(program.programId, symbol);
+    // Use any existing token for this test (will fail on symbol validation before metadata)
+    const tokenMint = await getOrCreateTokenMint("TOOLONG");
+    const tokenMetadata = getMetadataPda(tokenMint);
 
     try {
       await program.methods
@@ -256,7 +268,8 @@ describe("TNS - Register Symbol", () => {
           config: configPda,
           feeCollector: feeCollectorPubkey,
           solUsdPriceFeed: solUsdPythFeed,
-          tokenMint: testTokenMint,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
           platformFeeAccount: null,
         })
@@ -266,5 +279,108 @@ describe("TNS - Register Symbol", () => {
     } catch (err) {
       expect(err).to.exist;
     }
+  });
+
+  describe("Symbol Length Boundaries", () => {
+    it("accepts symbol at exactly max length (10 chars)", async () => {
+      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const maxSymbol = "ABCDEFGHIJ"; // Exactly 10 characters
+      const tokenPda = getTokenPda(program.programId, maxSymbol);
+      const tokenMint = await getOrCreateTokenMint(maxSymbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
+
+      await program.methods
+        .registerSymbolSol(maxSymbol, 1, MAX_SOL_COST, 0)
+        .accountsPartial({
+          payer: admin.publicKey,
+          config: configPda,
+          tokenAccount: tokenPda,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
+          feeCollector: feeCollectorPubkey,
+          solUsdPriceFeed: solUsdPythFeed,
+          platformFeeAccount: null,
+        })
+        .rpc();
+
+      const token = await program.account.token.fetch(tokenPda);
+      expect(token.symbol).to.equal(maxSymbol);
+      expect(token.symbol.length).to.equal(10);
+    });
+
+    it("rejects symbol over max length (11 chars)", async () => {
+      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const tooLongSymbol = "ABCDEFGHIJK"; // 11 characters
+      const tokenPda = getTokenPda(program.programId, tooLongSymbol);
+      const tokenMint = await getOrCreateTokenMint("MAXLEN");
+      const tokenMetadata = getMetadataPda(tokenMint);
+
+      try {
+        await program.methods
+          .registerSymbolSol(tooLongSymbol, 1, MAX_SOL_COST, 0)
+          .accountsPartial({
+            payer: admin.publicKey,
+            config: configPda,
+            tokenAccount: tokenPda,
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
+            feeCollector: feeCollectorPubkey,
+            solUsdPriceFeed: solUsdPythFeed,
+            platformFeeAccount: null,
+          })
+          .rpc();
+
+        expect.fail("Should have thrown an error");
+      } catch (err) {
+        expect(err.message).to.include("InvalidSymbolLength");
+      }
+    });
+  });
+
+  describe("Platform Fee Split", () => {
+    it("platform receives correct fee split on registration", async () => {
+      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const symbol = "PLATFEE";
+      const tokenPda = getTokenPda(program.programId, symbol);
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
+
+      const platformAccount = Keypair.generate();
+      await fundAccounts(ctx.provider, platformAccount);
+
+      const feeCollectorBefore = await getBalance(ctx.provider, feeCollectorPubkey);
+      const platformBefore = await getBalance(ctx.provider, platformAccount.publicKey);
+
+      // Register with 10% platform fee (1000 bps)
+      await program.methods
+        .registerSymbolSol(symbol, 1, MAX_SOL_COST, 1000)
+        .accountsPartial({
+          payer: admin.publicKey,
+          config: configPda,
+          tokenAccount: tokenPda,
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
+          feeCollector: feeCollectorPubkey,
+          solUsdPriceFeed: solUsdPythFeed,
+          platformFeeAccount: platformAccount.publicKey,
+        })
+        .rpc();
+
+      const feeCollectorAfter = await getBalance(ctx.provider, feeCollectorPubkey);
+      const platformAfter = await getBalance(ctx.provider, platformAccount.publicKey);
+
+      const feeCollectorReceived = feeCollectorAfter - feeCollectorBefore;
+      const platformReceived = platformAfter - platformBefore;
+
+      // Platform should have received 10% of total fee
+      expect(platformReceived).to.be.greaterThan(0);
+      // Fee collector should have received 90%
+      expect(feeCollectorReceived).to.be.greaterThan(0);
+
+      // Verify roughly 10% split (within 1% due to rounding)
+      const totalFee = feeCollectorReceived + platformReceived;
+      const platformPercent = (platformReceived / totalFee) * 100;
+      expect(platformPercent).to.be.closeTo(10, 1);
+    });
   });
 });

@@ -5,6 +5,8 @@ pub mod update_mint;
 pub mod claim;
 pub mod cancel_symbol;
 pub mod transfer_ownership;
+pub mod claim_ownership;
+pub mod verify_or_close;
 
 pub use register::{RegisterSymbolSol, RegisterSymbolTns, RegisterSymbolUsdc, RegisterSymbolUsdt};
 pub use renew::{RenewSymbolSol, RenewSymbolTns, RenewSymbolUsdc, RenewSymbolUsdt};
@@ -12,6 +14,9 @@ pub use update_mint::{UpdateMintSol, UpdateMintTns, UpdateMintUsdc, UpdateMintUs
 pub use claim::{ClaimExpiredSymbolSol, ClaimExpiredSymbolTns, ClaimExpiredSymbolUsdc, ClaimExpiredSymbolUsdt};
 pub use cancel_symbol::CancelSymbol;
 pub use transfer_ownership::TransferOwnership;
+pub use claim_ownership::ClaimOwnership;
+pub use verify_or_close::VerifyOrClose;
+pub use helpers::{get_sol_price_micro, get_tns_price_from_pool, calculate_tns_for_usd};
 
 pub(crate) use register::__client_accounts_register_symbol_sol;
 pub(crate) use register::__client_accounts_register_symbol_tns;
@@ -31,3 +36,5 @@ pub(crate) use claim::__client_accounts_claim_expired_symbol_usdc;
 pub(crate) use claim::__client_accounts_claim_expired_symbol_usdt;
 pub(crate) use cancel_symbol::__client_accounts_cancel_symbol;
 pub(crate) use transfer_ownership::__client_accounts_transfer_ownership;
+pub(crate) use claim_ownership::__client_accounts_claim_ownership;
+pub(crate) use verify_or_close::__client_accounts_verify_or_close;

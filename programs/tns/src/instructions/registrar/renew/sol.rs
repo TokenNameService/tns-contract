@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use crate::{Config, Token, SymbolRenewed, TnsError};
 use super::super::helpers::{
-    validate_not_paused, validate_years, validate_symbol_not_expired,
+    validate_not_paused, validate_symbol_not_expired,
     validate_and_calculate_expiration, validate_slippage, validate_platform_fee_bps,
     calculate_fees_sol, transfer_sol_fees_with_platform, update_symbol_on_renewal,
 };
@@ -59,17 +59,18 @@ pub fn handler(
 
     // Validate
     validate_not_paused(config)?;
-    validate_years(years)?;
-    validate_platform_fee_bps(platform_fee_bps)?;
+
     validate_symbol_not_expired(&ctx.accounts.token_account, clock.unix_timestamp)?;
 
-    // Calculate new expiration - extend from current expires_at
     let old_expires_at = ctx.accounts.token_account.expires_at;
+
     let new_expires_at = validate_and_calculate_expiration(
         old_expires_at,
         years,
         clock.unix_timestamp,
     )?;
+
+    validate_platform_fee_bps(platform_fee_bps)?;
 
     // Calculate fees (no keeper reward for renewals)
     let fees = calculate_fees_sol(
@@ -81,11 +82,6 @@ pub fn handler(
 
     // Validate slippage (fee only, no keeper reward for renewals)
     validate_slippage(fees.fee_lamports, max_sol_cost)?;
-
-    let token_account_key = ctx.accounts.token_account.key();
-    let symbol_str = ctx.accounts.token_account.symbol.clone();
-    let owner_key = ctx.accounts.token_account.owner;
-    let payer_key = ctx.accounts.payer.key();
 
     // Transfer fee with optional platform fee split
     let platform_fee_paid = transfer_sol_fees_with_platform(
@@ -104,10 +100,10 @@ pub fn handler(
     );
 
     emit!(SymbolRenewed {
-        token_account: token_account_key,
-        symbol: symbol_str,
-        renewed_by: payer_key,
-        owner: owner_key,
+        token_account: ctx.accounts.token_account.key(),
+        symbol: ctx.accounts.token_account.symbol.clone(),
+        renewed_by: ctx.accounts.payer.key(),
+        owner: ctx.accounts.token_account.owner,
         years,
         fee_paid: fees.fee_lamports,
         platform_fee: platform_fee_paid,

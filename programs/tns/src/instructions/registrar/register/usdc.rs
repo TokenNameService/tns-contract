@@ -2,10 +2,10 @@ use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 use crate::{Config, Token, SymbolRegistered, TnsError, USDC_MINT};
 use super::super::helpers::{
-    validate_not_paused, validate_years, validate_symbol_format,
-    validate_and_calculate_expiration, validate_registration_access,
+    validate_not_paused, validate_symbol_format,
+    validate_and_calculate_expiration, validate_registration_access, validate_mint_metadata,
     initialize_token_account, validate_platform_fee_bps,
-    transfer_token_fees_with_platform, PlatformTokenFeeAccounts, usd_micro_to_token_amount,
+    transfer_token_fees_with_platform, PlatformTokenFeeAccounts,
     SymbolInitData,
 };
 
@@ -29,13 +29,16 @@ pub struct RegisterSymbolUsdc<'info> {
         init,
         payer = payer,
         space = 8 + Token::INIT_SPACE,
-        seeds = [Token::SEED_PREFIX, symbol.to_uppercase().as_bytes()],
+        seeds = [Token::SEED_PREFIX, symbol.as_bytes()],
         bump
     )]
     pub token_account: Account<'info, Token>,
 
     /// The token mint being registered - validated as real SPL/Token-2022 mint
     pub token_mint: InterfaceAccount<'info, Mint>,
+
+    /// CHECK: Metaplex metadata account for token_mint - validated in handler
+    pub token_metadata: AccountInfo<'info>,
 
     pub system_program: Program<'info, System>,
 
@@ -77,9 +80,15 @@ pub fn handler(
 
     // Validate
     validate_not_paused(config)?;
-    validate_years(years)?;
-    validate_platform_fee_bps(platform_fee_bps)?;
+
     let normalized_symbol = validate_symbol_format(&symbol)?;
+
+    let expires_at = validate_and_calculate_expiration(
+        clock.unix_timestamp,
+        years,
+        clock.unix_timestamp,
+    )?;
+
     validate_registration_access(
         config,
         &normalized_symbol,
@@ -87,18 +96,23 @@ pub fn handler(
         &ctx.accounts.payer.key(),
         &ctx.accounts.token_mint,
     )?;
-    let expires_at = validate_and_calculate_expiration(
-        clock.unix_timestamp,
-        years,
-        clock.unix_timestamp,
+
+    validate_mint_metadata(
+        &ctx.accounts.token_metadata,
+        &mint,
+        &normalized_symbol,
     )?;
+
+    validate_platform_fee_bps(platform_fee_bps)?;
+
+    // Owner is the payer, not the mint's update_authority
+    let owner = ctx.accounts.payer.key();
 
     // Calculate fee in USD (no Pyth needed - USDC = $1)
     let fee_usd_micro = config.calculate_registration_price_usd(clock.unix_timestamp, years);
-    let keeper_reward_lamports = config.get_keeper_reward_lamports();
 
     // Convert to USDC tokens (1:1 with USD micro)
-    let usdc_amount = usd_micro_to_token_amount(fee_usd_micro);
+    let usdc_amount = fee_usd_micro;
 
     // Transfer USDC with optional platform fee split
     let platform_fee_paid = transfer_token_fees_with_platform(
@@ -114,6 +128,8 @@ pub fn handler(
         platform_fee_bps,
     )?;
 
+    let keeper_reward_lamports = config.get_keeper_reward_lamports();
+    
     // Transfer keeper reward in SOL to Config PDA
     anchor_lang::system_program::transfer(
         CpiContext::new(
@@ -126,28 +142,24 @@ pub fn handler(
         keeper_reward_lamports,
     )?;
 
-    // Initialize symbol
-    let token_account_key = ctx.accounts.token_account.key();
-    let payer_key = ctx.accounts.payer.key();
-    let bump = ctx.bumps.token_account;
-
+    // Initialize symbol - owner is the payer
     initialize_token_account(
         &mut ctx.accounts.token_account,
         SymbolInitData {
             symbol: normalized_symbol.clone(),
             mint,
-            owner: payer_key,
+            owner,
             current_time: clock.unix_timestamp,
             expires_at,
-            bump,
+            bump: ctx.bumps.token_account,
         },
     );
 
     emit!(SymbolRegistered {
-        token_account: token_account_key,
+        token_account: ctx.accounts.token_account.key(),
         symbol: normalized_symbol,
         mint,
-        owner: payer_key,
+        owner,
         years,
         fee_paid: usdc_amount,
         platform_fee: platform_fee_paid,

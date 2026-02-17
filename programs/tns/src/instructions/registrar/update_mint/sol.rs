@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token_interface::Mint;
 use crate::{Config, Token, MintUpdated, TnsError};
 use super::super::helpers::{
-    validate_not_paused, validate_symbol_can_update, validate_mint_different,
+    validate_not_paused, validate_symbol_not_expired, validate_mint_different, validate_mint_metadata,
     validate_slippage, validate_platform_fee_bps, calculate_update_fee,
     transfer_sol_fees_with_platform, update_symbol_mint,
 };
@@ -51,6 +51,9 @@ pub struct UpdateMintSol<'info> {
 
     /// The new mint to update the symbol to (validated as a real mint)
     pub new_mint: InterfaceAccount<'info, Mint>,
+
+    /// CHECK: Metaplex metadata account for new_mint - validated in handler
+    pub new_mint_metadata: AccountInfo<'info>,
 }
 
 pub fn handler(ctx: Context<UpdateMintSol>, max_sol_cost: u64, platform_fee_bps: u16) -> Result<()> {
@@ -60,8 +63,18 @@ pub fn handler(ctx: Context<UpdateMintSol>, max_sol_cost: u64, platform_fee_bps:
 
     // Validate
     validate_not_paused(config)?;
-    validate_symbol_can_update(&ctx.accounts.token_account, clock.unix_timestamp)?;
+    
+    validate_symbol_not_expired(&ctx.accounts.token_account, clock.unix_timestamp)?;
+    
     validate_mint_different(&ctx.accounts.token_account.mint, &new_mint)?;
+
+    // Validate metadata matches - owner unchanged (already verified as signer)
+    validate_mint_metadata(
+        &ctx.accounts.new_mint_metadata,
+        &new_mint,
+        &ctx.accounts.token_account.symbol,
+    )?;
+
     validate_platform_fee_bps(platform_fee_bps)?;
 
     // Calculate and transfer fee
@@ -74,10 +87,8 @@ pub fn handler(ctx: Context<UpdateMintSol>, max_sol_cost: u64, platform_fee_bps:
     // Validate slippage
     validate_slippage(fee.fee_lamports, max_sol_cost)?;
 
-    let token_account_key = ctx.accounts.token_account.key();
+    // Capture old mint before mutation
     let old_mint = ctx.accounts.token_account.mint;
-    let symbol_str = ctx.accounts.token_account.symbol.clone();
-    let owner_key = ctx.accounts.owner.key();
 
     // Transfer fees with optional platform fee split
     let platform_fee_paid = transfer_sol_fees_with_platform(
@@ -96,11 +107,11 @@ pub fn handler(ctx: Context<UpdateMintSol>, max_sol_cost: u64, platform_fee_bps:
     );
 
     emit!(MintUpdated {
-        token_account: token_account_key,
-        symbol: symbol_str,
+        token_account: ctx.accounts.token_account.key(),
+        symbol: ctx.accounts.token_account.symbol.clone(),
         old_mint,
         new_mint,
-        owner: owner_key,
+        owner: ctx.accounts.owner.key(),
         fee_paid: fee.fee_lamports,
         platform_fee: platform_fee_paid,
         updated_at: clock.unix_timestamp,

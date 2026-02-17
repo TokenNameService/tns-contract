@@ -24,7 +24,7 @@ describe("TNS - Update Config", () => {
 
     // Transfer to new admin (new_admin must sign to prove consent)
     await program.methods
-      .updateConfig(null, null, null, null)
+      .updateConfig(null, null, null, null, null)
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
@@ -38,7 +38,7 @@ describe("TNS - Update Config", () => {
 
     // Transfer back to original admin
     await program.methods
-      .updateConfig(null, null, null, null)
+      .updateConfig(null, null, null, null, null)
       .accountsPartial({
         admin: newAdmin.publicKey,
         config: configPda,
@@ -57,11 +57,10 @@ describe("TNS - Update Config", () => {
     const newFeeCollector = Keypair.generate();
 
     await program.methods
-      .updateConfig(newFeeCollector.publicKey, null, null, null)
+      .updateConfig(newFeeCollector.publicKey, null, null, null, null)
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
-        newAdmin: admin.publicKey,
       })
       .rpc();
 
@@ -78,11 +77,10 @@ describe("TNS - Update Config", () => {
     const { program, admin, configPda } = ctx;
 
     await program.methods
-      .updateConfig(null, true, null, null)
+      .updateConfig(null, true, null, null, null)
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
-        newAdmin: admin.publicKey,
       })
       .rpc();
 
@@ -91,11 +89,10 @@ describe("TNS - Update Config", () => {
 
     // Unpause
     await program.methods
-      .updateConfig(null, false, null, null)
+      .updateConfig(null, false, null, null, null)
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
-        newAdmin: admin.publicKey,
       })
       .rpc();
 
@@ -108,11 +105,10 @@ describe("TNS - Update Config", () => {
 
     try {
       await program.methods
-        .updateConfig(null, true, null, null)
+        .updateConfig(null, true, null, null, null)
         .accountsPartial({
           admin: registrant.publicKey,
           config: configPda,
-          newAdmin: registrant.publicKey,
         })
         .signers([registrant])
         .rpc();
@@ -129,11 +125,10 @@ describe("TNS - Update Config", () => {
     const tnsOracle = Keypair.generate();
 
     await program.methods
-      .updateConfig(null, null, null, tnsOracle.publicKey)
+      .updateConfig(null, null, null, tnsOracle.publicKey, null)
       .accountsPartial({
         admin: admin.publicKey,
         config: configPda,
-        newAdmin: admin.publicKey,
       })
       .rpc();
 
@@ -158,11 +153,10 @@ describe("TNS - Update Config", () => {
       }
 
       await program.methods
-        .updateConfig(null, null, 2, null)
+        .updateConfig(null, null, 2, null, null)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
 
@@ -182,11 +176,10 @@ describe("TNS - Update Config", () => {
       }
 
       await program.methods
-        .updateConfig(null, null, 3, null)
+        .updateConfig(null, null, 3, null, null)
         .accountsPartial({
           admin: admin.publicKey,
           config: configPda,
-          newAdmin: admin.publicKey,
         })
         .rpc();
 
@@ -207,11 +200,10 @@ describe("TNS - Update Config", () => {
 
       try {
         await program.methods
-          .updateConfig(null, null, 1, null) // Try to go back to phase 1
+          .updateConfig(null, null, 1, null, null) // Try to go back to phase 1
           .accountsPartial({
             admin: admin.publicKey,
             config: configPda,
-            newAdmin: admin.publicKey,
           })
           .rpc();
 
@@ -226,11 +218,10 @@ describe("TNS - Update Config", () => {
 
       try {
         await program.methods
-          .updateConfig(null, null, 4, null)
+          .updateConfig(null, null, 4, null, null)
           .accountsPartial({
             admin: admin.publicKey,
             config: configPda,
-            newAdmin: admin.publicKey,
           })
           .rpc();
 

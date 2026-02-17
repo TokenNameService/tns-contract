@@ -1,0 +1,30 @@
+[validator]
+bind_address = "127.0.0.1"
+ledger = ".surfpool/ledger"
+rpc_port = 8899
+url = "https://api.mainnet-beta.solana.com"
+
+# Load local fixtures
+[[validator.account]]
+address = "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix"
+filename = "tests/fixtures/sol-usd-pyth-feed.json"
+
+[[validator.account]]
+address = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+filename = "tests/fixtures/usdc-mint.json"
+
+[[validator.account]]
+address = "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+filename = "tests/fixtures/usdt-mint.json"
+
+# Clone the Token Metadata program from mainnet
+[[validator.clone]]
+address = "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+
+# BONK token mint
+[[validator.clone]]
+address = "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"
+
+# BONK metadata account (derived PDA: seeds = ["metadata", metadata_program, mint])
+[[validator.clone]]
+address = "FDZZbyY9XGpL3CNKUZxLk3wFTTQYL3TkDiDzqxrizcPN"

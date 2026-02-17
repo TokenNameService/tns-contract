@@ -1,0 +1,263 @@
+{
+  "generatedAt": "2026-02-15T22:05:01.919Z",
+  "description": "Symbols excluded from seeding due to ambiguous ownership",
+  "instructions": [
+    "These symbols have multiple Jupiter-verified tokens with no market data",
+    "They are excluded from genesis seeding - first to register wins"
+  ],
+  "count": 14,
+  "collisions": [
+    {
+      "symbol": "ACHI",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "HvQKzBzp1YhXdqDUrUB8fqrfbJ6rU9CytzscMyG7EFAe",
+          "name": "ACHI INU",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "4rUfhWTRpjD1ECGjw1UReVhA8G63CrATuoFLRVRkkqhs",
+          "name": "achi",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "ENG",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "4XQvdipJBdrb5hUgUrbZPPFmp6BCav41n55dc7KDYW3m",
+          "name": "ENGLAND",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "GtLBsmS6Z4FC9gmnCFS2ZzCKmb9vYL3kELnjVmxHurnh",
+          "name": "ENG Token",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "EYE",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "G7eETAaUzmsBPKhokZyfbaT4tD9igdZSmfQGEYWem8Sw",
+          "name": "NftEyez Coin",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "74Eyos32V2B6ineYgAcRMZsiDpz65z7sXHq7D5MSMYgF",
+          "name": "SolEye - OFFCHAIN TRACKER",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "GEAR",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "7s6NLX42eURZfpyuKkVLrr9ED9hJE8718cyXFsYKqq5g",
+          "name": "Gear Token",
+          "source": "jupiter-csv"
+        },
+        {
+          "mint": "23WuycvPjEuzJTsBPBZqnbFZFcBtBKAMTowUDHwagkuD",
+          "name": "Starbots GEAR",
+          "source": "jupiter-csv"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "HARAMBE",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "Fch1oixTPri8zxBnmdCEADoJW2toyFHxqDZacQkwdvSP",
+          "name": "HARAMBE",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "CNL2opdqaQDY7yudm5V4MAaTwuuY32LTKqNP93jZM8X6",
+          "name": "HarambeCoin (Wormhole)",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "LEGEND",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "EEAy5QjPS5F3Jqqd51MYfHo8enAKtgFZxNnFjbeVpump",
+          "name": "THE Legend",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "LGNDeXXXaDDeRerwwHfUtPBNz5s6vrn1NMSt9hdaCwx",
+          "name": "Legends of SOL",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "MEDIA",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "BNT4uhSStq1beFADv3cq4wQAVfWB392PjAaxTBpNeWxu",
+          "name": "Solmedia",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "ETAtLmCmsoiEEKfNrHKJ2kYy3MoABhU6NQvpSfij5tDs",
+          "name": "Media Network",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "ROCKY",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "4icEZCrEYNop2ZaMMCkRHaNzkt6xG9BpijMCQV7mpw6Z",
+          "name": "Rocky",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "DhTNFBp4NjaxWqf6LwG57GrJQZfXrso1qK9FcMZt9sv7",
+          "name": "Rocky",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "SIUUU",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "siuwworrVnkjU3AE6Zj6uieFGC9JSXiGJ7YWxyScGxT",
+          "name": "SIUUU",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "BQ74oddoJCJKz9W4QaDzLFh1JvLbmXRCvdaC65P7anex",
+          "name": "crustieno renaldo",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "sRLY",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "sRLY3migNrkC1HLgqotpvi66qGkdNedqPZ9TJpAQhyh",
+          "name": "sRLY (Rally Solana)",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "RLYv2ubRMDLcGG2UyvPmnPmkfuQTsMbg4Jtygc7dmnq",
+          "name": "Rally (Legacy - deprecated)",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "SWOLE",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "4BzxVoBQzwKoqm1dQc78r42Yby3EzAeZmMiYFdCjeu5Z",
+          "name": "Swole Doge",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "sio28ienC3iABUKJFzkikHknbR3xyhjzhJE34tipyDP",
+          "name": "SWOLE",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "TREN",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "HLnTNCG5RD7jYVduFc1pMCHiuApoWGn9LveqEFanQFZb",
+          "name": "TREN",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "TRENpVRAR9LiZgyYv9zWrQwYqSHa7ThCYdbpFCJixj1",
+          "name": "Trenbolone",
+          "source": "jupiter-csv"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "UPT",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "UPTx1d24aBWuRgwxVnFmX4gNraj3QGFzL3QqBgxtWQG",
+          "name": "UPROCK",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "9CPWiCFL11DWr92dsTrzLf5cKz6zKhLz3xzRcYCQ3Nd2",
+          "name": "UPTOBER",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "ZOOMER",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "9MBzpyMRkj2r5nTQZMMnxnCm5j1MAAFSYUtbSKjAF3WU",
+          "name": "Zoomer",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "nBZEcHSG771mRbi4y2sSgKjfDUH8jsM2Eo5fNcASLeU",
+          "name": "ZOOMER (Wormhole)",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    }
+  ]
+}

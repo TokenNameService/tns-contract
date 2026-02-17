@@ -44,7 +44,7 @@ pub fn handler(ctx: Context<Initialize>) -> Result<()> {
     config.annual_increase_bps = ANNUAL_INCREASE_BPS;
     config.update_fee_bps = UPDATE_FEE_BPS;
     config.sol_usd_pyth_feed = ctx.accounts.sol_usd_pyth_feed.key();
-    config.tns_usd_pyth_feed = None; // No oracle initially, TNS pegged at $1
+    config.tns_usd_pyth_feed = None; // Reserved for future direct TNS/USD Pyth feed
     config.keeper_reward_lamports = KEEPER_REWARD_LAMPORTS;
     config.launch_timestamp = clock.unix_timestamp;
     config.paused = true;

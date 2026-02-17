@@ -5,9 +5,6 @@ pub enum TnsError {
     #[msg("Symbol must be 1-10 characters")]
     InvalidSymbolLength,
 
-    #[msg("Symbol must contain only alphanumeric characters")]
-    InvalidSymbolCharacters,
-
     #[msg("Unauthorized: you are not the owner of this symbol")]
     Unauthorized,
 
@@ -23,17 +20,14 @@ pub enum TnsError {
     #[msg("Registration years must be between 1 and 10")]
     InvalidYears,
 
-    #[msg("Symbol has expired and is past the grace period")]
+    #[msg("Symbol is expired")]
     SymbolExpired,
 
     #[msg("Symbol is still active or in grace period, cannot expire yet")]
     NotYetExpired,
 
-    #[msg("Renewal would exceed maximum 10 year registration limit")]
-    RenewalExceedsMaxYears,
-
-    #[msg("Symbol is expired, must renew before updating")]
-    CannotUpdateExpiredSymbol,
+    #[msg("Expiration would exceed maximum 10 years from now")]
+    ExceedsMaxYears,
 
     #[msg("Insufficient payment for registration")]
     InsufficientPayment,
@@ -53,13 +47,7 @@ pub enum TnsError {
     #[msg("Symbol is reserved for future use")]
     SymbolReserved,
 
-    #[msg("Mint does not match whitelisted token")]
-    WhitelistMintMismatch,
-
-    #[msg("Only the mint authority can register this whitelisted symbol")]
-    NotMintAuthority,
-
-    #[msg("Only admin can register non-whitelisted symbols during Phase 1")]
+    #[msg("Only admin can register during Phase 1")]
     AdminOnlyRegistration,
 
     #[msg("Invalid phase transition - phase can only increase from 1 to 2 to 3")]
@@ -76,4 +64,31 @@ pub enum TnsError {
 
     #[msg("Platform fee exceeds maximum allowed (10%)")]
     PlatformFeeExceedsMax,
+
+    #[msg("Invalid pool reserve account")]
+    InvalidPoolReserve,
+
+    #[msg("Pool reserves are empty or zero")]
+    EmptyPoolReserves,
+
+    #[msg("Math overflow in price calculation")]
+    MathOverflow,
+
+    #[msg("Invalid metadata account")]
+    InvalidMetadata,
+
+    #[msg("Metadata symbol does not match registered symbol")]
+    MetadataSymbolMismatch,
+
+    #[msg("Token metadata must be immutable")]
+    MetadataMustBeImmutable,
+
+    #[msg("Not token authority: must be mint authority, update authority, or hold >50% of supply")]
+    NotTokenAuthority,
+
+    #[msg("Already the owner of this symbol")]
+    AlreadyOwner,
+
+    #[msg("No metadata drift detected - symbol still matches")]
+    NoDriftDetected,
 }

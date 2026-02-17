@@ -24,6 +24,7 @@ custom-panic = []
 anchor-lang = "0.32.1"
 anchor-spl = "0.32.1"
 phf = { version = "0.11", features = ["macros"] }
+mpl-token-metadata = "5.1"
 
 
 [lints.rust]

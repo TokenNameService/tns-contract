@@ -130,6 +130,23 @@ pub struct OwnershipTransferred {
     pub transferred_at: i64,
 }
 
+/// Emitted when token authority claims ownership of a symbol
+#[event]
+pub struct OwnershipClaimed {
+    /// The PDA address of the Symbol account
+    pub token_account: Pubkey,
+    /// The symbol string
+    pub symbol: String,
+    /// Previous owner (who lost ownership)
+    pub old_owner: Pubkey,
+    /// New owner (the claimant)
+    pub new_owner: Pubkey,
+    /// How ownership was claimed: "mint_authority", "update_authority", or "majority_holder"
+    pub claim_type: String,
+    /// Unix timestamp
+    pub claimed_at: i64,
+}
+
 /// Emitted when config is updated
 #[event]
 pub struct ConfigUpdated {
@@ -169,10 +186,75 @@ pub struct SymbolSeeded {
     pub symbol: String,
     /// The mint this symbol is registered to
     pub mint: Pubkey,
-    /// Owner (mint authority)
+    /// Owner (update authority)
     pub owner: Pubkey,
+    /// Number of years registered for
+    pub years: u8,
     /// Unix timestamp of seeding
     pub seeded_at: i64,
-    /// Unix timestamp when registration expires (10 years)
+    /// Unix timestamp when registration expires
     pub expires_at: i64,
+}
+
+/// Emitted when admin force-updates a symbol
+#[event]
+pub struct SymbolUpdatedByAdmin {
+    /// The PDA address of the Token account
+    pub token_account: Pubkey,
+    /// The symbol string
+    pub symbol: String,
+    /// Previous owner
+    pub old_owner: Pubkey,
+    /// New owner (may be same as old)
+    pub new_owner: Pubkey,
+    /// Previous mint
+    pub old_mint: Pubkey,
+    /// New mint (may be same as old)
+    pub new_mint: Pubkey,
+    /// Previous expiration timestamp
+    pub old_expires_at: i64,
+    /// New expiration timestamp (may be same as old)
+    pub new_expires_at: i64,
+    /// Admin who made the update
+    pub admin: Pubkey,
+    /// Unix timestamp of update
+    pub updated_at: i64,
+}
+
+/// Emitted when admin force-closes a symbol
+#[event]
+pub struct SymbolClosedByAdmin {
+    /// The PDA address of the Token account (now closed)
+    pub token_account: Pubkey,
+    /// The symbol string (now available for fresh registration)
+    pub symbol: String,
+    /// Previous owner
+    pub previous_owner: Pubkey,
+    /// Previous mint
+    pub previous_mint: Pubkey,
+    /// Admin who closed it
+    pub admin: Pubkey,
+    /// Unix timestamp
+    pub closed_at: i64,
+}
+
+/// Emitted when symbol drift is detected and account is closed
+#[event]
+pub struct SymbolDriftDetected {
+    /// The PDA address of the Token account (now closed)
+    pub token_account: Pubkey,
+    /// The registered symbol (what TNS had stored)
+    pub symbol: String,
+    /// The new metadata symbol (what the owner changed it to)
+    pub new_metadata_symbol: String,
+    /// The mint address
+    pub mint: Pubkey,
+    /// Previous owner who lost their registration
+    pub previous_owner: Pubkey,
+    /// Keeper who detected the drift and receives rent
+    pub keeper: Pubkey,
+    /// Unix timestamp when drift was detected
+    pub detected_at: i64,
+    /// Rent returned to keeper in lamports
+    pub rent_returned: u64,
 }
