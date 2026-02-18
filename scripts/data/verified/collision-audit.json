@@ -1,27 +1,27 @@
 {
-  "generatedAt": "2026-02-15T22:05:01.913Z",
+  "generatedAt": "2026-02-18T03:18:26.508Z",
   "description": "Complete audit trail of all collision resolutions",
   "summary": {
     "totalCollisions": 1288,
-    "resolvedByMarketCap": 50,
-    "resolvedBySourcePriority": 1224,
-    "excluded": 14
+    "resolvedByMarketCap": 47,
+    "resolvedBySourcePriority": 1226,
+    "excluded": 15
   },
   "resolutions": {
     "marketCap": {
       "description": "Winner determined by highest trading volume or market data",
-      "count": 50,
+      "count": 47,
       "entries": [
         {
           "symbol": "ANON",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $3.74)",
+          "reason": "Only token with market data (volume: $1.97)",
           "winner": {
             "mint": "8VJ51bdE3xorQ1zB7FEa8CsHdM4kw77xCFiCgbnL2qbT",
             "name": "Anonymous",
             "source": "jupiter-cache",
-            "volume24h": 3.74,
-            "price": 0.00001088
+            "volume24h": 1.97,
+            "price": 0.00001092
           },
           "losers": [
             {
@@ -39,13 +39,13 @@
         {
           "symbol": "ANUS",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $513.11)",
+          "reason": "Only token with market data (volume: $10.69)",
           "winner": {
             "mint": "9hjZ8UTNrNWt3YUTHVpvzdQjNbp64NbKSDsbLqKR6BZc",
             "name": "URANUS",
             "source": "jupiter-cache",
-            "volume24h": 513.11,
-            "price": 0.000007813
+            "volume24h": 10.69,
+            "price": 0.000007612
           },
           "losers": [
             {
@@ -58,34 +58,34 @@
         {
           "symbol": "AVAX",
           "resolution": "market-cap",
-          "reason": "Highest volume ($3,782.31)",
+          "reason": "Highest volume ($1,274.68)",
           "winner": {
             "mint": "KgV1GvrHQmRBY8sHQQeUKwTm2r2h8t4C8qt12Cw1HVE",
             "name": "AVAX (Portal)",
             "source": "jupiter-cache",
-            "volume24h": 3782.31,
-            "price": 9.14
+            "volume24h": 1274.68,
+            "price": 9.0018
           },
           "losers": [
             {
               "mint": "AUrMpCDYYcPuHhyNX8gEEqbmDPFUpBpHrNW3vPeCFn5Z",
               "name": "AVAX (Allbridge from Avalanche)",
               "source": "jupiter-cache",
-              "volume24h": 2409.62,
-              "price": 9.52
+              "volume24h": 68.61,
+              "price": 9.26
             }
           ]
         },
         {
           "symbol": "BCAT",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $175.58)",
+          "reason": "Only token with market data (volume: $127.86)",
           "winner": {
             "mint": "7bQsj9DciGXs6cTkhB3D1WbcEjuMpmD7amQRWjEVBpu",
             "name": "Bodega Cat",
             "source": "jupiter-cache",
-            "volume24h": 175.58,
-            "price": 0.00002971
+            "volume24h": 127.86,
+            "price": 0.00002882
           },
           "losers": [
             {
@@ -103,13 +103,13 @@
         {
           "symbol": "BENJI",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $109.06)",
+          "reason": "Only token with market data (volume: $324.55)",
           "winner": {
             "mint": "CPjDhhBpwEsLygNuczKcNwBPgMeni1xLomD48x51MyYU",
             "name": "Taylor Swift's Cat",
             "source": "jupiter-cache",
-            "volume24h": 109.06,
-            "price": 0.00004475
+            "volume24h": 324.55,
+            "price": 0.00004304
           },
           "losers": [
             {
@@ -122,13 +122,13 @@
         {
           "symbol": "BORG",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $210,189.2)",
+          "reason": "Only token with market data (volume: $138,903.7)",
           "winner": {
             "mint": "3dQTr7ror2QPKQ3GbBCokJUmjErGg8kTJzdnYjNfvi3Z",
             "name": "SwissBorg Token",
             "source": "jupiter-cache",
-            "volume24h": 210189.2,
-            "price": 0.1986
+            "volume24h": 138903.7,
+            "price": 0.1891
           },
           "losers": [
             {
@@ -141,13 +141,13 @@
         {
           "symbol": "CHAN",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $0.2)",
+          "reason": "Only token with market data (volume: $0.19)",
           "winner": {
             "mint": "ChanGGuDHboPswpTmKDfsTVGQL96VHhmvpwrE4UjWssd",
             "name": "memechan",
             "source": "jupiter-cache",
-            "volume24h": 0.2,
-            "price": 0.0001065
+            "volume24h": 0.19,
+            "price": 0.00009889
           },
           "losers": [
             {
@@ -160,13 +160,13 @@
         {
           "symbol": "DADDY",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $9,747.84)",
+          "reason": "Only token with market data (volume: $23,635.01)",
           "winner": {
             "mint": "4Cnk9EPnW5ixfLZatCPJjDB1PUtcRpVVgTQukm9epump",
             "name": "DADDY TATE",
             "source": "jupiter-cache",
-            "volume24h": 9747.84,
-            "price": 0.007273
+            "volume24h": 23635.01,
+            "price": 0.006931
           },
           "losers": [
             {
@@ -179,13 +179,13 @@
         {
           "symbol": "DED",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $27.31)",
+          "reason": "Only token with market data (volume: $8.02)",
           "winner": {
             "mint": "7raHqUrZXAqtxFJ2wcmtpH7SQYLeN9447vD4KhZM7tcP",
             "name": "DED",
             "source": "jupiter-cache",
-            "volume24h": 27.31,
-            "price": 0.04575
+            "volume24h": 8.02,
+            "price": 0.04494
           },
           "losers": [
             {
@@ -198,13 +198,13 @@
         {
           "symbol": "DINO",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $135.9)",
+          "reason": "Only token with market data (volume: $117.08)",
           "winner": {
             "mint": "6Y7LbYB3tfGBG6CSkyssoxdtHb77AEMTRVXe8JUJRwZ7",
             "name": "DINO",
             "source": "jupiter-cache",
-            "volume24h": 135.9,
-            "price": 0.0001669
+            "volume24h": 117.08,
+            "price": 0.0001655
           },
           "losers": [
             {
@@ -222,13 +222,13 @@
         {
           "symbol": "EPCT",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $28.46)",
+          "reason": "Only token with market data (volume: $0.92)",
           "winner": {
             "mint": "CvB1ztJvpYQPvdPBePtRzjL4aQidjydtUz61NWgcgQtP",
             "name": "Epics Token",
             "source": "jupiter-cache",
-            "volume24h": 28.46,
-            "price": 0.0009175
+            "volume24h": 0.92,
+            "price": 0.001075
           },
           "losers": [
             {
@@ -244,20 +244,25 @@
           ]
         },
         {
-          "symbol": "FLOCKA",
+          "symbol": "FAM",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $34.68)",
+          "reason": "Only token with market data (volume: $366.62)",
           "winner": {
-            "mint": "9n8b1EXLCA8Z22mf7pjLKVNzuQgGbyPfLrmFQvEcHeSU",
-            "name": "Waka Flocka",
+            "mint": "7njsg9BA1xvXX9DNpe5fERHK4zb7MbCHKZ6zsx5k3adr",
+            "name": "Family",
             "source": "jupiter-cache",
-            "volume24h": 34.68,
-            "price": 0.0001222
+            "volume24h": 366.62,
+            "price": 0.00001011
           },
           "losers": [
             {
-              "mint": "9yL9k6WivrPkwjbVQ8e4PiSM9SqzJfB8H1GKif7ZkXLJ",
-              "name": "Flocka Coin",
+              "mint": "Kqk68qjE8zVNhtjeKioSHY1EhSdyym33TDX6PhbrBn5",
+              "name": "Family Token",
+              "source": "solana"
+            },
+            {
+              "mint": "g5wiWvADNDYvC2csLE4PDJDQqiRndmjSCedd3LVWrUa",
+              "name": "Family Coin",
               "source": "solana"
             }
           ]
@@ -265,18 +270,18 @@
         {
           "symbol": "GCR",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $6.27)",
+          "reason": "Only token with market data (volume: $249.65)",
           "winner": {
-            "mint": "7dGbPgUxKpB5qWiLRKcTQSC3om1fPzUpgGAFfwej9hXx",
-            "name": "Golden Celestial Ratio",
+            "mint": "791hZNiCJy1qGSGzAvqUU8X6gejiBJ2mBV8JjYoVnzBR",
+            "name": "GCRClassic",
             "source": "jupiter-cache",
-            "volume24h": 6.27,
-            "price": 0.00003959
+            "volume24h": 249.65,
+            "price": 0.00001171
           },
           "losers": [
             {
-              "mint": "791hZNiCJy1qGSGzAvqUU8X6gejiBJ2mBV8JjYoVnzBR",
-              "name": "GCRClassic",
+              "mint": "7dGbPgUxKpB5qWiLRKcTQSC3om1fPzUpgGAFfwej9hXx",
+              "name": "Golden Celestial Ratio",
               "source": "jupiter-cache"
             }
           ]
@@ -284,13 +289,13 @@
         {
           "symbol": "GENE",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $100.21)",
+          "reason": "Only token with market data (volume: $364.05)",
           "winner": {
             "mint": "GENEtH5amGSi8kHAtQoezp1XEXwZJ8vcuePYnXdKrMYz",
             "name": "Genopets",
             "source": "jupiter-cache",
-            "volume24h": 100.21,
-            "price": 0.001634
+            "volume24h": 364.05,
+            "price": 0.001687
           },
           "losers": [
             {
@@ -303,13 +308,13 @@
         {
           "symbol": "GIGA",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $286,684.61)",
+          "reason": "Only token with market data (volume: $223,388.46)",
           "winner": {
             "mint": "63LfDmNb3MQ8mw9MtZ2To9bEA2M71kZUUGq5tiJxcqj9",
             "name": "GIGACHAD",
             "source": "jupiter-cache",
-            "volume24h": 286684.61,
-            "price": 0.002244
+            "volume24h": 223388.46,
+            "price": 0.002312
           },
           "losers": [
             {
@@ -322,13 +327,13 @@
         {
           "symbol": "HNT",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $786,850.33)",
+          "reason": "Only token with market data (volume: $486,754.31)",
           "winner": {
             "mint": "hntyVP6YFm1Hg25TN9WGLqM12b8TQmcknKrdu1oxWux",
             "name": "Helium Network Token",
             "source": "jupiter-cache",
-            "volume24h": 786850.33,
-            "price": 1.29
+            "volume24h": 486754.31,
+            "price": 1.4
           },
           "losers": [
             {
@@ -341,13 +346,13 @@
         {
           "symbol": "HONEY",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $38,344.66)",
+          "reason": "Only token with market data (volume: $35,297.68)",
           "winner": {
             "mint": "4vMsoUT2BWatFweudnQM1xedRLfJgJ7hswhcpz4xgBTy",
             "name": "HONEY",
             "source": "jupiter-cache",
-            "volume24h": 38344.66,
-            "price": 0.004139
+            "volume24h": 35297.68,
+            "price": 0.003977
           },
           "losers": [
             {
@@ -365,13 +370,13 @@
         {
           "symbol": "INF",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $283,002.43)",
+          "reason": "Only token with market data (volume: $142,749.74)",
           "winner": {
             "mint": "5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm",
             "name": "Infinity",
             "source": "jupiter-cache",
-            "volume24h": 283002.43,
-            "price": 120.74
+            "volume24h": 142749.74,
+            "price": 118.7
           },
           "losers": [
             {
@@ -382,74 +387,34 @@
           ]
         },
         {
-          "symbol": "JOHN",
-          "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $342.9)",
-          "winner": {
-            "mint": "BuxH23osRyFFLbWG3czrTsfBQYbxzVZ8f7QV4cjTHN5x",
-            "name": "John",
-            "source": "jupiter-cache",
-            "volume24h": 342.9,
-            "price": 0.0001015
-          },
-          "losers": [
-            {
-              "mint": "9rfXzv2AqNJzPBq9ppFfcny4DTqLzWMzLLLAY6CnLdvu",
-              "name": "John343",
-              "source": "solana"
-            }
-          ]
-        },
-        {
-          "symbol": "KEKW",
-          "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $19.87)",
-          "winner": {
-            "mint": "CEYNkwuEXU1KD3MN47NaMvHznPPimR15Sjfv6Y2r1SVw",
-            "name": "KEKW",
-            "source": "jupiter-cache",
-            "volume24h": 19.87,
-            "price": 0.000006762
-          },
-          "losers": [
-            {
-              "mint": "2QK9vxydd7WoDwvVFT5JSU8cwE9xmbJSzeqbRESiPGMG",
-              "name": "kekwcoin",
-              "source": "orca"
-            }
-          ]
-        },
-        {
           "symbol": "KITTY",
           "resolution": "market-cap",
-          "reason": "Highest volume ($5.3)",
+          "reason": "Only token with market data (volume: $8.79)",
           "winner": {
             "mint": "6JdcMdhqgCtcP4U9tieRqmKLhPLxRMLC67QfmdXAJBvZ",
             "name": "KITTY SOLANA",
             "source": "solana",
-            "volume24h": 5.3,
-            "price": 2.475e-10
+            "volume24h": 8.79,
+            "price": 2.57e-10
           },
           "losers": [
             {
               "mint": "6XWfkyg5mzGtKNftSDgYjyoPyUsLRf2rafj95XSFSFrr",
               "name": "Kitty Coin",
-              "source": "jupiter-cache",
-              "volume24h": 0.16,
-              "price": 0.00002031
+              "source": "jupiter-cache"
             }
           ]
         },
         {
           "symbol": "LFGO",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $530.14)",
+          "reason": "Only token with market data (volume: $2,135.27)",
           "winner": {
             "mint": "2u98MM7DMtVmNG4iAKRNMtynjmkzgD6fXAzB3wVfhQvg",
             "name": "Lets Fuckin Go",
             "source": "jupiter-cache",
-            "volume24h": 530.14,
-            "price": 0.0001471
+            "volume24h": 2135.27,
+            "price": 0.0001183
           },
           "losers": [
             {
@@ -462,13 +427,13 @@
         {
           "symbol": "MANA",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $52.99)",
+          "reason": "Only token with market data (volume: $100.28)",
           "winner": {
             "mint": "7dgHoN8wBZCc5wbnQ2C47TDnBMAxG4Q5L3KjP67z8kNi",
             "name": "Decentraland (Portal)",
             "source": "jupiter-cache",
-            "volume24h": 52.99,
-            "price": 0.1033
+            "volume24h": 100.28,
+            "price": 0.1027
           },
           "losers": [
             {
@@ -486,13 +451,13 @@
         {
           "symbol": "META",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $648.08)",
+          "reason": "Only token with market data (volume: $1,362.74)",
           "winner": {
             "mint": "METADDFL6wWMWEoKTFJwcThTbUmtarRJZjRpzUvkxhr",
             "name": "META",
             "source": "jupiter-cache",
-            "volume24h": 648.08,
-            "price": 3624.82
+            "volume24h": 1362.74,
+            "price": 3825.5
           },
           "losers": [
             {
@@ -510,13 +475,13 @@
         {
           "symbol": "MEW",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $790,040.68)",
+          "reason": "Only token with market data (volume: $226,861.56)",
           "winner": {
             "mint": "MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5",
             "name": "cat in a dogs world",
             "source": "jupiter-cache",
-            "volume24h": 790040.68,
-            "price": 0.0006445
+            "volume24h": 226861.56,
+            "price": 0.0006406
           },
           "losers": [
             {
@@ -532,15 +497,39 @@
           ]
         },
         {
+          "symbol": "MIM",
+          "resolution": "market-cap",
+          "reason": "Only token with market data (volume: $0.21)",
+          "winner": {
+            "mint": "G33s1LiUADEBLzN5jL6ocSXqrT2wsUq9W6nZ8o4k1b4L",
+            "name": "Magic Internet Money",
+            "source": "jupiter-cache",
+            "volume24h": 0.21,
+            "price": 0.00002936
+          },
+          "losers": [
+            {
+              "mint": "4dydh8EGNEdTz6grqnGBxpduRg55eLnwNZXoNZJetadu",
+              "name": "MIM",
+              "source": "orca"
+            },
+            {
+              "mint": "J3gJvE7WvBZpMZv1krC8Y9DeoZiRqRnCe18mJbXqswgZ",
+              "name": "My ONE token",
+              "source": "solana"
+            }
+          ]
+        },
+        {
           "symbol": "NANA",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $12.01)",
+          "reason": "Only token with market data (volume: $2.09)",
           "winner": {
             "mint": "HxRELUQfvvjToVbacjr9YECdfQMUqGgPYB68jVDYxkbr",
             "name": "NANA Token",
             "source": "jupiter-cache",
-            "volume24h": 12.01,
-            "price": 0.000013
+            "volume24h": 2.09,
+            "price": 0.00001309
           },
           "losers": [
             {
@@ -553,13 +542,13 @@
         {
           "symbol": "NEAR",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $64.36)",
+          "reason": "Only token with market data (volume: $129.76)",
           "winner": {
             "mint": "BYPsjxa3YuZESQz1dKuBw1QSFCSpecsm8nCQhY5xbU1Z",
             "name": "NEAR (Allbridge from Near)",
             "source": "jupiter-cache",
-            "volume24h": 64.36,
-            "price": 1.048
+            "volume24h": 129.76,
+            "price": 1.038
           },
           "losers": [
             {
@@ -572,41 +561,41 @@
         {
           "symbol": "NINJA",
           "resolution": "market-cap",
-          "reason": "Highest volume ($25.87)",
+          "reason": "Highest volume ($22.98)",
           "winner": {
             "mint": "FgX1WD9WzMU3yLwXaFSarPfkgzjLb2DZCqmkx9ExpuvJ",
             "name": "NINJA",
             "source": "jupiter-cache",
-            "volume24h": 25.87,
-            "price": 0.0004786
+            "volume24h": 22.98,
+            "price": 0.0004731
           },
           "losers": [
             {
               "mint": "DFrJxDoLMYt6bNYeNe8Wrjzj2UPUSLZLEMMYBLuTKcTk",
               "name": "NINJA TURTLES",
               "source": "jupiter-cache",
-              "volume24h": 0.79,
-              "price": 2.816e-8
+              "volume24h": 3.27,
+              "price": 2.687e-8
             },
             {
               "mint": "2xP43MawHfU7pwPUmvkc6AUWg4GX8xPQLTGMkSZfCEJT",
               "name": "Shinobi",
               "source": "jupiter-cache",
-              "volume24h": 2.72,
-              "price": 0.00002765
+              "volume24h": 2.01,
+              "price": 0.00002603
             }
           ]
         },
         {
           "symbol": "NOS",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $28,829.72)",
+          "reason": "Only token with market data (volume: $21,954.85)",
           "winner": {
             "mint": "nosXBVoaCTtYdLvKY6Csb4AC8JCdQKKAaWYtx2ZMoo7",
             "name": "Nosana",
             "source": "jupiter-cache",
-            "volume24h": 28829.72,
-            "price": 0.1777
+            "volume24h": 21954.85,
+            "price": 0.1726
           },
           "losers": [
             {
@@ -619,13 +608,13 @@
         {
           "symbol": "OPOS",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $326.99)",
+          "reason": "Only token with market data (volume: $323.71)",
           "winner": {
             "mint": "BqVHWpwUDgMik5gbTciFfozadpE2oZth5bxCDrgbDt52",
             "name": "Only Possible On Solana",
             "source": "jupiter-cache",
-            "volume24h": 326.99,
-            "price": 0.07963
+            "volume24h": 323.71,
+            "price": 0.087
           },
           "losers": [
             {
@@ -636,34 +625,15 @@
           ]
         },
         {
-          "symbol": "PAW",
-          "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $28.02)",
-          "winner": {
-            "mint": "pawSXHWsonrTey4SX7tz1fM9ksuLpE13Y54K57ym4Rg",
-            "name": "PayPaw",
-            "source": "jupiter-cache",
-            "volume24h": 28.02,
-            "price": 0.000007214
-          },
-          "losers": [
-            {
-              "mint": "3WV4fTWGvtWNvQb8oVU4t99By8KztDLtExqHnkPfHAA9",
-              "name": "CopyCats token",
-              "source": "jupiter-cache"
-            }
-          ]
-        },
-        {
           "symbol": "RAY",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $4,126,317.71)",
+          "reason": "Only token with market data (volume: $10,434,894.4)",
           "winner": {
             "mint": "4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R",
             "name": "Raydium",
             "source": "jupiter-cache",
-            "volume24h": 4126317.71,
-            "price": 0.6205
+            "volume24h": 10434894.4,
+            "price": 0.654
           },
           "losers": [
             {
@@ -676,13 +646,13 @@
         {
           "symbol": "RBT",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $2,858.03)",
+          "reason": "Only token with market data (volume: $7,068.99)",
           "winner": {
             "mint": "65nTNuJGHme4PQvKQyJykKp1bJAkK4A8Q66sd2yBWugf",
             "name": "RIBBIT",
             "source": "jupiter-cache",
-            "volume24h": 2858.03,
-            "price": 0.000001028
+            "volume24h": 7068.99,
+            "price": 0.000001029
           },
           "losers": [
             {
@@ -703,34 +673,15 @@
           ]
         },
         {
-          "symbol": "REWD",
-          "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $0.13)",
-          "winner": {
-            "mint": "2eu1K3wvfPC7gVj1CK8ohv4ggusdN6qxyxpjHyTCkjZT",
-            "name": "Reward Protocol",
-            "source": "jupiter-cache",
-            "volume24h": 0.13,
-            "price": 0.000004753
-          },
-          "losers": [
-            {
-              "mint": "6YLq4dfqH1PcNYEQMWKA7NKm4WF7NE5ajRvaEFrdyyYG",
-              "name": "Reward Token",
-              "source": "solana"
-            }
-          ]
-        },
-        {
           "symbol": "SAMO",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $7,227.01)",
+          "reason": "Only token with market data (volume: $6,817)",
           "winner": {
             "mint": "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU",
             "name": "Samoyed Coin",
             "source": "jupiter-cache",
-            "volume24h": 7227.01,
-            "price": 0.0004961
+            "volume24h": 6817,
+            "price": 0.0005065
           },
           "losers": [
             {
@@ -748,13 +699,13 @@
         {
           "symbol": "SC",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $3,358.78)",
+          "reason": "Only token with market data (volume: $2,983.4)",
           "winner": {
             "mint": "6D7NaB2xsLd7cauWu1wKk6KBsJohJmP2qZH9GEfVi5Ui",
             "name": "Shark Cat",
             "source": "jupiter-cache",
-            "volume24h": 3358.78,
-            "price": 0.0005552
+            "volume24h": 2983.4,
+            "price": 0.0005514
           },
           "losers": [
             {
@@ -775,30 +726,49 @@
           ]
         },
         {
+          "symbol": "SCUM",
+          "resolution": "market-cap",
+          "reason": "Only token with market data (volume: $1)",
+          "winner": {
+            "mint": "cqNTpypmbwghrf1G9VGvSENcw7M7wGSQ7JS8UTQWXwb",
+            "name": "Solana CUM",
+            "source": "solana",
+            "volume24h": 1,
+            "price": 6.869e-8
+          },
+          "losers": [
+            {
+              "mint": "5cvj5rEEocG5Wvh3oJuY6MoYj7gVZd8aoXSLZjDY6W4W",
+              "name": "Dead Bear Inc",
+              "source": "jupiter-cache"
+            }
+          ]
+        },
+        {
           "symbol": "SHIB",
           "resolution": "market-cap",
-          "reason": "Highest volume ($2,715.28)",
+          "reason": "Highest volume ($1,804.65)",
           "winner": {
             "mint": "F6qoefQq4iCBLoNZ34RjEqHjHkD8vtmoRSdw9Nd55J1k",
             "name": "shibwifhat",
             "source": "jupiter-cache",
-            "volume24h": 2715.28,
-            "price": 0.0005029
+            "volume24h": 1804.65,
+            "price": 0.000456
           },
           "losers": [
             {
               "mint": "5MBBsoCVddAuF8XixvCcXNbHAw6WfpZ8WyTKMmczxxRN",
               "name": "SHIBA INU",
               "source": "jupiter-cache",
-              "volume24h": 1303.76,
-              "price": 0.00001631
+              "volume24h": 72.73,
+              "price": 0.00001628
             },
             {
               "mint": "CiKu4eHsVrc1eueVQeHn7qhXTcVu95gSQmBpX4utjL9z",
               "name": "Shiba Inu (Portal)",
               "source": "jupiter-cache",
-              "volume24h": 417.68,
-              "price": 0.000006581
+              "volume24h": 448.62,
+              "price": 0.000006195
             },
             {
               "mint": "StoNBpvhd4Cg4Bz4DMF22goRRHAP6B692WPNeJu9zMy",
@@ -813,49 +783,30 @@
           ]
         },
         {
-          "symbol": "SHOE",
+          "symbol": "SKULL",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $9.83)",
+          "reason": "Only token with market data (volume: $110.37)",
           "winner": {
-            "mint": "8XVXzmsMMw7ufa8RC21fHcDP6TGti5y3ZidQinnYurqr",
-            "name": "Laughing Shoe",
+            "mint": "3X36yhq35MJnt2JjwodeFDfv2MFPb99RC53yUyNrpump",
+            "name": "PEPE SKULL",
             "source": "jupiter-cache",
-            "volume24h": 9.83,
-            "price": 0.00001021
+            "volume24h": 110.37,
+            "price": 0.000009498
           },
           "losers": [
             {
-              "mint": "3wBnQPk4CgaCXWDSGxKFYiKhRznzyCBnsLNeoLmMkVwk",
-              "name": "Horsemen Society",
-              "source": "solana"
-            }
-          ]
-        },
-        {
-          "symbol": "SIN",
-          "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $1.17)",
-          "winner": {
-            "mint": "sin1uRe1cMCWR7VPLdZrGrvKs8UvKMsGzhvpJLg4Ld9",
-            "name": "sinDAO",
-            "source": "jupiter-cache",
-            "volume24h": 1.17,
-            "price": 9.712e-10
-          },
-          "losers": [
+              "mint": "SKu11EypaFU3gvr8VSAbi13zEC2CPvqbz9s83N3tWHM",
+              "name": "Skeleton Crew",
+              "source": "jupiter-cache"
+            },
             {
-              "mint": "7mfnYz5BmZJsVZkQCDbtPBmk3dhQAYRJpdKjG2mTJQij",
-              "name": "Sinner Token",
+              "mint": "93iJG6TY2bXb8zUe6gscx3fwvUCZPHVMCrVRg6uFz6ZU",
+              "name": "Spooky Skeleton Society Utility Token",
               "source": "solana"
             },
             {
-              "mint": "TsmrVzWkfBY3VJDWVRfNjqaaBgmLvT4n9qx1uqCk9Fd",
-              "name": "SIN Token",
-              "source": "solana"
-            },
-            {
-              "mint": "2znADNrRYvai8gfej1mcV2YbNvehY6cBSALvuWnuvNPN",
-              "name": "S7N Coin",
+              "mint": "5FozDe1UB9cJZmWKxGg6nBSBSu2A51DXowshCtYeKWEp",
+              "name": "SKULL Token",
               "source": "solana"
             }
           ]
@@ -863,13 +814,13 @@
         {
           "symbol": "SLB",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $1,858.59)",
+          "reason": "Only token with market data (volume: $2,689.07)",
           "winner": {
             "mint": "2uRFEWRBQLEKpLmF8mohFZGDcFQmrkQEEZmHQvMUBvY7",
             "name": "Solberg",
             "source": "jupiter-cache",
-            "volume24h": 1858.59,
-            "price": 0.008024
+            "volume24h": 2689.07,
+            "price": 0.008014
           },
           "losers": [
             {
@@ -885,15 +836,34 @@
           ]
         },
         {
+          "symbol": "SMOL",
+          "resolution": "market-cap",
+          "reason": "Only token with market data (volume: $12.31)",
+          "winner": {
+            "mint": "A9jLULrDSYZkBtKfvG44w8NWzvCN6rGLpoA3hY7TQ85k",
+            "name": "smol cat",
+            "source": "jupiter-cache",
+            "volume24h": 12.31,
+            "price": 0.00001395
+          },
+          "losers": [
+            {
+              "mint": "89MrW4Y3UxWqVAbJM2xfqy9uGNE7tMFT6uCtn6i2XH7x",
+              "name": "SMOL Token",
+              "source": "solana"
+            }
+          ]
+        },
+        {
           "symbol": "SPIKE",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $7.9)",
+          "reason": "Only token with market data (volume: $631.85)",
           "winner": {
             "mint": "BX9yEgW8WkoWV8SvqTMMCynkQWreRTJ9ZS81dRXYnnR9",
             "name": "Spike",
             "source": "jupiter-cache",
-            "volume24h": 7.9,
-            "price": 0.00003368
+            "volume24h": 631.85,
+            "price": 0.00003518
           },
           "losers": [
             {
@@ -911,13 +881,13 @@
         {
           "symbol": "TOKE",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $1.1)",
+          "reason": "Only token with market data (volume: $269.24)",
           "winner": {
             "mint": "AmgUMQeqW8H74trc8UkKjzZWtxBdpS496wh4GLy2mCpo",
             "name": "Mycelium McToken",
             "source": "jupiter-cache",
-            "volume24h": 1.1,
-            "price": 0.0003283
+            "volume24h": 269.24,
+            "price": 0.0003639
           },
           "losers": [
             {
@@ -935,21 +905,21 @@
         {
           "symbol": "TRUMP",
           "resolution": "market-cap",
-          "reason": "Highest volume ($428.41)",
+          "reason": "Highest volume ($27.89)",
           "winner": {
             "mint": "HaP8r3ksG76PhQLTqR8FYBeNiQpejcFbQmiHbg787Ut1",
             "name": "MAGA (Wormhole)",
             "source": "jupiter-cache",
-            "volume24h": 428.41,
-            "price": 0.03942
+            "volume24h": 27.89,
+            "price": 0.0409
           },
           "losers": [
             {
               "mint": "AwRErBEFGTnohzfLeRSBH9HddQEy2oeRxnWLrbvFFh95",
               "name": "TRUMP",
               "source": "jupiter-cache",
-              "volume24h": 0.5,
-              "price": 3.956e-7
+              "volume24h": 16.5,
+              "price": 3.89e-7
             },
             {
               "mint": "BqhNdGtS1Nqtzi2MvZ7G8NN1vRuHZ12UpHGJKe71e1JT",
@@ -960,8 +930,8 @@
               "mint": "4h8LjZWUfUQVgbEZ29UzTuGXNW6rwrJis78ZU66ekkPV",
               "name": "Donald Trump",
               "source": "jupiter-cache",
-              "volume24h": 3.86,
-              "price": 0.00002066
+              "volume24h": 2.76,
+              "price": 0.00001977
             },
             {
               "mint": "trUmpZnz3uf4pHDwsVbdpEeMygiiVCpJq9ZgoWcaWBz",
@@ -973,13 +943,13 @@
         {
           "symbol": "TWT",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $3.79)",
+          "reason": "Only token with market data (volume: $28.17)",
           "winner": {
             "mint": "HZNpqL7RT9gxf9eWoWsWzC5DfjzQ41XTQgEA7p3VzaaD",
             "name": "Trust Wallet (Portal)",
             "source": "jupiter-cache",
-            "volume24h": 3.79,
-            "price": 0.4973
+            "volume24h": 28.17,
+            "price": 0.5384
           },
           "losers": [
             {
@@ -992,13 +962,13 @@
         {
           "symbol": "USDC",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $3,655,802.22)",
+          "reason": "Only token with market data (volume: $8,924,368.61)",
           "winner": {
             "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
             "name": "USD Coin",
             "source": "jupiter-cache",
-            "volume24h": 3655802.22,
-            "price": 1.00046
+            "volume24h": 8924368.61,
+            "price": 1.00048
           },
           "losers": [
             {
@@ -1011,34 +981,34 @@
         {
           "symbol": "WBTC",
           "resolution": "market-cap",
-          "reason": "Highest volume ($3,005,227.49)",
+          "reason": "Highest volume ($1,838,423.81)",
           "winner": {
             "mint": "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh",
             "name": "Wrapped BTC (Portal)",
             "source": "jupiter-cache",
-            "volume24h": 3005227.49,
-            "price": 68714.074
+            "volume24h": 1838423.81,
+            "price": 67292.95
           },
           "losers": [
             {
               "mint": "5XZw2LKTyrfvfiskJ78AMpackRjPcyCif1WhUsPDuVqQ",
               "name": "Wrapped BTC",
               "source": "raydium",
-              "volume24h": 3370.66,
-              "price": 79996.32
+              "volume24h": 10201.93,
+              "price": 75653.056
             }
           ]
         },
         {
           "symbol": "WEN",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $24,694.2)",
+          "reason": "Only token with market data (volume: $23,008.97)",
           "winner": {
             "mint": "WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk",
             "name": "Wen",
             "source": "jupiter-cache",
-            "volume24h": 24694.2,
-            "price": 0.000007426
+            "volume24h": 23008.97,
+            "price": 0.000008117
           },
           "losers": [
             {
@@ -1054,34 +1024,15 @@
           ]
         },
         {
-          "symbol": "WHY",
-          "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $7.03)",
-          "winner": {
-            "mint": "WHYoaBumcmxCqw38y2mjs4cVkCBgwiDizbMVvcejmGT",
-            "name": "WENWIFHAT",
-            "source": "jupiter-cache",
-            "volume24h": 7.03,
-            "price": 0.000008582
-          },
-          "losers": [
-            {
-              "mint": "HhyziMR2vkGCVddCMM2AUw3D2pjXCoo7qrNkuQKoYBF5",
-              "name": "Y",
-              "source": "solana"
-            }
-          ]
-        },
-        {
           "symbol": "WOLF",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $957.19)",
+          "reason": "Only token with market data (volume: $887.7)",
           "winner": {
             "mint": "Faf89929Ni9fbg4gmVZTca7eW6NFg877Jqn6MizT3Gvw",
             "name": "LandWolf",
             "source": "jupiter-cache",
-            "volume24h": 957.19,
-            "price": 0.00003337
+            "volume24h": 887.7,
+            "price": 0.00003414
           },
           "losers": [
             {
@@ -1104,13 +1055,13 @@
         {
           "symbol": "WSB",
           "resolution": "market-cap",
-          "reason": "Only token with market data (volume: $403.91)",
+          "reason": "Only token with market data (volume: $1,144.49)",
           "winner": {
             "mint": "AkVt31h8vgji5wF4nVbq1QmBV5wBoe8JdSoDTkDhQwEw",
             "name": "Wall Street Bets",
             "source": "jupiter-cache",
-            "volume24h": 403.91,
-            "price": 0.0001597
+            "volume24h": 1144.49,
+            "price": 0.0001376
           },
           "losers": [
             {
@@ -1124,7 +1075,7 @@
     },
     "sourcePriority": {
       "description": "Winner determined by source priority (Jupiter > Raydium > Orca > Solana)",
-      "count": 1224,
+      "count": 1226,
       "entries": [
         {
           "symbol": "$",
@@ -7656,28 +7607,6 @@
           ]
         },
         {
-          "symbol": "FAM",
-          "resolution": "source-priority",
-          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
-          "winner": {
-            "mint": "7njsg9BA1xvXX9DNpe5fERHK4zb7MbCHKZ6zsx5k3adr",
-            "name": "Family",
-            "source": "jupiter-cache"
-          },
-          "losers": [
-            {
-              "mint": "Kqk68qjE8zVNhtjeKioSHY1EhSdyym33TDX6PhbrBn5",
-              "name": "Family Token",
-              "source": "solana"
-            },
-            {
-              "mint": "g5wiWvADNDYvC2csLE4PDJDQqiRndmjSCedd3LVWrUa",
-              "name": "Family Coin",
-              "source": "solana"
-            }
-          ]
-        },
-        {
           "symbol": "FANS",
           "resolution": "source-priority",
           "reason": "solana beats lower-tier sources (no market data available)",
@@ -7997,6 +7926,23 @@
             {
               "mint": "215ZhGvosobjXKJDWCFz1xc5RJdL13bxaULwTA8dE4y7",
               "name": "FLUID",
+              "source": "solana"
+            }
+          ]
+        },
+        {
+          "symbol": "FLOCKA",
+          "resolution": "source-priority",
+          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
+          "winner": {
+            "mint": "9n8b1EXLCA8Z22mf7pjLKVNzuQgGbyPfLrmFQvEcHeSU",
+            "name": "Waka Flocka",
+            "source": "jupiter-cache"
+          },
+          "losers": [
+            {
+              "mint": "9yL9k6WivrPkwjbVQ8e4PiSM9SqzJfB8H1GKif7ZkXLJ",
+              "name": "Flocka Coin",
               "source": "solana"
             }
           ]
@@ -11088,6 +11034,23 @@
           ]
         },
         {
+          "symbol": "JOHN",
+          "resolution": "source-priority",
+          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
+          "winner": {
+            "mint": "BuxH23osRyFFLbWG3czrTsfBQYbxzVZ8f7QV4cjTHN5x",
+            "name": "John",
+            "source": "jupiter-cache"
+          },
+          "losers": [
+            {
+              "mint": "9rfXzv2AqNJzPBq9ppFfcny4DTqLzWMzLLLAY6CnLdvu",
+              "name": "John343",
+              "source": "solana"
+            }
+          ]
+        },
+        {
           "symbol": "JPYC",
           "resolution": "source-priority",
           "reason": "orca beats lower-tier sources (no market data available)",
@@ -11386,6 +11349,23 @@
               "mint": "HRTU4H7FticycnuHSJty2eCbva1JjCn194fEVCKQWgw7",
               "name": "CuliacanCoin",
               "source": "solana"
+            }
+          ]
+        },
+        {
+          "symbol": "KEKW",
+          "resolution": "source-priority",
+          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
+          "winner": {
+            "mint": "CEYNkwuEXU1KD3MN47NaMvHznPPimR15Sjfv6Y2r1SVw",
+            "name": "KEKW",
+            "source": "jupiter-cache"
+          },
+          "losers": [
+            {
+              "mint": "2QK9vxydd7WoDwvVFT5JSU8cwE9xmbJSzeqbRESiPGMG",
+              "name": "kekwcoin",
+              "source": "orca"
             }
           ]
         },
@@ -13444,28 +13424,6 @@
             {
               "mint": "hcxCW1FXVyXbDC1B8Gtv4PvrxP3ANYtBAXJtRzYow6M",
               "name": "SolanaBossBabies Token",
-              "source": "solana"
-            }
-          ]
-        },
-        {
-          "symbol": "MIM",
-          "resolution": "source-priority",
-          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
-          "winner": {
-            "mint": "G33s1LiUADEBLzN5jL6ocSXqrT2wsUq9W6nZ8o4k1b4L",
-            "name": "Magic Internet Money",
-            "source": "jupiter-cache"
-          },
-          "losers": [
-            {
-              "mint": "4dydh8EGNEdTz6grqnGBxpduRg55eLnwNZXoNZJetadu",
-              "name": "MIM",
-              "source": "orca"
-            },
-            {
-              "mint": "J3gJvE7WvBZpMZv1krC8Y9DeoZiRqRnCe18mJbXqswgZ",
-              "name": "My ONE token",
               "source": "solana"
             }
           ]
@@ -17618,6 +17576,23 @@
           ]
         },
         {
+          "symbol": "REWD",
+          "resolution": "source-priority",
+          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
+          "winner": {
+            "mint": "2eu1K3wvfPC7gVj1CK8ohv4ggusdN6qxyxpjHyTCkjZT",
+            "name": "Reward Protocol",
+            "source": "jupiter-cache"
+          },
+          "losers": [
+            {
+              "mint": "6YLq4dfqH1PcNYEQMWKA7NKm4WF7NE5ajRvaEFrdyyYG",
+              "name": "Reward Token",
+              "source": "solana"
+            }
+          ]
+        },
+        {
           "symbol": "RGT",
           "resolution": "source-priority",
           "reason": "solana beats lower-tier sources (no market data available)",
@@ -18458,23 +18433,6 @@
           ]
         },
         {
-          "symbol": "SCUM",
-          "resolution": "source-priority",
-          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
-          "winner": {
-            "mint": "5cvj5rEEocG5Wvh3oJuY6MoYj7gVZd8aoXSLZjDY6W4W",
-            "name": "Dead Bear Inc",
-            "source": "jupiter-cache"
-          },
-          "losers": [
-            {
-              "mint": "cqNTpypmbwghrf1G9VGvSENcw7M7wGSQ7JS8UTQWXwb",
-              "name": "Solana CUM",
-              "source": "solana"
-            }
-          ]
-        },
-        {
           "symbol": "SCWL",
           "resolution": "source-priority",
           "reason": "solana beats lower-tier sources (no market data available)",
@@ -18953,6 +18911,23 @@
           ]
         },
         {
+          "symbol": "SHOE",
+          "resolution": "source-priority",
+          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
+          "winner": {
+            "mint": "8XVXzmsMMw7ufa8RC21fHcDP6TGti5y3ZidQinnYurqr",
+            "name": "Laughing Shoe",
+            "source": "jupiter-cache"
+          },
+          "losers": [
+            {
+              "mint": "3wBnQPk4CgaCXWDSGxKFYiKhRznzyCBnsLNeoLmMkVwk",
+              "name": "Horsemen Society",
+              "source": "solana"
+            }
+          ]
+        },
+        {
           "symbol": "sHOG",
           "resolution": "source-priority",
           "reason": "orca beats lower-tier sources (no market data available)",
@@ -19089,6 +19064,33 @@
           ]
         },
         {
+          "symbol": "SIN",
+          "resolution": "source-priority",
+          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
+          "winner": {
+            "mint": "sin1uRe1cMCWR7VPLdZrGrvKs8UvKMsGzhvpJLg4Ld9",
+            "name": "sinDAO",
+            "source": "jupiter-cache"
+          },
+          "losers": [
+            {
+              "mint": "7mfnYz5BmZJsVZkQCDbtPBmk3dhQAYRJpdKjG2mTJQij",
+              "name": "Sinner Token",
+              "source": "solana"
+            },
+            {
+              "mint": "TsmrVzWkfBY3VJDWVRfNjqaaBgmLvT4n9qx1uqCk9Fd",
+              "name": "SIN Token",
+              "source": "solana"
+            },
+            {
+              "mint": "2znADNrRYvai8gfej1mcV2YbNvehY6cBSALvuWnuvNPN",
+              "name": "S7N Coin",
+              "source": "solana"
+            }
+          ]
+        },
+        {
           "symbol": "SINU",
           "resolution": "source-priority",
           "reason": "solana beats lower-tier sources (no market data available)",
@@ -19152,33 +19154,6 @@
             {
               "mint": "93jRu2Rv8bh9RrnwLHdnFaky91QuG9CQVGiysbifbaWD",
               "name": "Skleton Token",
-              "source": "solana"
-            }
-          ]
-        },
-        {
-          "symbol": "SKULL",
-          "resolution": "source-priority",
-          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
-          "winner": {
-            "mint": "SKu11EypaFU3gvr8VSAbi13zEC2CPvqbz9s83N3tWHM",
-            "name": "Skeleton Crew",
-            "source": "jupiter-cache"
-          },
-          "losers": [
-            {
-              "mint": "3X36yhq35MJnt2JjwodeFDfv2MFPb99RC53yUyNrpump",
-              "name": "PEPE SKULL",
-              "source": "jupiter-cache"
-            },
-            {
-              "mint": "93iJG6TY2bXb8zUe6gscx3fwvUCZPHVMCrVRg6uFz6ZU",
-              "name": "Spooky Skeleton Society Utility Token",
-              "source": "solana"
-            },
-            {
-              "mint": "5FozDe1UB9cJZmWKxGg6nBSBSu2A51DXowshCtYeKWEp",
-              "name": "SKULL Token",
               "source": "solana"
             }
           ]
@@ -19469,23 +19444,6 @@
             {
               "mint": "DwH6w7pqjX923YbE94grsVe6Fbb2GPesYPSDPHuSTGLb",
               "name": "Simcoin",
-              "source": "solana"
-            }
-          ]
-        },
-        {
-          "symbol": "SMOL",
-          "resolution": "source-priority",
-          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
-          "winner": {
-            "mint": "A9jLULrDSYZkBtKfvG44w8NWzvCN6rGLpoA3hY7TQ85k",
-            "name": "smol cat",
-            "source": "jupiter-cache"
-          },
-          "losers": [
-            {
-              "mint": "89MrW4Y3UxWqVAbJM2xfqy9uGNE7tMFT6uCtn6i2XH7x",
-              "name": "SMOL Token",
               "source": "solana"
             }
           ]
@@ -23496,6 +23454,23 @@
           ]
         },
         {
+          "symbol": "WHY",
+          "resolution": "source-priority",
+          "reason": "jupiter-cache beats lower-tier sources (no market data available)",
+          "winner": {
+            "mint": "WHYoaBumcmxCqw38y2mjs4cVkCBgwiDizbMVvcejmGT",
+            "name": "WENWIFHAT",
+            "source": "jupiter-cache"
+          },
+          "losers": [
+            {
+              "mint": "HhyziMR2vkGCVddCMM2AUw3D2pjXCoo7qrNkuQKoYBF5",
+              "name": "Y",
+              "source": "solana"
+            }
+          ]
+        },
+        {
           "symbol": "WIFE",
           "resolution": "source-priority",
           "reason": "jupiter-cache beats lower-tier sources (no market data available)",
@@ -24228,7 +24203,7 @@
     },
     "excluded": {
       "description": "No winner - symbol excluded from seeding (first to register wins)",
-      "count": 14,
+      "count": 15,
       "entries": [
         {
           "symbol": "ACHI",
@@ -24345,6 +24320,23 @@
             {
               "mint": "ETAtLmCmsoiEEKfNrHKJ2kYy3MoABhU6NQvpSfij5tDs",
               "name": "Media Network",
+              "source": "jupiter-cache"
+            }
+          ]
+        },
+        {
+          "symbol": "PAW",
+          "resolution": "excluded",
+          "reason": "Internal Jupiter collision with no market data - first to register wins",
+          "losers": [
+            {
+              "mint": "pawSXHWsonrTey4SX7tz1fM9ksuLpE13Y54K57ym4Rg",
+              "name": "PayPaw",
+              "source": "jupiter-cache"
+            },
+            {
+              "mint": "3WV4fTWGvtWNvQb8oVU4t99By8KztDLtExqHnkPfHAA9",
+              "name": "CopyCats token",
               "source": "jupiter-cache"
             }
           ]

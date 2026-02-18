@@ -5,6 +5,9 @@ package_manager = "pnpm"
 resolution = true
 skip-lint = false
 
+[programs.mainnet]
+tns = "TNSxsGQYDPb7ddAtDEJAUhD3q4M232NdhmTXutVXQ12"
+
 [programs.devnet]
 tns = "TNSxsGQYDPb7ddAtDEJAUhD3q4M232NdhmTXutVXQ12"
 
@@ -15,7 +18,7 @@ tns = "TNSxsGQYDPb7ddAtDEJAUhD3q4M232NdhmTXutVXQ12"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+cluster = "mainnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

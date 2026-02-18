@@ -2,26 +2,26 @@
  * Demo CLI for the TNS (Token Naming Service) Program
  *
  * Usage:
- *   npx tsx demo.ts init                                  - Initialize config (one-time, starts PAUSED)
- *   npx tsx demo.ts create-atas                           - Create fee collector ATAs for USDC/USDT/TNS
- *   npx tsx demo.ts register <symbol> <mint> <years>      - Register a symbol (pays with SOL)
- *   npx tsx demo.ts renew <symbol> <years>                - Renew a symbol (pays with SOL)
- *   npx tsx demo.ts update-mint <symbol> <new_mint>       - Update mint for a symbol (pays with SOL)
- *   npx tsx demo.ts transfer <symbol> <new_owner>         - Transfer symbol ownership
- *   npx tsx demo.ts cancel <symbol>                       - Cancel and close symbol account
- *   npx tsx demo.ts verify <symbol>                       - Verify symbol matches metadata (keeper enforcement)
- *   npx tsx demo.ts lookup <symbol>                       - Lookup symbol details
- *   npx tsx demo.ts lookup-mint <mint>                    - Reverse lookup by mint
- *   npx tsx demo.ts pda <symbol>                          - Derive token PDA
+ *   npx tsx app/demo.ts init                                  - Initialize config (one-time, starts PAUSED)
+ *   npx tsx app/demo.ts create-atas                           - Create fee collector ATAs for USDC/USDT/TNS
+ *   npx tsx app/demo.ts register <symbol> <mint> <years>      - Register a symbol (pays with SOL)
+ *   npx tsx app/demo.ts renew <symbol> <years>                - Renew a symbol (pays with SOL)
+ *   npx tsx app/demo.ts update-mint <symbol> <new_mint>       - Update mint for a symbol (pays with SOL)
+ *   npx tsx app/demo.ts transfer <symbol> <new_owner>         - Transfer symbol ownership
+ *   npx tsx app/demo.ts cancel <symbol>                       - Cancel and close symbol account
+ *   npx tsx app/demo.ts verify <symbol>                       - Verify symbol matches metadata (keeper enforcement)
+ *   npx tsx app/demo.ts lookup <symbol>                       - Lookup symbol details
+ *   npx tsx app/demo.ts lookup-mint <mint>                    - Reverse lookup by mint
+ *   npx tsx app/demo.ts pda <symbol>                          - Derive token PDA
  *
  * Admin commands:
- *   npx tsx demo.ts config                                - View current config state (paused, phase, etc.)
- *   npx tsx demo.ts seed <symbol> <mint> <owner> [years]  - Seed a symbol (admin only, free, default 2 years)
- *   npx tsx demo.ts unpause                               - Unpause the protocol (admin only)
- *   npx tsx demo.ts pause                                 - Pause the protocol (admin only)
- *   npx tsx demo.ts set-phase <phase>                     - Set protocol phase 1/2/3 (admin only)
- *   npx tsx demo.ts admin-update <symbol> [options]       - Force-update a symbol (admin only)
- *   npx tsx demo.ts admin-close <symbol>                  - Force-close a symbol (admin only)
+ *   npx tsx app/demo.ts config                                - View current config state (paused, phase, etc.)
+ *   npx tsx app/demo.ts seed <symbol> <mint> <owner> [years]  - Seed a symbol (admin only, free, default 2 years)
+ *   npx tsx app/demo.ts unpause                               - Unpause the protocol (admin only)
+ *   npx tsx app/demo.ts pause                                 - Pause the protocol (admin only)
+ *   npx tsx app/demo.ts set-phase <phase>                     - Set protocol phase 1/2/3 (admin only)
+ *   npx tsx app/demo.ts admin-update <symbol> [options]       - Force-update a symbol (admin only)
+ *   npx tsx app/demo.ts admin-close <symbol>                  - Force-close a symbol (admin only)
  */
 
 import "dotenv/config";
@@ -216,7 +216,7 @@ async function registerSymbol(symbol: string, mint: string, years: number) {
     console.log(`  Owner: ${existing.owner}`);
     console.log(`  Mint: ${existing.mint}`);
     console.log(`  Expires: ${formatDate(existing.expiresAt.toNumber())}`);
-    console.log(`\nTo renew: npx tsx demo.ts renew ${symbol} <years>`);
+    console.log(`\nTo renew: npx tsx app/demo.ts renew ${symbol} <years>`);
     process.exit(1);
   } catch {
     // Account doesn't exist - good, we can register
@@ -241,7 +241,7 @@ async function registerSymbol(symbol: string, mint: string, years: number) {
 
   const tx = await program.methods
     .registerSymbolSol(symbol, years, maxSolCost, platformFeeBps)
-    .accountsPartial({
+    .accounts({
       payer: provider.wallet.publicKey,
       config: configPda,
       tokenAccount: tokenPda,
@@ -256,7 +256,7 @@ async function registerSymbol(symbol: string, mint: string, years: number) {
 
   console.log("\nSymbol registered!");
   console.log(`  Transaction: ${tx}`);
-  console.log(`\nTo lookup: npx tsx demo.ts lookup ${symbol}`);
+  console.log(`\nTo lookup: npx tsx app/demo.ts lookup ${symbol}`);
 }
 
 async function renewSymbol(symbol: string, years: number) {
@@ -415,12 +415,20 @@ async function verifyOrClose(symbol: string) {
     return;
   }
 
-  // Get metadata PDA
-  const tokenMetadata = getMetadataPda(tokenAccount.mint);
+  const mintPubkey = tokenAccount.mint as PublicKey;
+
+  // Check if Token-2022 mint to determine correct metadata account
+  const mintAccountInfo = await provider.connection.getAccountInfo(mintPubkey);
+  const isToken2022 = mintAccountInfo?.owner.equals(TOKEN_2022_PROGRAM_ID);
+
+  // For Token-2022: pass mint as metadata (embedded metadata)
+  // For classic SPL: pass Metaplex metadata PDA
+  const tokenMetadata = isToken2022 ? mintPubkey : getMetadataPda(mintPubkey);
 
   console.log("Verifying symbol matches metadata...");
   console.log(`  Symbol: ${symbol}`);
   console.log(`  Mint: ${tokenAccount.mint}`);
+  console.log(`  Token Type: ${isToken2022 ? "Token-2022" : "Classic SPL"}`);
   console.log(`  Owner: ${tokenAccount.owner}`);
 
   try {
@@ -430,6 +438,7 @@ async function verifyOrClose(symbol: string) {
         keeper: provider.wallet.publicKey,
         config: configPda,
         tokenAccount: tokenPda,
+        tokenMint: mintPubkey,
         tokenMetadata: tokenMetadata,
       })
       .rpc();
@@ -477,7 +486,7 @@ async function lookupSymbol(symbol: string) {
     const error = err as Error;
     if (error.message?.includes("Account does not exist")) {
       console.log(`\nSymbol ${symbol} is not registered.`);
-      console.log(`  Register it: npx tsx demo.ts register ${symbol} <mint_address> <years>`);
+      console.log(`  Register it: npx tsx app/demo.ts register ${symbol} <mint_address> <years>`);
     } else {
       throw err;
     }
@@ -556,7 +565,7 @@ async function showConfig() {
     const error = err as Error;
     if (error.message?.includes("Account does not exist")) {
       console.log("\nConfig not initialized yet.");
-      console.log("  Run: npx tsx demo.ts init");
+      console.log("  Run: npx tsx app/demo.ts init");
     } else {
       throw err;
     }
@@ -645,6 +654,99 @@ async function setPhase(newPhase: number) {
   await showConfig();
 }
 
+async function setKeeperReward(solAmount: number) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = getProgram(provider);
+  const configPda = getConfigPda();
+
+  const lamports = Math.floor(solAmount * 1_000_000_000);
+
+  console.log(`\nSetting keeper reward to ${solAmount} SOL (${lamports} lamports)...`);
+
+  const tx = await program.methods
+    .updateConfig(
+      null, // new_fee_collector
+      null, // paused
+      null, // new_phase
+      null, // tns_usd_pyth_feed
+      new anchor.BN(lamports),
+    )
+    .accounts({
+      admin: provider.wallet.publicKey,
+      config: configPda,
+      newAdmin: provider.wallet.publicKey,
+    })
+    .rpc();
+
+  console.log(`\nKeeper reward updated!`);
+  console.log(`  Transaction: ${tx}`);
+
+  await showConfig();
+}
+
+async function setFeeCollector(feeCollector: string) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = getProgram(provider);
+  const configPda = getConfigPda();
+
+  const feeCollectorPubkey = new PublicKey(feeCollector);
+
+  console.log(`\nSetting fee collector to ${feeCollector}...`);
+
+  const tx = await program.methods
+    .updateConfig(
+      feeCollectorPubkey,
+      null, // paused
+      null, // new_phase
+      null, // tns_usd_pyth_feed
+      null, // keeper_reward_lamports
+    )
+    .accounts({
+      admin: provider.wallet.publicKey,
+      config: configPda,
+      newAdmin: provider.wallet.publicKey,
+    })
+    .rpc();
+
+  console.log(`\nFee collector updated!`);
+  console.log(`  Transaction: ${tx}`);
+
+  await showConfig();
+}
+
+async function setTnsPythFeed(feed: string) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = getProgram(provider);
+  const configPda = getConfigPda();
+
+  const feedPubkey = new PublicKey(feed);
+
+  console.log(`\nSetting TNS/USD Pyth feed to ${feed}...`);
+
+  const tx = await program.methods
+    .updateConfig(
+      null, // new_fee_collector
+      null, // paused
+      null, // new_phase
+      feedPubkey,
+      null, // keeper_reward_lamports
+    )
+    .accounts({
+      admin: provider.wallet.publicKey,
+      config: configPda,
+      newAdmin: provider.wallet.publicKey,
+    })
+    .rpc();
+
+  console.log(`\nTNS/USD Pyth feed updated!`);
+  console.log(`  Transaction: ${tx}`);
+
+  await showConfig();
+}
+
 async function seedSymbol(symbol: string, mint: string, owner: string, years: number = 2) {
   const provider = getProvider();
   anchor.setProvider(provider);
@@ -654,7 +756,6 @@ async function seedSymbol(symbol: string, mint: string, owner: string, years: nu
   const ownerPubkey = new PublicKey(owner);
   const configPda = getConfigPda();
   const tokenPda = getTokenPda(symbol);
-  const tokenMetadata = getMetadataPda(mintPubkey);
 
   // Check if symbol already exists
   try {
@@ -668,12 +769,21 @@ async function seedSymbol(symbol: string, mint: string, owner: string, years: nu
     // Account doesn't exist - good, we can seed
   }
 
+  // Check if mint is Token-2022 (for metadata handling)
+  const mintAccountInfo = await provider.connection.getAccountInfo(mintPubkey);
+  const isToken2022 = mintAccountInfo?.owner.equals(TOKEN_2022_PROGRAM_ID);
+
+  // For Token-2022, pass mint as metadata (metadata is embedded in mint)
+  // For classic SPL tokens, use Metaplex metadata PDA
+  const tokenMetadata = isToken2022 ? mintPubkey : getMetadataPda(mintPubkey);
+
   console.log("Seeding symbol (admin only, no fee)...");
   console.log(`  Symbol: ${symbol}`);
   console.log(`  Token Mint: ${mintPubkey}`);
   console.log(`  Owner: ${ownerPubkey}`);
   console.log(`  Years: ${years}`);
   console.log(`  Token PDA: ${tokenPda}`);
+  console.log(`  Token Type: ${isToken2022 ? "Token-2022" : "SPL Token"}`);
 
   const tx = await program.methods
     .seedSymbol(symbol, years, ownerPubkey)
@@ -689,7 +799,7 @@ async function seedSymbol(symbol: string, mint: string, owner: string, years: nu
 
   console.log("\nSymbol seeded!");
   console.log(`  Transaction: ${tx}`);
-  console.log(`\nTo lookup: npx tsx demo.ts lookup ${symbol}`);
+  console.log(`\nTo lookup: npx tsx app/demo.ts lookup ${symbol}`);
 }
 
 async function adminUpdateSymbol(
@@ -845,8 +955,8 @@ async function main() {
 
       case "register":
         if (args.length < 4) {
-          console.log("Usage: npx tsx demo.ts register <symbol> <mint> <years>");
-          console.log("Example: npx tsx demo.ts register Bonk DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 1");
+          console.log("Usage: npx tsx app/demo.ts register <symbol> <mint> <years>");
+          console.log("Example: npx tsx app/demo.ts register Bonk DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 1");
           process.exit(1);
         }
         await registerSymbol(args[1], args[2], parseInt(args[3]));
@@ -854,7 +964,7 @@ async function main() {
 
       case "renew":
         if (args.length < 3) {
-          console.log("Usage: npx tsx demo.ts renew <symbol> <years>");
+          console.log("Usage: npx tsx app/demo.ts renew <symbol> <years>");
           process.exit(1);
         }
         await renewSymbol(args[1], parseInt(args[2]));
@@ -862,7 +972,7 @@ async function main() {
 
       case "update-mint":
         if (args.length < 3) {
-          console.log("Usage: npx tsx demo.ts update-mint <symbol> <new_mint>");
+          console.log("Usage: npx tsx app/demo.ts update-mint <symbol> <new_mint>");
           process.exit(1);
         }
         await updateMint(args[1], args[2]);
@@ -870,7 +980,7 @@ async function main() {
 
       case "transfer":
         if (args.length < 3) {
-          console.log("Usage: npx tsx demo.ts transfer <symbol> <new_owner>");
+          console.log("Usage: npx tsx app/demo.ts transfer <symbol> <new_owner>");
           process.exit(1);
         }
         await transferOwnership(args[1], args[2]);
@@ -878,7 +988,7 @@ async function main() {
 
       case "cancel":
         if (args.length < 2) {
-          console.log("Usage: npx tsx demo.ts cancel <symbol>");
+          console.log("Usage: npx tsx app/demo.ts cancel <symbol>");
           process.exit(1);
         }
         await cancelSymbol(args[1]);
@@ -886,7 +996,7 @@ async function main() {
 
       case "verify":
         if (args.length < 2) {
-          console.log("Usage: npx tsx demo.ts verify <symbol>");
+          console.log("Usage: npx tsx app/demo.ts verify <symbol>");
           console.log("Checks if symbol still matches its mint's metadata.");
           console.log("If metadata symbol changed, closes account and returns rent to caller.");
           process.exit(1);
@@ -896,7 +1006,7 @@ async function main() {
 
       case "lookup":
         if (args.length < 2) {
-          console.log("Usage: npx tsx demo.ts lookup <symbol>");
+          console.log("Usage: npx tsx app/demo.ts lookup <symbol>");
           process.exit(1);
         }
         await lookupSymbol(args[1]);
@@ -904,7 +1014,7 @@ async function main() {
 
       case "lookup-mint":
         if (args.length < 2) {
-          console.log("Usage: npx tsx demo.ts lookup-mint <mint_address>");
+          console.log("Usage: npx tsx app/demo.ts lookup-mint <mint_address>");
           process.exit(1);
         }
         await lookupByMint(args[1]);
@@ -912,7 +1022,7 @@ async function main() {
 
       case "pda":
         if (args.length < 2) {
-          console.log("Usage: npx tsx demo.ts pda <symbol>");
+          console.log("Usage: npx tsx app/demo.ts pda <symbol>");
           process.exit(1);
         }
         showPda(args[1]);
@@ -933,7 +1043,7 @@ async function main() {
 
       case "set-phase":
         if (args.length < 2) {
-          console.log("Usage: npx tsx demo.ts set-phase <phase>");
+          console.log("Usage: npx tsx app/demo.ts set-phase <phase>");
           console.log("  Phase 1: Genesis (admin-only)");
           console.log("  Phase 2: Open (anyone can register unseeded symbols)");
           console.log("  Phase 3: Full (all restrictions removed)");
@@ -942,10 +1052,37 @@ async function main() {
         await setPhase(parseInt(args[1]));
         break;
 
+      case "set-keeper-reward":
+        if (args.length < 2) {
+          console.log("Usage: npx tsx app/demo.ts set-keeper-reward <sol_amount>");
+          console.log("Example: npx tsx app/demo.ts set-keeper-reward 0.05");
+          process.exit(1);
+        }
+        await setKeeperReward(parseFloat(args[1]));
+        break;
+
+      case "set-fee-collector":
+        if (args.length < 2) {
+          console.log("Usage: npx tsx app/demo.ts set-fee-collector <pubkey>");
+          console.log("Example: npx tsx app/demo.ts set-fee-collector TNS1pnrBBe5K7eUpm3bcd4nxnfupVK6EatmoYRfxpMm");
+          process.exit(1);
+        }
+        await setFeeCollector(args[1]);
+        break;
+
+      case "set-tns-pyth-feed":
+        if (args.length < 2) {
+          console.log("Usage: npx tsx app/demo.ts set-tns-pyth-feed <pubkey>");
+          console.log("Example: npx tsx app/demo.ts set-tns-pyth-feed <pyth_feed_address>");
+          process.exit(1);
+        }
+        await setTnsPythFeed(args[1]);
+        break;
+
       case "seed":
         if (args.length < 4) {
-          console.log("Usage: npx tsx demo.ts seed <symbol> <mint> <owner> [years]");
-          console.log("Example: npx tsx demo.ts seed BONK DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 OwnerPubkey123 2");
+          console.log("Usage: npx tsx app/demo.ts seed <symbol> <mint> <owner> [years]");
+          console.log("Example: npx tsx app/demo.ts seed BONK DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 OwnerPubkey123 2");
           process.exit(1);
         }
         await seedSymbol(args[1], args[2], args[3], args[4] ? parseInt(args[4]) : undefined);
@@ -953,9 +1090,9 @@ async function main() {
 
       case "admin-update":
         if (args.length < 2) {
-          console.log("Usage: npx tsx demo.ts admin-update <symbol> [--owner <pubkey>] [--mint <pubkey>] [--expires <timestamp>]");
-          console.log("Example: npx tsx demo.ts admin-update Bonk --owner NewOwnerPubkey123");
-          console.log("Example: npx tsx demo.ts admin-update Bonk --expires 1735689600");
+          console.log("Usage: npx tsx app/demo.ts admin-update <symbol> [--owner <pubkey>] [--mint <pubkey>] [--expires <timestamp>]");
+          console.log("Example: npx tsx app/demo.ts admin-update Bonk --owner NewOwnerPubkey123");
+          console.log("Example: npx tsx app/demo.ts admin-update Bonk --expires 1735689600");
           process.exit(1);
         }
         {
@@ -985,7 +1122,7 @@ async function main() {
 
       case "admin-close":
         if (args.length < 2) {
-          console.log("Usage: npx tsx demo.ts admin-close <symbol>");
+          console.log("Usage: npx tsx app/demo.ts admin-close <symbol>");
           process.exit(1);
         }
         await adminCloseSymbol(args[1]);
@@ -1010,6 +1147,9 @@ async function main() {
         console.log("  unpause                                  - Unpause protocol (allow registrations)");
         console.log("  pause                                    - Pause protocol (block registrations)");
         console.log("  set-phase <1|2|3>                        - Advance protocol phase");
+        console.log("  set-keeper-reward <sol_amount>           - Set keeper reward (e.g., 0.05)");
+        console.log("  set-fee-collector <pubkey>               - Set fee collector address");
+        console.log("  set-tns-pyth-feed <pubkey>               - Set TNS/USD Pyth feed address");
         console.log("  seed <symbol> <mint> <owner> [years]     - Seed a symbol (free, default 2 years)");
         console.log("  admin-update <symbol> [options]          - Force-update owner/mint/expiration");
         console.log("    --owner <pubkey>                       - Set new owner");
@@ -1026,12 +1166,12 @@ async function main() {
         console.log("  Pay with TNS token for 25% discount");
         console.log("  Also accepts USDC and USDT");
         console.log("\nExamples:");
-        console.log("  npx tsx demo.ts init                     # Initialize (starts paused)");
-        console.log("  npx tsx demo.ts config                   # Check current state");
-        console.log("  npx tsx demo.ts seed Bonk DezXAZ...263   # Seed verified token (while paused)");
-        console.log("  npx tsx demo.ts unpause                  # Go live");
-        console.log("  npx tsx demo.ts register TEST ...mint... 5");
-        console.log("  npx tsx demo.ts lookup Bonk");
+        console.log("  npx tsx app/demo.ts init                     # Initialize (starts paused)");
+        console.log("  npx tsx app/demo.ts config                   # Check current state");
+        console.log("  npx tsx app/demo.ts seed Bonk DezXAZ...263   # Seed verified token (while paused)");
+        console.log("  npx tsx app/demo.ts unpause                  # Go live");
+        console.log("  npx tsx app/demo.ts register TEST ...mint... 5");
+        console.log("  npx tsx app/demo.ts lookup Bonk");
         break;
     }
   } catch (err) {

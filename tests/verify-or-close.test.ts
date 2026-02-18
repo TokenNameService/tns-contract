@@ -190,6 +190,7 @@ describe("TNS - Verify Or Close", () => {
             keeper: admin.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
+            tokenMint: tokenMint,
             tokenMetadata: tokenMetadata,
           })
           .rpc();
@@ -239,6 +240,7 @@ describe("TNS - Verify Or Close", () => {
             keeper: randomKeeper.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
+            tokenMint: tokenMint,
             tokenMetadata: tokenMetadata,
           })
           .signers([randomKeeper])
@@ -290,6 +292,7 @@ describe("TNS - Verify Or Close", () => {
             keeper: admin.publicKey,
             config: configPda,
             tokenAccount: tokenPda,
+            tokenMint: tokenMint,
             tokenMetadata: wrongMetadata, // Wrong metadata!
           })
           .rpc();
@@ -376,6 +379,7 @@ describe("TNS - Verify Or Close", () => {
           keeper: keeper.publicKey,
           config: configPda,
           tokenAccount: tokenPda,
+          tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
         })
         .signers([keeper])

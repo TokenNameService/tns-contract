@@ -115,7 +115,7 @@ pub fn handler(
 
     validate_mint_metadata(
         &ctx.accounts.token_metadata,
-        &mint,
+        &ctx.accounts.token_mint.to_account_info(),
         &normalized_symbol,
     )?;
 

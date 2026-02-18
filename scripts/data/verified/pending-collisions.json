@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-02-15T22:05:01.919Z",
+  "generatedAt": "2026-02-18T03:18:26.513Z",
   "description": "Symbols excluded from seeding due to ambiguous ownership",
   "instructions": [
     "These symbols have multiple Jupiter-verified tokens with no market data",
     "They are excluded from genesis seeding - first to register wins"
   ],
-  "count": 14,
+  "count": 15,
   "collisions": [
     {
       "symbol": "ACHI",
@@ -128,6 +128,24 @@
         {
           "mint": "ETAtLmCmsoiEEKfNrHKJ2kYy3MoABhU6NQvpSfij5tDs",
           "name": "Media Network",
+          "source": "jupiter-cache"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "symbol": "PAW",
+      "suggestedWinner": "",
+      "suggestedReason": "No market data - exclude from seeding (first-to-register wins)",
+      "candidates": [
+        {
+          "mint": "pawSXHWsonrTey4SX7tz1fM9ksuLpE13Y54K57ym4Rg",
+          "name": "PayPaw",
+          "source": "jupiter-cache"
+        },
+        {
+          "mint": "3WV4fTWGvtWNvQb8oVU4t99By8KztDLtExqHnkPfHAA9",
+          "name": "CopyCats token",
           "source": "jupiter-cache"
         }
       ],

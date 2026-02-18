@@ -10,7 +10,21 @@ import {
   sendAndConfirmTransaction,
   TransactionInstruction,
 } from "@solana/web3.js";
-import { createMint } from "@solana/spl-token";
+import {
+  createMint,
+  TOKEN_2022_PROGRAM_ID,
+  ExtensionType,
+  getMintLen,
+  createInitializeMetadataPointerInstruction,
+  createInitializeMintInstruction,
+  TYPE_SIZE,
+  LENGTH_SIZE,
+} from "@solana/spl-token";
+import {
+  createInitializeInstruction,
+  pack,
+  TokenMetadata,
+} from "@solana/spl-token-metadata";
 
 // Token Metadata Program ID (Metaplex)
 export const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
@@ -489,3 +503,112 @@ export async function createTokenWithMetadata(
 
   return mint;
 }
+
+/**
+ * Create a Token-2022 mint with embedded metadata extension.
+ * Returns the mint public key.
+ *
+ * @param provider - Anchor provider
+ * @param payer - Keypair that pays for transactions
+ * @param symbol - The symbol for the token metadata
+ * @param name - The name for the token metadata
+ */
+export async function createToken2022WithMetadata(
+  provider: anchor.AnchorProvider,
+  payer: Keypair | anchor.Wallet,
+  symbol: string,
+  name: string = `${symbol} Token`
+): Promise<PublicKey> {
+  const payerKeypair = "payer" in payer ? payer.payer : payer;
+  const connection = provider.connection;
+
+  // Generate a new keypair for the mint
+  const mintKeypair = Keypair.generate();
+  const mint = mintKeypair.publicKey;
+
+  // Define the metadata
+  const metadata: TokenMetadata = {
+    mint: mint,
+    name: name,
+    symbol: symbol,
+    uri: "",
+    additionalMetadata: [],
+  };
+
+  // Calculate space needed for mint with metadata pointer extension
+  // getMintLen gives us the base mint size + extension headers
+  const mintLen = getMintLen([ExtensionType.MetadataPointer]);
+
+  // Metadata is stored as TLV (Type-Length-Value)
+  // TYPE_SIZE (2 bytes) + LENGTH_SIZE (2 bytes) + packed metadata
+  const metadataLen = TYPE_SIZE + LENGTH_SIZE + pack(metadata).length;
+
+  // Total space needed
+  const totalLen = mintLen + metadataLen;
+
+  // Get minimum lamports for rent exemption
+  const lamports = await connection.getMinimumBalanceForRentExemption(totalLen);
+
+  // Build transaction in two parts:
+  // Part 1: Create account, init pointer, init mint
+  const tx1 = new Transaction().add(
+    // 1. Create account
+    SystemProgram.createAccount({
+      fromPubkey: payerKeypair.publicKey,
+      newAccountPubkey: mint,
+      space: mintLen, // Start with just mint space
+      lamports: await connection.getMinimumBalanceForRentExemption(mintLen),
+      programId: TOKEN_2022_PROGRAM_ID,
+    }),
+    // 2. Initialize metadata pointer (points to mint itself)
+    createInitializeMetadataPointerInstruction(
+      mint,
+      payerKeypair.publicKey,
+      mint, // metadata address is the mint itself
+      TOKEN_2022_PROGRAM_ID
+    ),
+    // 3. Initialize mint
+    createInitializeMintInstruction(
+      mint,
+      9, // decimals
+      payerKeypair.publicKey, // mint authority
+      null, // freeze authority
+      TOKEN_2022_PROGRAM_ID
+    )
+  );
+
+  await sendAndConfirmTransaction(connection, tx1, [
+    payerKeypair,
+    mintKeypair,
+  ]);
+
+  // Part 2: Fund additional rent for metadata, then initialize metadata
+  // The metadata initialization will reallocate the account and needs more lamports
+  const additionalRent = await connection.getMinimumBalanceForRentExemption(metadataLen);
+
+  const tx2 = new Transaction().add(
+    // Transfer additional lamports for the metadata space
+    SystemProgram.transfer({
+      fromPubkey: payerKeypair.publicKey,
+      toPubkey: mint,
+      lamports: additionalRent,
+    }),
+    createInitializeInstruction({
+      programId: TOKEN_2022_PROGRAM_ID,
+      mint: mint,
+      metadata: mint,
+      name: metadata.name,
+      symbol: metadata.symbol,
+      uri: metadata.uri,
+      mintAuthority: payerKeypair.publicKey,
+      updateAuthority: payerKeypair.publicKey,
+    })
+  );
+
+  await sendAndConfirmTransaction(connection, tx2, [payerKeypair]);
+
+  return mint;
+}
+
+// Re-export TOKEN_2022_PROGRAM_ID for tests
+export { TOKEN_2022_PROGRAM_ID };

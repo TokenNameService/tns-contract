@@ -83,7 +83,7 @@ pub fn handler(
 
     validate_mint_metadata(
         &ctx.accounts.new_mint_metadata,
-        &new_mint,
+        &ctx.accounts.new_mint.to_account_info(),
         &ctx.accounts.token_account.symbol,
     )?;
 

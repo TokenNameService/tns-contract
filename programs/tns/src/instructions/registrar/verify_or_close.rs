@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
+use anchor_spl::token_interface::Mint;
 use crate::{Config, Token, SymbolDriftDetected, TnsError, KEEPER_REWARD_LAMPORTS};
-use super::helpers::parse_metadata;
+use super::helpers::extract_metadata_symbol;
 
 /// Close a symbol registration when metadata drift is detected.
 ///
@@ -36,8 +37,14 @@ pub struct VerifyOrClose<'info> {
     )]
     pub token_account: Account<'info, Token>,
 
+    /// The token's mint - used to determine if Token-2022 or classic SPL
+    #[account(address = token_account.mint @ TnsError::InvalidMint)]
+    pub token_mint: InterfaceAccount<'info, Mint>,
+
     /// The mint's metadata account
-    /// CHECK: Validated via parse_metadata helper
+    /// For Token-2022: pass mint as metadata (embedded metadata extension)
+    /// For classic SPL: pass Metaplex metadata PDA
+    /// CHECK: Validated via extract_metadata_symbol helper
     pub token_metadata: AccountInfo<'info>,
 }
 
@@ -45,9 +52,11 @@ pub fn handler(ctx: Context<VerifyOrClose>) -> Result<()> {
     let token = &ctx.accounts.token_account;
     let clock = Clock::get()?;
 
-    // Parse and validate metadata
-    let metadata = parse_metadata(&ctx.accounts.token_metadata, &token.mint)?;
-    let metadata_symbol = metadata.symbol.trim_matches('\0');
+    // Extract symbol from metadata (supports both Token-2022 and Metaplex)
+    let metadata_symbol = extract_metadata_symbol(
+        &ctx.accounts.token_metadata,
+        &ctx.accounts.token_mint.to_account_info(),
+    )?;
 
     // Require drift - fail if symbols still match
     require!(

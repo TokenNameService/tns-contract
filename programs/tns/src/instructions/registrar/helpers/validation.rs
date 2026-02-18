@@ -1,5 +1,10 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::Mint;
+use anchor_spl::token_2022::spl_token_2022::{
+    extension::{BaseStateWithExtensions, StateWithExtensions},
+    state::Mint as Token2022Mint,
+};
+use anchor_spl::token_2022_extensions::spl_token_metadata_interface::state::TokenMetadata;
 use mpl_token_metadata::accounts::Metadata;
 use crate::{
     Config, Token, TnsError,
@@ -118,6 +123,23 @@ pub fn validate_registration_access(
   Ok(())
 }
 
+/// Token-2022 program ID
+use anchor_spl::token_2022::ID as TOKEN_2022_PROGRAM_ID;
+
+/// Try to extract symbol from Token-2022 metadata extension.
+/// Returns Some(symbol) if successful, None if no metadata extension.
+fn try_get_token2022_symbol(mint_info: &AccountInfo) -> Option<String> {
+    let data = mint_info.data.borrow();
+
+    // Try to parse as Token-2022 mint with extensions
+    let mint_with_ext = StateWithExtensions::<Token2022Mint>::unpack(&data).ok()?;
+
+    // Try to get the TokenMetadata extension
+    let metadata = mint_with_ext.get_variable_len_extension::<TokenMetadata>().ok()?;
+
+    Some(metadata.symbol.clone())
+}
+
 /// Parse and validate a mint's Metaplex metadata account.
 /// Returns the deserialized Metadata if valid.
 pub fn parse_metadata(
@@ -125,24 +147,62 @@ pub fn parse_metadata(
     mint: &Pubkey,
 ) -> Result<Metadata> {
     let (expected_pda_key, _) = Metadata::find_pda(mint);
-    
+
     require!(metadata_info.key() == expected_pda_key, TnsError::InvalidMetadata);
 
     Metadata::safe_deserialize(&metadata_info.data.borrow())
         .map_err(|_| TnsError::InvalidMetadata.into())
 }
 
-/// Validate mint's Metaplex metadata symbol matches expected symbol exactly (case-sensitive).
+/// Extract the symbol from a mint's metadata.
+/// Supports both Metaplex metadata and Token-2022 metadata extensions.
+///
+/// SECURITY: Enforces correct metadata type based on mint program:
+/// - Token-2022 mints MUST pass mint as metadata_info (embedded metadata)
+/// - Classic SPL mints MUST pass Metaplex metadata PDA as metadata_info
+///
+/// Returns the symbol string if successful.
+pub fn extract_metadata_symbol(
+    metadata_info: &AccountInfo,
+    mint_info: &AccountInfo,
+) -> Result<String> {
+    let is_token_2022 = mint_info.owner == &TOKEN_2022_PROGRAM_ID;
+
+    if is_token_2022 {
+        // Token-2022: metadata MUST be the mint itself (embedded metadata extension)
+        require!(
+            metadata_info.key() == mint_info.key(),
+            TnsError::InvalidMetadata
+        );
+
+        let symbol = try_get_token2022_symbol(metadata_info)
+            .ok_or(TnsError::InvalidMetadata)?;
+
+        Ok(symbol)
+    } else {
+        // Classic SPL Token: metadata MUST be Metaplex metadata PDA
+        require!(
+            metadata_info.key() != mint_info.key(),
+            TnsError::InvalidMetadata
+        );
+
+        let metadata = parse_metadata(metadata_info, &mint_info.key())?;
+        let metadata_symbol = metadata.symbol.trim_matches('\0').to_string();
+
+        Ok(metadata_symbol)
+    }
+}
+
+/// Validate mint's metadata symbol matches expected symbol exactly (case-sensitive).
 pub fn validate_mint_metadata(
     metadata_info: &AccountInfo,
-    mint: &Pubkey,
+    mint_info: &AccountInfo,
     expected_symbol: &str,
 ) -> Result<()> {
-    let metadata = parse_metadata(metadata_info, mint)?;
-    let metadata_symbol = metadata.symbol.trim_matches('\0');
+    let symbol = extract_metadata_symbol(metadata_info, mint_info)?;
 
     require!(
-        metadata_symbol == expected_symbol,
+        symbol == expected_symbol,
         TnsError::MetadataSymbolMismatch
     );
 

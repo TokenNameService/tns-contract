@@ -16,82 +16,91 @@ cd app && npm install
 
 ## Demo CLI
 
-All commands run from the `app/` directory.
+All commands run from the project root.
 
 ```bash
-cd app && npm install
+cd app && npm install && cd ..
 ```
 
 ### Setup & Config
 
 ```bash
 # Initialize config (one-time, starts PAUSED)
-npx tsx demo.ts init
+npx tsx app/demo.ts init
 
 # View current config state
-npx tsx demo.ts config
+npx tsx app/demo.ts config
 
 # Create fee collector ATAs for USDC/USDT/TNS
-npx tsx demo.ts create-atas
+npx tsx app/demo.ts create-atas
 ```
 
 ### Registration & Management
 
 ```bash
 # Register a symbol (1-10 years, pays with SOL)
-npx tsx demo.ts register Bonk DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 5
+npx tsx app/demo.ts register Bonk DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 5
 
 # Renew a symbol
-npx tsx demo.ts renew Bonk 3
+npx tsx app/demo.ts renew Bonk 3
 
 # Update mint for a symbol
-npx tsx demo.ts update-mint Bonk <NEW_MINT>
+npx tsx app/demo.ts update-mint Bonk <NEW_MINT>
 
 # Transfer symbol ownership
-npx tsx demo.ts transfer Bonk <NEW_OWNER>
+npx tsx app/demo.ts transfer Bonk <NEW_OWNER>
 
 # Cancel and close symbol account
-npx tsx demo.ts cancel Bonk
+npx tsx app/demo.ts cancel Bonk
 
 # Verify symbol matches metadata (keeper enforcement)
-npx tsx demo.ts verify Bonk
+npx tsx app/demo.ts verify Bonk
 ```
 
 ### Lookup
 
 ```bash
 # Lookup symbol details
-npx tsx demo.ts lookup Bonk
+npx tsx app/demo.ts lookup Bonk
 
 # Reverse lookup by mint
-npx tsx demo.ts lookup-mint DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263
+npx tsx app/demo.ts lookup-mint DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263
 
 # Derive token PDA
-npx tsx demo.ts pda Bonk
+npx tsx app/demo.ts pda Bonk
 ```
 
 ### Admin Commands
 
 ```bash
 # Unpause the protocol
-npx tsx demo.ts unpause
+npx tsx app/demo.ts unpause
 
 # Pause the protocol
-npx tsx demo.ts pause
+npx tsx app/demo.ts pause
 
 # Set protocol phase (1/2/3)
-npx tsx demo.ts set-phase 2
+npx tsx app/demo.ts set-phase 2
+
+# Set keeper reward (in SOL)
+npx tsx app/demo.ts set-keeper-reward 0.05
+
+# Set fee collector address
+npx tsx app/demo.ts set-fee-collector <PUBKEY>
+
+# Set TNS/USD Pyth feed
+npx tsx app/demo.ts set-tns-pyth-feed <PYTH_FEED_PUBKEY>
 
 # Seed a symbol (admin only, free, default 2 years)
-npx tsx demo.ts seed Bonk DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 <OWNER_PUBKEY> 10
+npx tsx app/demo.ts seed Bonk DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263 <OWNER_PUBKEY> 10
 
 # Force-update a symbol
-npx tsx demo.ts admin-update Bonk --owner <NEW_OWNER>
-npx tsx demo.ts admin-update Bonk --mint <NEW_MINT>
-npx tsx demo.ts admin-update Bonk --expires 1735689600
+npx tsx app/demo.ts admin-update Bonk --owner <NEW_OWNER>
+npx tsx app/demo.ts admin-update Bonk --mint <NEW_MINT>
+npx tsx app/demo.ts admin-update Bonk --expires 1735689600
 
 # Force-close a symbol
-npx tsx demo.ts admin-close Bonk
+npx tsx app/demo.ts admin-close Bonk
 ```
 
 ## On-Chain Lookup

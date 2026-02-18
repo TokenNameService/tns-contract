@@ -55,7 +55,7 @@ pub fn handler(ctx: Context<SeedSymbol>, symbol: String, years: u8, owner: Pubke
     // Validate mint metadata matches symbol
     validate_mint_metadata(
         &ctx.accounts.token_metadata,
-        &ctx.accounts.token_mint.key(),
+        &ctx.accounts.token_mint.to_account_info(),
         &normalized_symbol,
     )?;
 

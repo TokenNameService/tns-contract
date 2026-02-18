@@ -593,9 +593,10 @@ function selectByMarketCap(candidates: CollisionCandidate[]): CollisionCandidate
 // ============ Output Writers ============
 
 function writeVerifiedTokens(tokens: Map<string, TokenInfo>, stats: ProcessResult["stats"]) {
-  const tokenMap: Record<string, string> = {};
+  // Include source info for each token
+  const tokenMap: Record<string, { mint: string; source: string }> = {};
   for (const [symbol, token] of tokens) {
-    tokenMap[symbol] = token.address;
+    tokenMap[symbol] = { mint: token.address, source: token.source };
   }
 
   const sources = [
