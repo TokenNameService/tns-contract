@@ -1,263 +1,354 @@
 {
   "extractedFrom": "genesis-record.json",
   "retryAt": "2026-02-18T05:42:12.702Z",
+  "investigatedAt": "2026-02-19T00:00:00.000Z",
   "totalFailed": 42,
+  "resolution": "skipped — all 42 tokens have broken or missing on-chain metadata. Not worth special handling.",
   "breakdown": {
     "InvalidMetadata": 18,
     "MetadataSymbolMismatch": 24
+  },
+  "investigationNotes": {
+    "InvalidMetadata (18)": "All 18 are Token-2022 mints with only TransferFeeConfig extension — no TokenMetadata extension and no MetadataPointer. 17 of 18 also have no Metaplex metadata PDA. ASV is the one exception (has Metaplex metadata) but script routed it through Token-2022 path. 13 of 18 are completely dead (no trading pairs). Only BERN, CWIF, ASV, FLUXB, and PRINT have any activity.",
+    "MetadataSymbolMismatch (24)": "Three sub-categories: (1) 16 tokens (all fc*/fp* Francium/Flip wrappers + MECA, IGNFTEEW) have Metaplex metadata but the symbol field is empty — all dead. (2) 6 tokens (Worms, bozoHYBRID, tTRIAD) have on-chain symbols that genuinely differ from Jupiter listing. (3) 2 tokens ($WAFFLES, Labz) actually match but have a trailing space (0x20) before null padding in Metaplex symbol field — contract's trim_matches('\\0') doesn't strip spaces, so comparison fails. Creator's fault for storing sloppy metadata.",
+    "decision": "All 42 skipped for genesis. Symbols remain unregistered and available for Phase 2 open registration if token teams want to claim them."
   },
   "tokens": [
     {
       "symbol": "$CWIF",
       "mint": "7atgF8KQo4wJrD5ATGX7t1V2zVvykPJbFfNeVf1icFv1",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no TokenMetadata extension, no Metaplex metadata",
+      "tradingActivity": "alive — 3 pairs, $353K liquidity"
     },
     {
       "symbol": "$GRW",
       "mint": "FPymkKgpg1sLFbVao4JMk4ip8xb8C8uKqfMdARMobHaw",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "$TIPS",
       "mint": "AK87oZM8ovFU14bq8mu4ufi5zsCPDbqqVvh5b6WHbUdL",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "$WAFFLES",
       "mint": "8doS8nzmgVZEaACxALkbK5fZtw4UuoRp4Yt8NEaXfDMb",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Trailing space in Metaplex symbol field: '$WAFFLES ' vs '$WAFFLES'. Creator stored 0x20 before null padding.",
+      "tradingActivity": "alive — 3 pairs, $121K liquidity, $4K 24h vol"
     },
     {
       "symbol": "ASV",
       "mint": "AxaTJdRuuc3626FtPWdQCMcWPH6yzgxXKWbFCZN3TMgy",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, has Metaplex metadata (unusual) but script sent mint instead of PDA. Non-standard pattern.",
+      "tradingActivity": "alive — 1 pair, $83K liquidity, $4.2K 24h vol"
     },
     {
       "symbol": "BERN",
       "mint": "CKfatsPMUf8SkiURsDXs7eK6GWb4Jsd6UDbs7twMCWxo",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "alive — 5 pairs, $297K liquidity (BonkEarn)"
     },
     {
       "symbol": "bozoHYBRID",
       "mint": "EJPtJEDogxzDbvM8qvAsqYbLmPj5n1vQeqoAzj9Yfv3q",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "On-chain symbol is empty, Jupiter lists as 'bozoHYBRID'",
+      "tradingActivity": "alive — 12 pairs, $17K liquidity"
     },
     {
       "symbol": "CHAD",
       "mint": "G7rwEgk8KgQ4RUTnMy2W2i7dRDq4hXHD4CSp9PSmSbRW",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with TransferFeeConfig + DefaultAccountState, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "CopperWorm",
       "mint": "GmjTSDnXj8DFRG5y869MFbjruNwWiJY7GB5oRKq8Jwj",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "On-chain symbol is empty, name is 'Copper Worm'",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcBTC",
       "mint": "3BjcHXvyzMsjmeqE2qFLx45K4XFx3JPiyRnjJiF5MAHt",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — Metaplex metadata exists but symbol field is empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcETH",
       "mint": "GjnoPUjQiEUYWuKAbMax2cM1Eony8Yutc133wuSun9hS",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcFTT",
       "mint": "7wDh4VCTPwx41kvbLE6fkFgMEjnqw7NpGJvQtNabCm2B",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcLUNA",
       "mint": "95sn4kgeJnnBfRCD8S2quu4HS9Y6vb7JDuXrarnmEjYE",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcMNGO",
       "mint": "4sTuzTYfcE2NF7zy6Sy8XhVcNLa6JQSLrx3roy97n4sD",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcmSOL",
       "mint": "6UA3yn28XecAHLTwoCtjfzy3WcyQj1x13bxnH8urUiKt",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcRAY",
       "mint": "SoAnGsHVqSyaN4MjWoPCcftC1V6oSeNxLJjF5TXrtuL",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcSBR",
       "mint": "DPMCwE9z9jXaDVDti5aKhdgCWGgsvioz6ZvB9eZjH7UE",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcscnSOL",
       "mint": "5VmdHqvRMbXivuC34w4Hux9zb1y9moiBEQmXDrTR1kV",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcSOL",
       "mint": "4Hnh1UCC6HLzx9NaGKnTVHR2bANcRrhydumdHCnrT3i2",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fcSRM",
       "mint": "5SLqZSywodLS8ih6U2AAioZrxpgR149hR8SApmCB7r5X",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Francium collateral wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "FLUXB",
       "mint": "FLUXBmPhT3Fd1EDVFdg46YREqHBeNypn1h4EbnTzWERX",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "alive — 2 pairs, $514K liquidity"
     },
     {
       "symbol": "fpBTC",
       "mint": "THjfJ7GUeW6aMU6dzYYFVs5LnKNvmPzgk2wbh3bWagC",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Flip protocol wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fpMNGO",
       "mint": "CxHG1tPkeEHsAVmPF2UrjZK3W719J5DGFgMaLtUkBoeP",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Flip protocol wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "fpSOL",
       "mint": "EBPM7fvPN8EuA65Uc7DT9eGyDUZ1sqMLM8Rb8y2YxBYU",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Flip protocol wrapper — symbol field empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "GEM",
       "mint": "E7BGDtpNXUTqPNbZxKHiLowgLddiAeuKcByD7tSnfYWD",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "GoldWorm",
       "mint": "FJD3zv1F88DVEHcR8hDAWegHD9VEASYngPoGUEc9Ep64",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "On-chain symbol is empty, name is 'Gold Worm'",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "IGNFTEEW",
       "mint": "3eEwnZksgg8mADgSyLzcMQQyVzt2ZCGyQxNet7wcyhBZ",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "On-chain symbol is empty, name is '@28models Instagram'",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "JEFF",
       "mint": "FkCaFsprX7gySagFoQPHNbe9MRkjrvh21cokJo6C1e2T",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "Labz",
       "mint": "4VC7UYqBo9Siw8ZnkPXfw9D3dzYCiVrPDzs9XRtyRJMH",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Trailing space in Metaplex symbol field: 'Labz ' vs 'Labz'. Creator stored 0x20 before null padding.",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "LEIA",
       "mint": "7usVzynPTUJ9czdS96ezm9C6Z3hCsjb7j6TMKipURyyQ",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "LIBRA",
       "mint": "Hz1XePA2vukqFBcf9P7VJ3AsMKoTXyPn3s21dNvGrHnd",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere. Also has active mint authority (unusual).",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "MECA",
       "mint": "8kRacWW5qZ34anyH8s9gu2gC4FpXtncqBDPpd2a6DnZE",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Metaplex metadata exists but symbol field is empty",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "MOAR",
       "mint": "76gDMbyohg6yHy6XJ2Rn9kxC22Q6v6uYpPXxkiwR5ota",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "PHNX",
       "mint": "JAzesW3tU2VLDx99pwgkDMca2DTNsEhSWG8sj21B1niz",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "PRINT",
       "mint": "HKYX2jvwkdjbkbSdirAiQHqTCPQa3jD2DVRkAFHgFXXT",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "barely alive — 1 pair, $89K liquidity, $0.09 24h vol"
     },
     {
       "symbol": "REWD",
       "mint": "2eu1K3wvfPC7gVj1CK8ohv4ggusdN6qxyxpjHyTCkjZT",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "SANDY",
       "mint": "6hBry7w55A3NXDAXxjKqrx3oXfAatNkAJUSGt66ZRsZk",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "SilverWorm",
       "mint": "CcswZVLDUnVNY4UiXJ1SN3fm8nTN9rfkuD8nkXhCUsqz",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "On-chain symbol is empty, name is 'Silver Worm'",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "SolWorm",
       "mint": "33cGFtKGiQPez1m6fHJBbS7nNQNvb5twYifCEL9spguN",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "On-chain symbol is empty, name is 'Solana Worm'",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "TMOON",
       "mint": "7Cx1fMabGWgm86xvv73WzSAcwtLppKf39Ywe8e6Qq4T6",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     },
     {
       "symbol": "tTRIAD",
       "mint": "t3DohmswhKk94PPbPYwA6ZKACyY3y5kbcqeQerAJjmV",
-      "status": "failed",
-      "errorCategory": "MetadataSymbolMismatch"
+      "status": "skipped",
+      "errorCategory": "MetadataSymbolMismatch",
+      "rootCause": "Token-2022 with no metadata anywhere (neither extension nor Metaplex)",
+      "tradingActivity": "alive — 6 pairs, $22K liquidity, $193 24h vol"
     },
     {
       "symbol": "WHO",
       "mint": "A8eYjpNQF6QYEE7DnM4F514MErFzV1pxVT69d7mdSsMk",
-      "status": "failed",
-      "errorCategory": "InvalidMetadata"
+      "status": "skipped",
+      "errorCategory": "InvalidMetadata",
+      "rootCause": "Token-2022 with only TransferFeeConfig, no metadata anywhere",
+      "tradingActivity": "dead"
     }
   ]
 }
