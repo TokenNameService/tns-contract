@@ -37,14 +37,34 @@ pub const UPDATE_FEE_BPS: u16 = 5000;
 /// Year 6: 16%, Year 7: 18%, Year 8: 20%, Year 9: 22%, Year 10: 25%
 pub const MULTI_YEAR_DISCOUNT_BPS: [u16; 10] = [0, 500, 800, 1100, 1400, 1600, 1800, 2000, 2200, 2500];
 
-/// Maximum staleness for Pyth price feed (1 hour)
-pub const MAX_PRICE_STALENESS_SECONDS: i64 = 3600;
+/// Maximum staleness for Pyth price feed (60 seconds — pull oracle is always fresh)
+pub const MAX_PRICE_STALENESS_SECONDS: u64 = 60;
 
-/// Pyth magic number for price accounts
-pub const PYTH_MAGIC: u32 = 0xa1b2c3d4;
+/// Pyth SOL/USD price feed ID (used with pull oracle PriceUpdateV2)
+pub const SOL_USD_FEED_ID: [u8; 32] = hex_to_bytes("ef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d");
 
-/// Pyth program ID on mainnet (owner of price feed accounts)
-pub const PYTH_PROGRAM_ID: Pubkey = pubkey!("FsJ3A3u2vn5cTVofAjvy6y5kwABJAqYWpe4975bi2epH");
+/// Compile-time hex string to byte array conversion
+const fn hex_to_bytes(hex: &str) -> [u8; 32] {
+    let bytes = hex.as_bytes();
+    let mut result = [0u8; 32];
+    let mut i = 0;
+    while i < 32 {
+        let high = hex_char_to_nibble(bytes[i * 2]);
+        let low = hex_char_to_nibble(bytes[i * 2 + 1]);
+        result[i] = (high << 4) | low;
+        i += 1;
+    }
+    result
+}
+
+const fn hex_char_to_nibble(c: u8) -> u8 {
+    match c {
+        b'0'..=b'9' => c - b'0',
+        b'a'..=b'f' => c - b'a' + 10,
+        b'A'..=b'F' => c - b'A' + 10,
+        _ => panic!("invalid hex character"),
+    }
+}
 
 /// Discount for paying with TNS token in basis points (2500 = 25%)
 pub const TNS_DISCOUNT_BPS: u16 = 2500;

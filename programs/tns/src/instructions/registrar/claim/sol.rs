@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::Mint;
-use crate::{Config, Token, SymbolClaimed, TnsError};
+use pyth_solana_receiver_sdk::price_update::PriceUpdateV2;
+use crate::{Config, Token, SymbolClaimed};
 use super::super::helpers::{
     validate_not_paused, validate_symbol_claimable, validate_mint_metadata,
     validate_and_calculate_expiration, validate_slippage, validate_platform_fee_bps,
@@ -42,11 +43,8 @@ pub struct ClaimExpiredSymbolSol<'info> {
     )]
     pub fee_collector: AccountInfo<'info>,
 
-    /// CHECK: Pyth SOL/USD price feed account
-    #[account(
-        constraint = sol_usd_price_feed.key() == config.sol_usd_pyth_feed @ TnsError::PriceFeedMismatch
-    )]
-    pub sol_usd_price_feed: AccountInfo<'info>,
+    /// Pyth pull oracle price update account (ownership verified by SDK)
+    pub price_update: Account<'info, PriceUpdateV2>,
 
     /// The new mint to register the symbol to (validated as a real mint)
     pub new_mint: InterfaceAccount<'info, Mint>,
@@ -97,7 +95,7 @@ pub fn handler(
         config,
         clock.unix_timestamp,
         years,
-        &ctx.accounts.sol_usd_price_feed,
+        &ctx.accounts.price_update,
     )?;
 
     // Validate slippage (no keeper reward for claims)

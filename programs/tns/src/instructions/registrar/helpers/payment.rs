@@ -1,7 +1,8 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface, transfer_checked, TransferChecked};
+use pyth_solana_receiver_sdk::price_update::PriceUpdateV2;
 use crate::{
-    Config, TnsError, MAX_PRICE_STALENESS_SECONDS, PYTH_MAGIC, PYTH_PROGRAM_ID,
+    Config, TnsError, MAX_PRICE_STALENESS_SECONDS, SOL_USD_FEED_ID,
     PUMP_POOL_TNS_RESERVE, PUMP_POOL_SOL_RESERVE, SOL_DECIMALS, STABLECOIN_DECIMALS,
 };
 
@@ -22,9 +23,9 @@ pub fn calculate_fees_sol(
     config: &Config,
     current_time: i64,
     years: u8,
-    sol_price_feed: &AccountInfo,
+    price_update: &Account<PriceUpdateV2>,
 ) -> Result<SolFeeBreakdown> {
-    let sol_price_micro = get_sol_price_micro(sol_price_feed, current_time)?;
+    let sol_price_micro = get_sol_price_micro(price_update)?;
 
     let fee_lamports = config.calculate_registration_price_lamports(current_time, years, sol_price_micro);
     let keeper_reward_lamports = config.get_keeper_reward_lamports();
@@ -107,9 +108,9 @@ pub struct UpdateFeeBreakdown {
 pub fn calculate_update_fee(
     config: &Config,
     current_time: i64,
-    sol_price_feed: &AccountInfo,
+    price_update: &Account<PriceUpdateV2>,
 ) -> Result<UpdateFeeBreakdown> {
-    let sol_price_micro = get_sol_price_micro(sol_price_feed, current_time)?;
+    let sol_price_micro = get_sol_price_micro(price_update)?;
 
     let yearly_price_usd_micro = config.get_current_yearly_price_usd(current_time);
     let fee_usd_micro = yearly_price_usd_micro * config.update_fee_bps as u64 / 10000;
@@ -371,46 +372,23 @@ pub fn transfer_token_fees_with_platform<'info>(
 // Price Oracle Functions
 // ============================================================================
 
-/// Get SOL/USD price from Pyth feed in micro-cents (1 USD = 1_000_000 micro-cents)
-/// Parses Pyth price account format directly to avoid SDK version conflicts
-pub fn get_sol_price_micro(price_feed_account: &AccountInfo, current_timestamp: i64) -> Result<u64> {
-    let data = price_feed_account.try_borrow_data()?;
-
-    // Verify the account is owned by the Pyth program
-    require!(
-        price_feed_account.owner == &PYTH_PROGRAM_ID,
-        TnsError::InvalidPriceFeed
-    );
-
-    // Verify Pyth magic number (first 4 bytes)
-    require!(data.len() >= 48, TnsError::InvalidPriceFeed);
-    let magic = u32::from_le_bytes(data[0..4].try_into().unwrap());
-    require!(magic == PYTH_MAGIC, TnsError::InvalidPriceFeed);
-
-    // Pyth price account layout (v2):
-    // Offset 32: exponent (i32)
-    // Offset 208: aggregate price (i64)
-    // Offset 224: aggregate publish time (i64)
-    require!(data.len() >= 232, TnsError::InvalidPriceFeed);
-
-    let exponent = i32::from_le_bytes(data[32..36].try_into().unwrap());
-    let price = i64::from_le_bytes(data[208..216].try_into().unwrap());
-    let publish_time = i64::from_le_bytes(data[224..232].try_into().unwrap());
-
-    // Check staleness
-    require!(
-        current_timestamp - publish_time <= MAX_PRICE_STALENESS_SECONDS,
-        TnsError::StalePriceFeed
-    );
+/// Get SOL/USD price from Pyth pull oracle in micro-cents (1 USD = 1_000_000 micro-cents)
+/// Uses PriceUpdateV2 from pyth-solana-receiver-sdk (ownership verified automatically)
+pub fn get_sol_price_micro(price_update: &Account<PriceUpdateV2>) -> Result<u64> {
+    let price = price_update.get_price_no_older_than(
+        &Clock::get()?,
+        MAX_PRICE_STALENESS_SECONDS,
+        &SOL_USD_FEED_ID,
+    ).map_err(|_| error!(TnsError::StalePriceFeed))?;
 
     // Ensure price is positive
-    require!(price > 0, TnsError::InvalidPriceFeed);
+    require!(price.price > 0, TnsError::InvalidPriceFeed);
 
     // Convert to micro-cents (6 decimal places)
     // Pyth SOL/USD typically has exponent -8, so price of $200 = 20000000000 * 10^-8
     // We want 200_000_000 micro-cents
-    let price_value = price as i128;
-    let target_exp = exponent + 6;
+    let price_value = price.price as i128;
+    let target_exp = price.exponent + 6;
     let sol_price_micro = if target_exp >= 0 {
         (price_value * 10i128.pow(target_exp as u32)) as u64
     } else {
@@ -429,8 +407,7 @@ pub fn get_sol_price_micro(price_feed_account: &AccountInfo, current_timestamp: 
 pub fn get_tns_price_from_pool(
     pool_tns_reserve: &AccountInfo,
     pool_sol_reserve: &AccountInfo,
-    sol_usd_price_feed: &AccountInfo,
-    current_timestamp: i64,
+    price_update: &Account<PriceUpdateV2>,
 ) -> Result<u64> {
     // Verify accounts match expected constants
     require!(
@@ -456,7 +433,7 @@ pub fn get_tns_price_from_pool(
     require!(tns_reserve > 0 && sol_reserve > 0, TnsError::EmptyPoolReserves);
 
     // Get SOL/USD price from Pyth (returns micro USD, 6 decimals)
-    let sol_price_usd = get_sol_price_micro(sol_usd_price_feed, current_timestamp)?;
+    let sol_price_usd = get_sol_price_micro(price_update)?;
 
     // Calculate TNS price in USD micro
     // tns_price_usd = (sol_reserve / tns_reserve) * sol_price_usd
@@ -491,14 +468,12 @@ pub fn calculate_tns_for_usd(
     usd_amount: u64,
     pool_tns_reserve: &AccountInfo,
     pool_sol_reserve: &AccountInfo,
-    sol_usd_price_feed: &AccountInfo,
-    current_timestamp: i64,
+    price_update: &Account<PriceUpdateV2>,
 ) -> Result<u64> {
     let tns_price_usd = get_tns_price_from_pool(
         pool_tns_reserve,
         pool_sol_reserve,
-        sol_usd_price_feed,
-        current_timestamp,
+        price_update,
     )?;
 
     // Ensure we don't divide by zero
