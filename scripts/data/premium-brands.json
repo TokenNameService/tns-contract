@@ -1,0 +1,2462 @@
+{
+  "description": "TNS Premium Brand Reservations - placeholder mints registered by TNS for major brands with rewards programs. These tickers are reserved for the respective brands to claim. The admin_update_symbol instruction can transfer any ticker to the real brand when they come onboard.",
+  "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+  "registrationYears": 2,
+  "totalReserved": 259,
+  "lastUpdated": "2026-02-20T06:36:59.756Z",
+  "categories": [
+    {
+      "name": "Beverages",
+      "tickers": [
+        "COKE",
+        "coke",
+        "PEPSI",
+        "pepsi",
+        "DRPEPPER",
+        "drpepper",
+        "PEPPER",
+        "pepper",
+        "COCACOLA",
+        "cocacola"
+      ],
+      "count": 10
+    },
+    {
+      "name": "Coffee & Quick Service",
+      "tickers": [
+        "STARBUCKS",
+        "starbucks",
+        "CHIPOTLE",
+        "chipotle",
+        "CHICKFILA",
+        "chickfila",
+        "MCDONALDS",
+        "mcdonalds",
+        "DUNKIN",
+        "dunkin",
+        "PANERA",
+        "panera",
+        "SWEETGREEN",
+        "sweetgreen",
+        "SUBWAY",
+        "subway",
+        "DOMINOS",
+        "dominos",
+        "WENDYS",
+        "wendys",
+        "TACOBELL",
+        "tacobell",
+        "BURGERKING",
+        "burgerking",
+        "PIZZAHUT",
+        "pizzahut",
+        "KFC",
+        "kfc",
+        "PAPAJOHNS",
+        "papajohns",
+        "POPEYES",
+        "popeyes",
+        "sonic",
+        "ARBYS",
+        "arbys",
+        "IHOP",
+        "ihop",
+        "DENNYS",
+        "dennys",
+        "JACKBOX",
+        "jackbox"
+      ],
+      "count": 41
+    },
+    {
+      "name": "Retail & E-Commerce",
+      "tickers": [
+        "AMAZON",
+        "amazon",
+        "COSTCO",
+        "costco",
+        "WALMART",
+        "walmart",
+        "TARGET",
+        "target",
+        "BESTBUY",
+        "bestbuy",
+        "NORDSTROM",
+        "nordstrom",
+        "GAP",
+        "gap",
+        "MACYS",
+        "macys",
+        "KOHLS",
+        "kohls",
+        "HOMEDEPOT",
+        "homedepot",
+        "LOWES",
+        "lowes",
+        "REI",
+        "rei",
+        "IKEA",
+        "ikea",
+        "WAYFAIR",
+        "wayfair"
+      ],
+      "count": 28
+    },
+    {
+      "name": "Beauty & Personal Care",
+      "tickers": [
+        "SEPHORA",
+        "sephora",
+        "ULTA",
+        "ulta"
+      ],
+      "count": 4
+    },
+    {
+      "name": "Fashion & Apparel",
+      "tickers": [
+        "NIKE",
+        "nike",
+        "LULULEMON",
+        "lululemon",
+        "PATAGONIA",
+        "patagonia",
+        "ADIDAS",
+        "adidas",
+        "PUMA",
+        "puma",
+        "NEWBALANCE",
+        "newbalance",
+        "ZARA",
+        "zara",
+        "HM",
+        "hm",
+        "UNIQLO",
+        "uniqlo"
+      ],
+      "count": 18
+    },
+    {
+      "name": "Luxury",
+      "tickers": [
+        "GUCCI",
+        "gucci",
+        "PRADA",
+        "prada",
+        "LOUISV",
+        "louisv",
+        "CHANEL",
+        "chanel",
+        "HERMES",
+        "hermes",
+        "TIFFANY",
+        "tiffany",
+        "BURBERRY",
+        "burberry",
+        "COACH",
+        "coach",
+        "VERSACE",
+        "versace"
+      ],
+      "count": 18
+    },
+    {
+      "name": "Airlines",
+      "tickers": [
+        "DELTA",
+        "delta",
+        "UNITED",
+        "united",
+        "SOUTHWEST",
+        "southwest",
+        "JETBLUE",
+        "jetblue",
+        "AMERICAN",
+        "american"
+      ],
+      "count": 10
+    },
+    {
+      "name": "Hotels & Lodging",
+      "tickers": [
+        "MARRIOTT",
+        "marriott",
+        "HILTON",
+        "hilton",
+        "HYATT",
+        "hyatt",
+        "IHG",
+        "ihg"
+      ],
+      "count": 8
+    },
+    {
+      "name": "Travel & Rideshare",
+      "tickers": [
+        "LYFT",
+        "lyft",
+        "AIRBNB",
+        "airbnb",
+        "VRBO",
+        "vrbo",
+        "EXPEDIA",
+        "expedia",
+        "ONEKEY",
+        "onekey",
+        "HOTELS",
+        "hotels"
+      ],
+      "count": 12
+    },
+    {
+      "name": "Financial Services",
+      "tickers": [
+        "AMEX",
+        "amex",
+        "CHASE",
+        "chase",
+        "CITI",
+        "citi",
+        "CAPITALONE",
+        "capitalone",
+        "DISCOVER",
+        "discover"
+      ],
+      "count": 10
+    },
+    {
+      "name": "Delivery",
+      "tickers": [
+        "DOORDASH",
+        "doordash",
+        "UBER",
+        "uber",
+        "INSTACART",
+        "instacart",
+        "GRUBHUB",
+        "grubhub"
+      ],
+      "count": 8
+    },
+    {
+      "name": "Pharmacy & Health",
+      "tickers": [
+        "WALGREENS",
+        "walgreens",
+        "CVS",
+        "cvs",
+        "RITEAID",
+        "riteaid"
+      ],
+      "count": 6
+    },
+    {
+      "name": "Grocery",
+      "tickers": [
+        "KROGER",
+        "kroger",
+        "WHOLEFOODS",
+        "wholefoods",
+        "TRADERJOES",
+        "traderjoes",
+        "PUBLIX",
+        "publix"
+      ],
+      "count": 8
+    },
+    {
+      "name": "Tech & Entertainment",
+      "tickers": [
+        "APPLE",
+        "apple",
+        "TESLA",
+        "tesla",
+        "NETFLIX",
+        "netflix",
+        "SPOTIFY",
+        "spotify",
+        "GOOGLE",
+        "google",
+        "MICROSOFT",
+        "microsoft",
+        "SAMSUNG",
+        "samsung",
+        "DISNEY",
+        "disney",
+        "HULU",
+        "hulu",
+        "HBO",
+        "hbo",
+        "PELOTON",
+        "peloton",
+        "ROBLOX",
+        "roblox",
+        "TWITCH",
+        "twitch",
+        "PARAMOUNT",
+        "paramount",
+        "PEACOCK",
+        "peacock",
+        "HBOMAX",
+        "hbomax"
+      ],
+      "count": 32
+    },
+    {
+      "name": "Pets",
+      "tickers": [
+        "PETCO",
+        "petco",
+        "PETSMART",
+        "petsmart"
+      ],
+      "count": 4
+    },
+    {
+      "name": "Automotive",
+      "tickers": [
+        "FORD",
+        "ford",
+        "BMW",
+        "bmw",
+        "TOYOTA",
+        "toyota",
+        "HONDA",
+        "honda",
+        "CHEVY",
+        "chevy",
+        "MERCEDES",
+        "mercedes"
+      ],
+      "count": 12
+    },
+    {
+      "name": "Telecom",
+      "tickers": [
+        "TMOBILE",
+        "tmobile",
+        "VERIZON",
+        "verizon",
+        "att"
+      ],
+      "count": 5
+    },
+    {
+      "name": "Gas & Energy",
+      "tickers": [
+        "shell",
+        "EXXON",
+        "exxon",
+        "BP",
+        "bp",
+        "CHEVRON",
+        "chevron"
+      ],
+      "count": 7
+    },
+    {
+      "name": "Alcohol & Tobacco",
+      "tickers": [
+        "BUDWEISER",
+        "budweiser",
+        "MARLBORO",
+        "marlboro",
+        "CAMEL",
+        "camel",
+        "CORONA",
+        "corona",
+        "HENNESSY",
+        "hennessy",
+        "JACKDANIEL",
+        "jackdaniel"
+      ],
+      "count": 12
+    },
+    {
+      "name": "Generic / Crypto",
+      "tickers": [
+        "WORLD",
+        "world",
+        "CRYPTO",
+        "crypto",
+        "BLOCKCHAIN",
+        "blockchain"
+      ],
+      "count": 6
+    }
+  ],
+  "brands": [
+    {
+      "ticker": "COKE",
+      "mint": "H4gkb29CPeFzDrvBKYZ6EPSK1roP6tFpU5uqr6HHBnzo",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:02:59.000Z",
+      "expiresAt": "2028-02-20T17:02:59.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "coke",
+      "mint": "7RRT3CbcVL8CB9JtFj5tPKUPMNgNkddBpi62MrbR3Lt8",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:05.000Z",
+      "expiresAt": "2028-02-20T17:03:05.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PEPSI",
+      "mint": "6cqEnEtiYq1wjFQNeBNR9dNJJXVyALb8RCZMcyuAydry",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:10.000Z",
+      "expiresAt": "2028-02-20T17:03:10.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "pepsi",
+      "mint": "7p3j9W8SDtSY6eBShMaiBuekaWVcvZP5d1enmnratKyL",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:15.000Z",
+      "expiresAt": "2028-02-20T17:03:15.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "DRPEPPER",
+      "mint": "DQDxULAfLzh1zoE9kZgycboi8UeMMLUk2YCVpmohYQhE",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:21.000Z",
+      "expiresAt": "2028-02-20T17:03:21.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "drpepper",
+      "mint": "5BgXM4nCFnM1N5X1YRe6i2TEe5fvTtQStuZgMAENBUdW",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:25.000Z",
+      "expiresAt": "2028-02-20T17:03:25.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PEPPER",
+      "mint": "GigXB1DGSyB5421JqgzuCZZYBPRewEiQknLoAxN9WAU3",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:29.000Z",
+      "expiresAt": "2028-02-20T17:03:29.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "pepper",
+      "mint": "3hEPRQj7ShsHDgPqowkedsEk2D72AwsUcAiRwSAbTBEo",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:34.000Z",
+      "expiresAt": "2028-02-20T17:03:34.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "WORLD",
+      "mint": "3tmdHv5ULjXkgiMcVTR6S85STsFfDhaMwFVNrvTUXQQy",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:41.000Z",
+      "expiresAt": "2028-02-20T17:03:41.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "world",
+      "mint": "DMcjcowYbGB38gqK1TPVNuKf2aj2WYJzyTm6ByjcmDQc",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:24:54.000Z",
+      "expiresAt": "2028-02-20T17:24:54.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CRYPTO",
+      "mint": "8YkAVbEPyYrxmW9HfgYfBjtcPGs5Jx5pSLpbzvAyAYuE",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:49.000Z",
+      "expiresAt": "2028-02-20T17:03:49.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "crypto",
+      "mint": "7FLJBNmBB5DHbGx2UqeGrQ21USHmQaBALPtyvk42XzxB",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:54.000Z",
+      "expiresAt": "2028-02-20T17:03:54.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "BLOCKCHAIN",
+      "mint": "Esb67G8bUjjWBhoc9cSCiDtdTVCrJxaBWsu9cRPot5RN",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:03:59.000Z",
+      "expiresAt": "2028-02-20T17:03:59.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "blockchain",
+      "mint": "3Z3GvRREtjLevVe7rfmn3tm6NwJmMGaVE7TSHdy9aehQ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:04.000Z",
+      "expiresAt": "2028-02-20T17:04:04.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "STARBUCKS",
+      "mint": "9pDB6Tya8KpuwpvQJrSJHpHSAmCDp7xGZh8yu8BN3JpC",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:10.000Z",
+      "expiresAt": "2028-02-20T17:04:10.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "starbucks",
+      "mint": "6HUKhzwPco2378PYau22ahCKp8LzytNtG8JTwQCQnfEh",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:16.000Z",
+      "expiresAt": "2028-02-20T17:04:16.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CHIPOTLE",
+      "mint": "HkCfJ9MSoe84jetQfPiWUWXRicBjQFsRp2RYErZcW7b2",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:21.000Z",
+      "expiresAt": "2028-02-20T17:04:21.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "chipotle",
+      "mint": "2BLkNVfBYMa9WNr8YjVivJ7nMkeX6xYFoCQQTSuzkBAX",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:25.000Z",
+      "expiresAt": "2028-02-20T17:04:25.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CHICKFILA",
+      "mint": "4qi8mWEyG9KR9Nndyeej7tZLzsuTD1UXYUKstGrfKvY4",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:31.000Z",
+      "expiresAt": "2028-02-20T17:04:31.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "chickfila",
+      "mint": "3Vo2JaUuZDutKAZvmmobPC7UdjKJaARELPc8qeBmpc5K",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:36.000Z",
+      "expiresAt": "2028-02-20T17:04:36.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "MCDONALDS",
+      "mint": "FjFZRJLxPH6EZmJVPSb3gEuGEdZvxW57rMbPmQ3R24Z2",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:41.000Z",
+      "expiresAt": "2028-02-20T17:04:41.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "mcdonalds",
+      "mint": "2hcHQVGfA53hUE8yYta1JXXaDr2k4krPtDjfZhggCmcp",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:47.000Z",
+      "expiresAt": "2028-02-20T17:04:47.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "DUNKIN",
+      "mint": "APPEjCETW3T9B2Khx5jx97WhrKtd3MeyjN7rdXDhYL3H",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:51.000Z",
+      "expiresAt": "2028-02-20T17:04:51.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "dunkin",
+      "mint": "AymRpmLeJ5zNPm7oGKtgpLt7qPrvwJ2APKWLpcrcx9ai",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:04:59.000Z",
+      "expiresAt": "2028-02-20T17:04:59.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PANERA",
+      "mint": "2bd9zkJwjdbbn4Zw6WvBqCqgjQvTdwxtUwzY8Ka6f6Xk",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:05:04.000Z",
+      "expiresAt": "2028-02-20T17:05:04.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "panera",
+      "mint": "2ay4Lf97sN5ejfmH9aAK1bANsufFHaNbeJK8Z4jPzvyp",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:05:13.000Z",
+      "expiresAt": "2028-02-20T17:05:13.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "SWEETGREEN",
+      "mint": "BxEYcPbwzgSkTM377cQTtCct6zgzQwrynh4tybovjK9g",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:05:18.000Z",
+      "expiresAt": "2028-02-20T17:05:18.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "sweetgreen",
+      "mint": "5vKJ6hqAeAXeYcFdzV3TLBGP76hN5Xen9ayH48jEn88m",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:05:24.000Z",
+      "expiresAt": "2028-02-20T17:05:24.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "SUBWAY",
+      "mint": "2qxHSPdJPqFdyb3GieLU5xfsNhNq17yfURhD5uAAz5Hr",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:05:29.000Z",
+      "expiresAt": "2028-02-20T17:05:29.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "subway",
+      "mint": "3ja8FCJnG1q21znYzGCuPAjimYYFQaxmv7UbdRoEYUdZ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:05:34.000Z",
+      "expiresAt": "2028-02-20T17:05:34.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "DOMINOS",
+      "mint": "5i3JVzDu26yUB9cnN5AtsCv3N44enwN78FBMPBAYLKgU",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:05:42.000Z",
+      "expiresAt": "2028-02-20T17:05:42.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "dominos",
+      "mint": "FKRvRH5bYBXVMyYibgU4T85toNMbwnrkhizKEGnmJkQq",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:05:48.000Z",
+      "expiresAt": "2028-02-20T17:05:48.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "WENDYS",
+      "mint": "8Mu62PkFiyPZBRo61SAeQFuc9iAMKGckczxQxGEFFpEv",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:05:52.000Z",
+      "expiresAt": "2028-02-20T17:05:52.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "wendys",
+      "mint": "a6RuJGVg8QzfsSD18PhrbTjuvt8TRbksuRHVf4JFRof",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:00.000Z",
+      "expiresAt": "2028-02-20T17:06:00.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "TACOBELL",
+      "mint": "4MtSTZNL2dfjrYRndgb3ZcWmEJLN71DpxEk56pat6dvA",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:07.000Z",
+      "expiresAt": "2028-02-20T17:06:07.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "tacobell",
+      "mint": "Bsxu933krE3weVUftiejUnRudWqirE3YeRm3LnJPo2AJ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:11.000Z",
+      "expiresAt": "2028-02-20T17:06:11.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "BURGERKING",
+      "mint": "CJmLDLD5QMzm2SJxF9P768M57XxEjtYgBN1CFzhVJFkp",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:16.000Z",
+      "expiresAt": "2028-02-20T17:06:16.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "burgerking",
+      "mint": "3qbtjd6K6n4QYWBgLS1168hFToLYUfNHz5EXw6DdW9Tu",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:21.000Z",
+      "expiresAt": "2028-02-20T17:06:21.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PIZZAHUT",
+      "mint": "o2ifVZXDvGPg4pnW1fXA6htyvSKbXez79zYcYQkQm96",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:25.000Z",
+      "expiresAt": "2028-02-20T17:06:25.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "pizzahut",
+      "mint": "EgVgZZyDAdZYRRQwnomD91FbKihrQeVGMXzo4UScxteV",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:32.000Z",
+      "expiresAt": "2028-02-20T17:06:32.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "AMAZON",
+      "mint": "2iR8s3akNsLFy83Rnq5i9Vfy7VufxZvwCftNw9MJpf8o",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:37.000Z",
+      "expiresAt": "2028-02-20T17:06:37.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "amazon",
+      "mint": "Fu5BwJYDfKy9j8kq7hooc2kE4nrHmXNK5QfSHdCJGRH4",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:41.000Z",
+      "expiresAt": "2028-02-20T17:06:41.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "COSTCO",
+      "mint": "H7ehMvJLRYzeo8GUUDo2URZYxJ1rAzBbVGEobhGLSupQ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:48.000Z",
+      "expiresAt": "2028-02-20T17:06:48.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "costco",
+      "mint": "9SD1shp8hcXqhMbkQHeaYgXq6g6fLKcK8kqbFjX7CTWD",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:53.000Z",
+      "expiresAt": "2028-02-20T17:06:53.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "WALMART",
+      "mint": "E1U52vEiyhGqKadqn5C4DVdaX14QVAtYm59jZdVAT2CR",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:06:57.000Z",
+      "expiresAt": "2028-02-20T17:06:57.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "walmart",
+      "mint": "9CjZf3H5BFKCfB584P2UVHTB9khE2Tt7ssYeHs7sBdaS",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:07:01.000Z",
+      "expiresAt": "2028-02-20T17:07:01.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "TARGET",
+      "mint": "JBuq3goLDThPJqwLBoyAtJqcXNABjeKoSJgfhAr4kgBw",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:07:05.000Z",
+      "expiresAt": "2028-02-20T17:07:05.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "target",
+      "mint": "AzgipC7NN6KGhwEsDW37sQMfRbfUhpXpAZa9ksDae3sq",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:07:10.000Z",
+      "expiresAt": "2028-02-20T17:07:10.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "BESTBUY",
+      "mint": "BKFWY8r8He54vhW9ss1Dco5r4D3G8vZKztx53VQDkMXf",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:07:15.000Z",
+      "expiresAt": "2028-02-20T17:07:15.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "bestbuy",
+      "mint": "91MSuyHaqahrGmBMKQMZi5ei8Bo3nVAF1VEBarkbhZMR",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:07:20.000Z",
+      "expiresAt": "2028-02-20T17:07:20.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "NORDSTROM",
+      "mint": "BVyp8hKHEL6Wh7ABdncRTdSpaBSdshpLcGrNVYk6twx6",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:07:25.000Z",
+      "expiresAt": "2028-02-20T17:07:25.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "nordstrom",
+      "mint": "8U8f14FR845uY5Gp4YoY9bVHMUhyg3KPJNKX1dewggWQ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:25:04.000Z",
+      "expiresAt": "2028-02-20T17:25:04.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "GAP",
+      "mint": "GwNLSqNSC5CHUhXnXUZsQN6VRNnSFcFo1wtHUnDSV117",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:12:58.000Z",
+      "expiresAt": "2028-02-20T17:12:58.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "gap",
+      "mint": "HxKmtSbpMo2GY2CZidWSfAfwkZJSbVzsc6EjHX1hYyRU",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:02.000Z",
+      "expiresAt": "2028-02-20T17:13:02.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "MACYS",
+      "mint": "DBLXpbrwKjhWk9KvpamtrERoS8am3qJKFZwTJCgsMER8",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:07.000Z",
+      "expiresAt": "2028-02-20T17:13:07.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "macys",
+      "mint": "CDV6URjaHvq9VVuod6Q2Pe1XRqNrUS2KQ6wtc5QZNnsi",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:20.000Z",
+      "expiresAt": "2028-02-20T17:13:20.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "KOHLS",
+      "mint": "8e8YutkCyqRJwr8NvchYWVfHWEUdcPvVw3mCufqRu6Z6",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:24.000Z",
+      "expiresAt": "2028-02-20T17:13:24.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "kohls",
+      "mint": "GQiZ56Uzkm882de5Exr6VaaUD1FEg2XgDipsnwVKrQ2U",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:29.000Z",
+      "expiresAt": "2028-02-20T17:13:29.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HOMEDEPOT",
+      "mint": "5XetsTNBeNjqECo8YuKbF8FVo7f564Xd814KrKnG4sFP",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:34.000Z",
+      "expiresAt": "2028-02-20T17:13:34.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "homedepot",
+      "mint": "ChRxGCHBEofUso9RmZCuDuc7LTH336vfezujPFKLWLYg",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:39.000Z",
+      "expiresAt": "2028-02-20T17:13:39.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "LOWES",
+      "mint": "CAezDHJ7Uu9nutnE1WJtDXZPhYdEfX7TJYEJYUAuCwb6",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:45.000Z",
+      "expiresAt": "2028-02-20T17:13:45.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "lowes",
+      "mint": "7N2gWahfLVGK1qgsRRR3TG2LtLaRLNqpWawtb7ZbJDym",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:51.000Z",
+      "expiresAt": "2028-02-20T17:13:51.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "REI",
+      "mint": "FQj3kwL1744t8hKXJ1yHbKwBNiUiCYMTx5UbeXynS76m",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:13:57.000Z",
+      "expiresAt": "2028-02-20T17:13:57.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "rei",
+      "mint": "5K1xThVYrvpzpYAyqcLXvSkR4AXL3kLtVEhNsJHj5gfV",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:01.000Z",
+      "expiresAt": "2028-02-20T17:14:01.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "SEPHORA",
+      "mint": "D6js6PZksphUrd5wzbzeKCm5aDV1MPsTypSvV8f6j1k",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:05.000Z",
+      "expiresAt": "2028-02-20T17:14:05.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "sephora",
+      "mint": "CcGme3f7inirBqtes5g7F12WHwdxqEDpfmPYvWBF69FZ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:09.000Z",
+      "expiresAt": "2028-02-20T17:14:09.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ULTA",
+      "mint": "83AvQqHNrYpQEAXzzXudr9R1jDHQLQQqmi2GuB275XD6",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:14.000Z",
+      "expiresAt": "2028-02-20T17:14:14.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ulta",
+      "mint": "Ex2TqKJHU7ooGMUbEwpD5ptYGXkPLuckbPoTyGFgXjy8",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:19.000Z",
+      "expiresAt": "2028-02-20T17:14:19.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "NIKE",
+      "mint": "HPyFKXRuQqcNiShq6PrjmuTWLbG3LbwiUy22pBu98oVg",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:25.000Z",
+      "expiresAt": "2028-02-20T17:14:25.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "nike",
+      "mint": "BP6BChJmZnFofGTDkBbZ5EFzLtgY9JveEtnMiPhhNnXP",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:30.000Z",
+      "expiresAt": "2028-02-20T17:14:30.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "LULULEMON",
+      "mint": "HhAs56DxjkvX9cxVrAGHfgdH3LcAGDZEvYRVcmUQvv2R",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:36.000Z",
+      "expiresAt": "2028-02-20T17:14:36.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "lululemon",
+      "mint": "EPNAxfjKf24V5gFJjvAFdinnsxQprrc23s3rNPvc6wCP",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:25:15.000Z",
+      "expiresAt": "2028-02-20T17:25:15.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PATAGONIA",
+      "mint": "4Zaw4NRp12fYa5MjtSehiC47jWrULQWCAKygyQuNrwgp",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:48.000Z",
+      "expiresAt": "2028-02-20T17:14:48.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "patagonia",
+      "mint": "DHYpAGbbCY9utHJXaF6fmmJfYo1Eqd1PakbFg7jjYWWw",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:14:58.000Z",
+      "expiresAt": "2028-02-20T17:14:58.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "DELTA",
+      "mint": "8gfh6oj3U5FsCUUhnrsqvZLCLBVU1HxNQTCrdBm87qyD",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:05.000Z",
+      "expiresAt": "2028-02-20T17:15:05.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "delta",
+      "mint": "3L3RvA3zvadSa1WSKnf5YD6H6iUAvjFuYcuSjr4gKX3t",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:11.000Z",
+      "expiresAt": "2028-02-20T17:15:11.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "UNITED",
+      "mint": "3DrVUXV3yLTo2d5CCLaD8BMQ9QKV2bmZ7JH52KrtBcKz",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:16.000Z",
+      "expiresAt": "2028-02-20T17:15:16.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "united",
+      "mint": "GYc2hzijF8x4gZG4DA7VetEYGBTiZggddMnmYZUfbJCd",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:20.000Z",
+      "expiresAt": "2028-02-20T17:15:20.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "SOUTHWEST",
+      "mint": "HGqCBQRbiWW49QgXKRy2YsqUTxAYPZ7QVT15SVfacGZp",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:24.000Z",
+      "expiresAt": "2028-02-20T17:15:24.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "southwest",
+      "mint": "Hqkuu4YpXANmWwkN9cUANefXxHhn7LPwNrUisnmc9gdh",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:30.000Z",
+      "expiresAt": "2028-02-20T17:15:30.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "JETBLUE",
+      "mint": "FSNpd6k5yHcGuYPZs26S5CEu2UR3hWQaH698g9Q49tht",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:37.000Z",
+      "expiresAt": "2028-02-20T17:15:37.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "jetblue",
+      "mint": "C9zcbMsb5GVRaVVSx8i6QtKf53UZofjUHH4Rnw6bQw1y",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:42.000Z",
+      "expiresAt": "2028-02-20T17:15:42.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "AMERICAN",
+      "mint": "3odk5MExW7YtiH9zUxVgbKFYCj3gGrECDXmQsVBfu8wB",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:49.000Z",
+      "expiresAt": "2028-02-20T17:15:49.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "american",
+      "mint": "CQqeqrf4afLP1xoAraApxRGhDBxCehN6KrMScoA8RHJY",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:54.000Z",
+      "expiresAt": "2028-02-20T17:15:54.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "MARRIOTT",
+      "mint": "G326DzQCF7SMDy7qeZrwvqQ7v4jfkiHZFWS7tgJQRERX",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:15:58.000Z",
+      "expiresAt": "2028-02-20T17:15:58.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "marriott",
+      "mint": "HSgvHb3d8ZJZL2EprGr6pTkJ4mUat1Zy3QWMLSQJ247f",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:03.000Z",
+      "expiresAt": "2028-02-20T17:16:03.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HILTON",
+      "mint": "92K8uqaEsMnS5evUhX8kUVPQUja9daMFAw7ubhUnnCEP",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:08.000Z",
+      "expiresAt": "2028-02-20T17:16:08.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "hilton",
+      "mint": "5ksfFcFtXqtQk8zXSN2aDU8NYmZxHif9iG2KEs6GuYE2",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:12.000Z",
+      "expiresAt": "2028-02-20T17:16:12.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HYATT",
+      "mint": "Hfc3JFo1bYbVs8gtVnX1wtKFp7aVZgHmMVmU36HqQpAp",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:19.000Z",
+      "expiresAt": "2028-02-20T17:16:19.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "hyatt",
+      "mint": "2noYKAfiaSar3JKpfHwymN9k7A9PDnshVSYdby4BKc9S",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:25.000Z",
+      "expiresAt": "2028-02-20T17:16:25.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "IHG",
+      "mint": "AV766oikbJrJwCaBGpBiHPsxsxCRLXNvMny2kGK4sSMn",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:31.000Z",
+      "expiresAt": "2028-02-20T17:16:31.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ihg",
+      "mint": "D6dTRxfxUmmgRfMb2xTsBaTxebU2WvLKmipGP1WrTYey",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:36.000Z",
+      "expiresAt": "2028-02-20T17:16:36.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "AMEX",
+      "mint": "F3ioi5eyCT5UdLwLW3qWFnrdZ4ywYrhRZHyaL8Lh2sGJ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:42.000Z",
+      "expiresAt": "2028-02-20T17:16:42.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "amex",
+      "mint": "FWtNopxaXzSG2Cst6VFT6LWX6Ee7fS5vy6xEsQECDMhu",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:47.000Z",
+      "expiresAt": "2028-02-20T17:16:47.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CHASE",
+      "mint": "84QP8ySBfgz4v8gdMnJmQHXunyg157oAMXgs3RtCniww",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:52.000Z",
+      "expiresAt": "2028-02-20T17:16:52.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "chase",
+      "mint": "As4feK371oV8dEBiXyAes6KRvLC1ssGYFDJbaLq5yLM5",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:16:58.000Z",
+      "expiresAt": "2028-02-20T17:16:58.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CITI",
+      "mint": "5WXAxP9Vq7BUZNQ9wVYGXCgetVMh52ZHm5mw5Kg6TmyC",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:02.000Z",
+      "expiresAt": "2028-02-20T17:17:02.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "citi",
+      "mint": "8F8deoKF14GSQmGGbuF5BXSYXvjgEtdPaxr92NkeRU8U",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:07.000Z",
+      "expiresAt": "2028-02-20T17:17:07.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CAPITALONE",
+      "mint": "BZQJHtFzSnLMrE7vx2RdQqGuX6inrjv5Y3auNiq8dUfo",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:13.000Z",
+      "expiresAt": "2028-02-20T17:17:13.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "capitalone",
+      "mint": "CzAoJ7oAGZ8nhKwDJJXZA54WF5hPqndsgthDVbh2joPv",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:18.000Z",
+      "expiresAt": "2028-02-20T17:17:18.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "DISCOVER",
+      "mint": "BnoAwLkKiMh48HeVFKko5Yyhnjoxtnuqp8NwSR7vh1m5",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:23.000Z",
+      "expiresAt": "2028-02-20T17:17:23.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "discover",
+      "mint": "CQNn5D4kn5RGzebjV11YL1SBv25zjh77gjxmwF8iguCM",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:27.000Z",
+      "expiresAt": "2028-02-20T17:17:27.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "DOORDASH",
+      "mint": "CW9McCveWQ8iaA97FKvj5VTK66g856Xcs4Nsg5DYn1ML",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:32.000Z",
+      "expiresAt": "2028-02-20T17:17:32.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "doordash",
+      "mint": "AJ1j6ukfvgciTZ8GaENnMCAcaJb2U7q6CmNNGKew1L1E",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:39.000Z",
+      "expiresAt": "2028-02-20T17:17:39.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "UBER",
+      "mint": "4kmVbBDCzYam3S4e9XqKQkLCEz16gu3dTTo65KbhShuv",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-18T04:59:10.000Z",
+      "expiresAt": "2028-02-18T16:59:10.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "uber",
+      "mint": "E3U1nYtiQZ6DcTZgWeGp5ntm6J4qvVV6kjxWo68smpTF",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:44.000Z",
+      "expiresAt": "2028-02-20T17:17:44.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "INSTACART",
+      "mint": "6GnggNFycs6wx41pPh1c5pJp7QBz1F3RUVtvRwVmHfKa",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:48.000Z",
+      "expiresAt": "2028-02-20T17:17:48.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "instacart",
+      "mint": "5WzNWe4dMu8iiMAtGWDGf8HhoXwDLs3jwUBha4pmEk5w",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:54.000Z",
+      "expiresAt": "2028-02-20T17:17:54.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "GRUBHUB",
+      "mint": "GtMgYmtfsJE4DtahhbbTZ81aedHTXinmT7k2EhhndxUr",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:17:59.000Z",
+      "expiresAt": "2028-02-20T17:17:59.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "grubhub",
+      "mint": "2bWdyhyNFsGq7xm6M9gUrhJFEWvcGiydToTkFiTc7GxW",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:05.000Z",
+      "expiresAt": "2028-02-20T17:18:05.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "WALGREENS",
+      "mint": "EeZYnHiDw4Zh9ymFQWgpzfed3CGp8e3mzYWCgDmBDbeb",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:11.000Z",
+      "expiresAt": "2028-02-20T17:18:11.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "walgreens",
+      "mint": "2131bFFeJj6MC4Gb6gXnAx786KhJ8wiE8tYLjfrgMBpC",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:17.000Z",
+      "expiresAt": "2028-02-20T17:18:17.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CVS",
+      "mint": "7Ta7dy4Ain4fZWquUNhzMvu7hr8spR9eHSPTP8JFYuiR",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:24.000Z",
+      "expiresAt": "2028-02-20T17:18:24.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "cvs",
+      "mint": "84vmWvKxebcnZL5JPnqkzPFVBaL4y5uGCRRJW2a9P4SL",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-18T04:41:32.000Z",
+      "expiresAt": "2028-02-18T16:41:32.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "KROGER",
+      "mint": "HGEr5qnJyTStKt7MQChLRjrf4fjpwgk19cgA52Dya7WW",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:30.000Z",
+      "expiresAt": "2028-02-20T17:18:30.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "kroger",
+      "mint": "62qYS5SpPbxCTDMzgZQ74gCyYa5sgUJZiAHb7UHG7UUc",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:35.000Z",
+      "expiresAt": "2028-02-20T17:18:35.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "WHOLEFOODS",
+      "mint": "GFo7fnqeyMmc42FHzQpG7gSHkhAxkvbeD4sfnyp1EZrN",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:40.000Z",
+      "expiresAt": "2028-02-20T17:18:40.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "wholefoods",
+      "mint": "ZWQTNbqTwzNRYSTtwgypD866MF3yKV5cZh8zVwYmjpH",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:46.000Z",
+      "expiresAt": "2028-02-20T17:18:46.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "TRADERJOES",
+      "mint": "96ER5RAZJmMsphfW2CpvqpS7sCUTNhKAxi8MsQ9BkXHu",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:53.000Z",
+      "expiresAt": "2028-02-20T17:18:53.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "traderjoes",
+      "mint": "GNnP9dDHDH1H1EcZtmk1AmbmaDdA7vVpTbzUDqzotyf1",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:18:57.000Z",
+      "expiresAt": "2028-02-20T17:18:57.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PUBLIX",
+      "mint": "DHxmghwAHS66qSnnZceXgSZxh3VgBhqv62AcWZDfhsxb",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:02.000Z",
+      "expiresAt": "2028-02-20T17:19:02.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "publix",
+      "mint": "8YqN32P7Xf5QaoPNPLRuvkJXtipvPHi5XzCAML9dwnSR",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:07.000Z",
+      "expiresAt": "2028-02-20T17:19:07.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "APPLE",
+      "mint": "E7Kwnwr7JHhv3jitsyntFfEHpXgqSeMEXzdPE8FSNq1V",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:14.000Z",
+      "expiresAt": "2028-02-20T17:19:14.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "apple",
+      "mint": "mbm3iVjnWaw25DasuCMVA1CjzjCTB1sKDHkY6WdNXLz",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:18.000Z",
+      "expiresAt": "2028-02-20T17:19:18.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "TESLA",
+      "mint": "BytpQs8N1E4ifKnkVZ8tpQRGMZYg3exEevuHhjDFvb9e",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:23.000Z",
+      "expiresAt": "2028-02-20T17:19:23.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "tesla",
+      "mint": "APaLYeSgMEB7gVjwSY2XJxwSRKKcRRyWr7wGuDCGYHFs",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:28.000Z",
+      "expiresAt": "2028-02-20T17:19:28.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "NETFLIX",
+      "mint": "2AgXvdD83PfqgvRRDtE1TMEcptBaM49JAyPefp1Jr29v",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:32.000Z",
+      "expiresAt": "2028-02-20T17:19:32.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "netflix",
+      "mint": "37h9LFAVeWrC4UL3s9b3gWnzdfRYu2iE38P69avorX8C",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:38.000Z",
+      "expiresAt": "2028-02-20T17:19:38.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "SPOTIFY",
+      "mint": "6BXFVMUQVyT7JhBB5YVxLRK11NqBDP6ikA2YfauUq2j3",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:45.000Z",
+      "expiresAt": "2028-02-20T17:19:45.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "spotify",
+      "mint": "4cYcCT8mkVUz3PzyDJAMtiJU4uz6NgSWhuQSzKfgfZcg",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:50.000Z",
+      "expiresAt": "2028-02-20T17:19:50.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "GOOGLE",
+      "mint": "CRVYneQMLJ5sgNt2t4ZWPC5jTXfka5aauh84j7jp3Esw",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:19:57.000Z",
+      "expiresAt": "2028-02-20T17:19:57.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "google",
+      "mint": "BSZFGRB4EAneJpXLLn3s2SZYP57TMyvgE9e8LDEDgxFs",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:20:03.000Z",
+      "expiresAt": "2028-02-20T17:20:03.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "MICROSOFT",
+      "mint": "Fda8ThCMmn94REQAFWL4SRAVtPT7ZsvDnYdfkTgdBqiU",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:20:07.000Z",
+      "expiresAt": "2028-02-20T17:20:07.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "microsoft",
+      "mint": "GQUsU3Qif6YV4rbu3bLTpSyMui4WN9u42eAxuoanJJ2A",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:20:12.000Z",
+      "expiresAt": "2028-02-20T17:20:12.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "SAMSUNG",
+      "mint": "4saQrEMFLnyJiyEmpDZPv628V1hpFPqruxMNyg4pzvNi",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:20:17.000Z",
+      "expiresAt": "2028-02-20T17:20:17.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "samsung",
+      "mint": "EQbjXsrLeLX6VXLJKEzHdHoGhCdcHQwB1BmdKNbMjZw3",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:20:22.000Z",
+      "expiresAt": "2028-02-20T17:20:22.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "DISNEY",
+      "mint": "8xN5GLpfFH8XNJQ34jmbwGxbb644yMjHXBreYrhBRoEi",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:20:27.000Z",
+      "expiresAt": "2028-02-20T17:20:27.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "disney",
+      "mint": "E7jxgN9XnT7Ekd2fSVBUNRSTVgTF82HJ88osbwDX9XRu",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:25:26.000Z",
+      "expiresAt": "2028-02-20T17:25:26.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HULU",
+      "mint": "3tomsPinb1BVtNa4uHqk4ARCjrSgZazVbg4ZWdUvcmtZ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:20:36.000Z",
+      "expiresAt": "2028-02-20T17:20:36.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "hulu",
+      "mint": "38b8x23hb2V7E4Y14zjt2smo3osKq9E9uRmoiCrviXp8",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:20:40.000Z",
+      "expiresAt": "2028-02-20T17:20:40.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HBO",
+      "mint": "FBNanMz5hwpJ49Aw49AVGdvUQMWnwzbyDrSfhX2Kbndi",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:25:40.000Z",
+      "expiresAt": "2028-02-20T17:25:40.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "hbo",
+      "mint": "3xMGWvCboSUWaiiYidjaVHd6JHQRnKoybJgAtzqUbFEo",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:25:51.000Z",
+      "expiresAt": "2028-02-20T17:25:51.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PELOTON",
+      "mint": "7fZ2ybTXAXGj4mx5rWQKt1P21voULZ7jo3D8L9iVXRAF",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:26:06.000Z",
+      "expiresAt": "2028-02-20T17:26:06.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "peloton",
+      "mint": "3PT5ChN1etUSRmYmqJgGpuAVyHQYbjESoPii9St7AhTL",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:26:17.000Z",
+      "expiresAt": "2028-02-20T17:26:17.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PETCO",
+      "mint": "7tu3FwTEhNxA85WQ1pLACe7r41Qdr3nnjfMeUpzzkZjU",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:26:30.000Z",
+      "expiresAt": "2028-02-20T17:26:30.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "petco",
+      "mint": "4d4GJRuZAiCvPt44wk6sn9EgL2wmfRCD7L9KEoaV8ELH",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:26:42.000Z",
+      "expiresAt": "2028-02-20T17:26:42.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PETSMART",
+      "mint": "B39PqjDE9pVjk3sP89HuyiXSkZWvMwK4ka3TRBjzo3iV",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:26:52.000Z",
+      "expiresAt": "2028-02-20T17:26:52.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "petsmart",
+      "mint": "ABbx1tye9MnTjLzWUwF7LCBGWb2zG7ZgjhMJyrQeyYja",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:27:02.000Z",
+      "expiresAt": "2028-02-20T17:27:02.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "KFC",
+      "mint": "aH2PTMDMZV5cvS9L68VUVCjbAgyw9fe82wLnrs9N8qK",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:55:30.000Z",
+      "expiresAt": "2028-02-20T17:55:30.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "kfc",
+      "mint": "3gtq8RHUvrW8jkRbBPiP4kcKWHsXTncq1NKHGeNXqLm1",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:55:40.000Z",
+      "expiresAt": "2028-02-20T17:55:40.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "COCACOLA",
+      "mint": "HyirJXPRGdj8HJuGwhoby16sy4UoVfY2cCxzRQpcvmQQ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:55:54.000Z",
+      "expiresAt": "2028-02-20T17:55:54.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "cocacola",
+      "mint": "JB7p3Fsb7Q9GZqPGfs3GvbP6zf9A4FoRhdCU1niNCteC",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:56:05.000Z",
+      "expiresAt": "2028-02-20T17:56:05.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PAPAJOHNS",
+      "mint": "Ejq1XLSjjYknACTKVXtDQKJMb2948rVuSYYKcotiFwsH",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:56:16.000Z",
+      "expiresAt": "2028-02-20T17:56:16.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "papajohns",
+      "mint": "3jEhajo4Hps29s8gGETzMXrusoS5zsVaiFGAgLkHG1Dr",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:56:29.000Z",
+      "expiresAt": "2028-02-20T17:56:29.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "POPEYES",
+      "mint": "3FYdkSXdvdJDKq9HTi1ARFfe21hAgCGwi4pgYXmDkvFY",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:56:39.000Z",
+      "expiresAt": "2028-02-20T17:56:39.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "popeyes",
+      "mint": "48dkjayguXR3JnAY91BZA1ANMybc3wmHzgcQujoYGUu1",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:56:52.000Z",
+      "expiresAt": "2028-02-20T17:56:52.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "sonic",
+      "mint": "5xcVKE3zo4t4wAFXyHrVEkgxmQ2FyQGNmR7ftXtzpCeg",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:57:04.000Z",
+      "expiresAt": "2028-02-20T17:57:04.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ARBYS",
+      "mint": "2eSEsEqXKUWruckG8MqqdwwnvfrfEAQtDJEsEHBLj7WB",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:57:15.000Z",
+      "expiresAt": "2028-02-20T17:57:15.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "arbys",
+      "mint": "HZmQXswSa6exorhK8UJ3E5UVzTKQCeQsyRQ891qexRMH",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:57:27.000Z",
+      "expiresAt": "2028-02-20T17:57:27.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "IHOP",
+      "mint": "BNY3tKKdBf6GVzyD51eiG3y79Xeh3C7q8F9aPXXyc5zo",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:57:40.000Z",
+      "expiresAt": "2028-02-20T17:57:40.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ihop",
+      "mint": "GjQVxRAmjfG4x27vxb93bhAJZroiVDvJJr6eTp3LEsTo",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:57:52.000Z",
+      "expiresAt": "2028-02-20T17:57:52.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "DENNYS",
+      "mint": "4PsuiQrpi1VDUTrMM51weo6dRZ8GFim6wpvuW9jtFa8f",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:58:03.000Z",
+      "expiresAt": "2028-02-20T17:58:03.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "dennys",
+      "mint": "2ToLwfsuc3mK3gcbKUYvVudRqhUEQeXj4Gs86jjPoPFK",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:58:16.000Z",
+      "expiresAt": "2028-02-20T17:58:16.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "JACKBOX",
+      "mint": "DPRztARvagMwfTs6ydvafzCz8AGEpBkeBf7rgibSPiZh",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:58:27.000Z",
+      "expiresAt": "2028-02-20T17:58:27.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "jackbox",
+      "mint": "BgSeczCqEGSu6j7SoBzHSbMy4SbEys5cSVKoVbXGN6Wr",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:58:39.000Z",
+      "expiresAt": "2028-02-20T17:58:39.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "BUDWEISER",
+      "mint": "Gu6StTR9Bfir6boFwp3Wg9b1HKRrnB3EY7Gz2sVXEK9W",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:58:52.000Z",
+      "expiresAt": "2028-02-20T17:58:52.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "budweiser",
+      "mint": "Ftj7TYe5B6Gbep8o8tBL1xZ9JR7oNbVxk4ZakntN6zVw",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:59:02.000Z",
+      "expiresAt": "2028-02-20T17:59:02.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "MARLBORO",
+      "mint": "739t3zYz9grECMGSeobFHyYknLuAdGy7rfxafWGEu1v9",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:59:14.000Z",
+      "expiresAt": "2028-02-20T17:59:14.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "marlboro",
+      "mint": "AKCa4vN497nb2UgfArFjuUJYp8YWCTUSDSt9x2nMGCJm",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:59:24.000Z",
+      "expiresAt": "2028-02-20T17:59:24.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CAMEL",
+      "mint": "CAvV9ESNSo98BF5TZs9LCo2f7RRuU7WvBoWdF4xt6BVj",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:59:35.000Z",
+      "expiresAt": "2028-02-20T17:59:35.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "camel",
+      "mint": "9DrQNNSNN1vkd8Zsf17J3yH6d8boC8aoCUVbud6upoeD",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:59:47.000Z",
+      "expiresAt": "2028-02-20T17:59:47.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CORONA",
+      "mint": "DwTNpaMmcZvRWrZqPZnM8GLTozGGSUCtXrGk11ty7MVn",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T05:59:57.000Z",
+      "expiresAt": "2028-02-20T17:59:57.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "corona",
+      "mint": "2NgCuoPFST4Ws7KY67G8waqGix3B8XHfmV29RGQsxFev",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:00:08.000Z",
+      "expiresAt": "2028-02-20T18:00:08.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HENNESSY",
+      "mint": "9G1T9SBLDVkwwFnCucxwmHJWwa1kLEZsDEd5UCLc1Psv",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:00:19.000Z",
+      "expiresAt": "2028-02-20T18:00:19.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "hennessy",
+      "mint": "AJD3gkv7rDn5s7YtY78QGGAYmLmKqUAsAnG89VY6Ppp4",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:00:30.000Z",
+      "expiresAt": "2028-02-20T18:00:30.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "JACKDANIEL",
+      "mint": "9psbHa4JikKiqvXbCnL2otcsciZS7vtLb4RG5XDwtyMB",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:00:41.000Z",
+      "expiresAt": "2028-02-20T18:00:41.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "jackdaniel",
+      "mint": "7DYPa5y9fdX77qMMapHihg6EQBqhEkRqURe7xb76MNf6",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:00:52.000Z",
+      "expiresAt": "2028-02-20T18:00:52.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "shell",
+      "mint": "Em3CD3nKqK9qsPwV3GBzwt4yDHsb5Qh4kiP96v3p6tEE",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:01:04.000Z",
+      "expiresAt": "2028-02-20T18:01:04.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "EXXON",
+      "mint": "4oKN8dGTCyhn8hc8BDq82ig4Tyo9xi3PK4XpyuJ7s1zH",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:01:16.000Z",
+      "expiresAt": "2028-02-20T18:01:16.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "exxon",
+      "mint": "BPMcqwDJHfwSAAgjmXCPD1UcYf9RgQrfUSjmZav8jthw",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:01:32.000Z",
+      "expiresAt": "2028-02-20T18:01:32.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "BP",
+      "mint": "H3wpNSaN9Y9kvuuzv1EBpugbM17X9pJdTxCDyjek78TS",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:01:43.000Z",
+      "expiresAt": "2028-02-20T18:01:43.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "bp",
+      "mint": "p6Ku3tsKdKVgk3a4CFjRnRybLQT8edwMWgBFS1ttff3",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:01:54.000Z",
+      "expiresAt": "2028-02-20T18:01:54.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CHEVRON",
+      "mint": "353EeszpCxqcLNDeT6196egZDxrD7pzH6nyYyPMtSbbG",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:02:04.000Z",
+      "expiresAt": "2028-02-20T18:02:04.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "chevron",
+      "mint": "6HJRpWDdyB1nN9j43S7gze5b5ka4cWCoMKBSHtjqZhGG",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:02:14.000Z",
+      "expiresAt": "2028-02-20T18:02:14.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "TMOBILE",
+      "mint": "HFsV5X4xcNFQhY2Ez5AWXkWfiuQFVZ7z2f7V68XQaHE3",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:02:25.000Z",
+      "expiresAt": "2028-02-20T18:02:25.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "tmobile",
+      "mint": "HUV7Chi3XRqKUU91ZvWVoC76omunUX1ZjeQ4ru5jC3XP",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:02:35.000Z",
+      "expiresAt": "2028-02-20T18:02:35.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "VERIZON",
+      "mint": "Enp4bFhCsHvKVa35uaLVhbH4u84tBmFxYdxRv3ccxADY",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:02:47.000Z",
+      "expiresAt": "2028-02-20T18:02:47.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "verizon",
+      "mint": "DWUT3zN5PbtqsnDgYZVRSf17jgSiA3NeXad8cNvsrxxs",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:03:01.000Z",
+      "expiresAt": "2028-02-20T18:03:01.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "att",
+      "mint": "3PNo2bhuzbH95Yx4sVaziaK1sp7xcjQXsxdfo5MTXnEA",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:03:12.000Z",
+      "expiresAt": "2028-02-20T18:03:12.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "FORD",
+      "mint": "EASkmAz6q8kKEA2MCq5AZJt29BohoLMp36KqRaS72YR4",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:03:24.000Z",
+      "expiresAt": "2028-02-20T18:03:24.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ford",
+      "mint": "8ZRWcDefuYVadwZx59X49DzsUadX3XzL4gtufGFgZaYv",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:03:35.000Z",
+      "expiresAt": "2028-02-20T18:03:35.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "BMW",
+      "mint": "7dSF6a2YXPjTRtv9uTWLKmMxHKngqVUhV7ZBJs5pbeey",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:03:44.000Z",
+      "expiresAt": "2028-02-20T18:03:44.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "bmw",
+      "mint": "2m3KoZEyfqdk1MnhUoJS5HsN5uN341mZjpgD52T2pPT9",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:03:56.000Z",
+      "expiresAt": "2028-02-20T18:03:56.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "TOYOTA",
+      "mint": "Hqh9Fptv4zLxL8RjYoDo1tHLCdWzuZeRZfqEfChKbMtF",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:04:09.000Z",
+      "expiresAt": "2028-02-20T18:04:09.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "toyota",
+      "mint": "4J7zXUAHhzzGkGChqpWaFuJH1nXqATM9nnS71W4dNHpi",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:04:20.000Z",
+      "expiresAt": "2028-02-20T18:04:20.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HONDA",
+      "mint": "2juD6uBbupBA7dHD8J5VL5htj2LpbSUDY1fhVPj3uZYr",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:04:31.000Z",
+      "expiresAt": "2028-02-20T18:04:31.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "honda",
+      "mint": "76ckPj3992R7zxbsCcZUWFiDhCnze71W4EQVyY84YLLy",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:04:42.000Z",
+      "expiresAt": "2028-02-20T18:04:42.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CHEVY",
+      "mint": "CfwgThsDSaurNbAaWJYoGxbwGyi7HgLnmPsefsaqRCRX",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:04:55.000Z",
+      "expiresAt": "2028-02-20T18:04:55.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "chevy",
+      "mint": "EiVScpGu3U9rKMxzT5YWmXAJVsEfbPS7kEjqpEY6rveV",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:05:08.000Z",
+      "expiresAt": "2028-02-20T18:05:08.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "MERCEDES",
+      "mint": "H63kATdJvx5vQ94E5o1ucgkKjMCSrKkLJXtPoyTK1Se9",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:05:18.000Z",
+      "expiresAt": "2028-02-20T18:05:18.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "mercedes",
+      "mint": "3nJ5FmEjBeZNNo74xgbkSBcw4Bsom63qHT2gjWovsEmn",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:05:29.000Z",
+      "expiresAt": "2028-02-20T18:05:29.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "GUCCI",
+      "mint": "29sV6sxoRWSrpXr2gGAQPEqWnMUcVSSCQDZfK1kXAkwo",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:05:39.000Z",
+      "expiresAt": "2028-02-20T18:05:39.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "gucci",
+      "mint": "Gb4XyVocJwa3GbhMrZfiEptWYmn9t8ui24HzeVazavpR",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:05:52.000Z",
+      "expiresAt": "2028-02-20T18:05:52.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PRADA",
+      "mint": "uWGo9YzKGE4vcFWcVnU68pTSPFWB9xmCjWL2uQhegNE",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:06:03.000Z",
+      "expiresAt": "2028-02-20T18:06:03.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "prada",
+      "mint": "FBZH27AZSkYww4Az8L9X18Qj3512RL39eEo67EwRURCa",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:06:19.000Z",
+      "expiresAt": "2028-02-20T18:06:19.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "LOUISV",
+      "mint": "CSHCz4GDqXADSigE621dtKpEgSXUocByf7wWTFmVfV61",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:06:35.000Z",
+      "expiresAt": "2028-02-20T18:06:35.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "louisv",
+      "mint": "63iXpNKghcsunufhDU53BMqqELK61xDs3bM64DTpP8KQ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:06:49.000Z",
+      "expiresAt": "2028-02-20T18:06:49.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "CHANEL",
+      "mint": "91Vung8T7T53xxXPUbnmZqtMzRtMfFcHjpQV1hoH2dYT",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:07:01.000Z",
+      "expiresAt": "2028-02-20T18:07:01.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "chanel",
+      "mint": "4ZaaiSY7zfrHaPEigLPDZdHskZAFwrSHkgNtivDtD1uE",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:07:11.000Z",
+      "expiresAt": "2028-02-20T18:07:11.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HERMES",
+      "mint": "Dm5TvkbUSxdZiqpv8e66mVLnZXRC78xNngL1W8py7m7n",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:07:22.000Z",
+      "expiresAt": "2028-02-20T18:07:22.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "hermes",
+      "mint": "47d36CpjoD6q7HmdWWiLnpwbyTyxpuCXkGdoZfUk5s8C",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:07:35.000Z",
+      "expiresAt": "2028-02-20T18:07:35.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "TIFFANY",
+      "mint": "F7n6xjtw8cZ8jWEVwSkN4GoyJFEma3Mcr5FvcftA5iK4",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:07:47.000Z",
+      "expiresAt": "2028-02-20T18:07:47.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "tiffany",
+      "mint": "HhG15mvnDaLMmbksLgabyQAPg9oTaTjoSweW5a3yLwB9",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:08:01.000Z",
+      "expiresAt": "2028-02-20T18:08:01.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "BURBERRY",
+      "mint": "FUYTtbYvqMapD2pVnKA7pvdsiGKdCdUUZ8sW8Aq3rtSf",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:08:13.000Z",
+      "expiresAt": "2028-02-20T18:08:13.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "burberry",
+      "mint": "Cb5Bx5SPG1cFXGDwqBtWQ8anPKhrsyqVKsE4iZK822zV",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:08:25.000Z",
+      "expiresAt": "2028-02-20T18:08:25.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "COACH",
+      "mint": "2PBKn7pdUzVdJ4uptykAh1C758AMNPiPSjmBkB1iPAq1",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:08:36.000Z",
+      "expiresAt": "2028-02-20T18:08:36.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "coach",
+      "mint": "2SHg8oWeL2USwBRJ157pXAMsXbfbGXBKhgrLcntnF5bL",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:08:46.000Z",
+      "expiresAt": "2028-02-20T18:08:46.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "VERSACE",
+      "mint": "3XQipo8ypcR61hv9nBfjs1HkFbKAiMakiuJsfBPyjxuM",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:08:57.000Z",
+      "expiresAt": "2028-02-20T18:08:57.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "versace",
+      "mint": "7noz2SVwzM174L5Komsg9r9CcUiNbf7BTXA3ftGUzrB5",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:09:13.000Z",
+      "expiresAt": "2028-02-20T18:09:13.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "LYFT",
+      "mint": "61qLYGgsTbADsrixMFdovqrCcR4stMYPn6LrpZ6PyBWJ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:09:24.000Z",
+      "expiresAt": "2028-02-20T18:09:24.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "lyft",
+      "mint": "S4eKwY7qD3xmgBT7EspUurq8GqfrRJ95sUz6r2ZgCFR",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:09:36.000Z",
+      "expiresAt": "2028-02-20T18:09:36.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "AIRBNB",
+      "mint": "2ncb4q2Z8u33TYUSxmwTKdPL7rRCp9xHn1gQsJ3o8mne",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:09:47.000Z",
+      "expiresAt": "2028-02-20T18:09:47.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "airbnb",
+      "mint": "6dqa2xy88bjVcA2UmpWoHifi1Vg5TgoyDfbjd2wvtgAX",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:09:59.000Z",
+      "expiresAt": "2028-02-20T18:09:59.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "VRBO",
+      "mint": "AkRBaxp6J1jLsHaFU2vNav5wBG85HJTh4ArBqJvB8AE8",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:10:12.000Z",
+      "expiresAt": "2028-02-20T18:10:12.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "vrbo",
+      "mint": "4PNe7rhm7NkVv3KgteZ1yFvu1fGvJNuVi7Ms4PyUp9tK",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:10:23.000Z",
+      "expiresAt": "2028-02-20T18:10:23.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "EXPEDIA",
+      "mint": "Hwyd9RwdPYP4XH2Uzs2cQ5PqTodoMYzJv54oRRCskmLw",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:10:34.000Z",
+      "expiresAt": "2028-02-20T18:10:34.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "expedia",
+      "mint": "Ai6Ym44qMAwbULFnCzDxhWipzL4YbZyyidMgm42bzM3d",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:10:46.000Z",
+      "expiresAt": "2028-02-20T18:10:46.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ONEKEY",
+      "mint": "EsaywFgQCZSZ2sq3S5VTCvh9uA8MNkTb3SgNZezbwcUL",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:10:59.000Z",
+      "expiresAt": "2028-02-20T18:10:59.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "onekey",
+      "mint": "F69RAQ4ym5UYdZNAhQDUhmCKr8ReFsuKSDu2aVEQRciL",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:11:09.000Z",
+      "expiresAt": "2028-02-20T18:11:09.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HOTELS",
+      "mint": "8GbqnWivBLAs9HAKHeyJTSr3XMw68Kcia1ixf1asLKit",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:11:21.000Z",
+      "expiresAt": "2028-02-20T18:11:21.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "hotels",
+      "mint": "7ui1zWqFNnCJ9gsB3amTCG2fBKFTAtbG8WQ2e9Qvq5Cm",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:11:34.000Z",
+      "expiresAt": "2028-02-20T18:11:34.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ROBLOX",
+      "mint": "CjFpAdabSmuxEdffU5GvPvNYeiWGzGE1FZhY7iEk8Zfw",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:11:47.000Z",
+      "expiresAt": "2028-02-20T18:11:47.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "roblox",
+      "mint": "GaUzq1sknuTzp9Znj26npSXyZXyy1aWSVSCvADAJtDwH",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:11:57.000Z",
+      "expiresAt": "2028-02-20T18:11:57.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "TWITCH",
+      "mint": "7NU31p51h8Q6rDhuybh8n3dQLqwaJMtivtU4o6eNHWp7",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:12:11.000Z",
+      "expiresAt": "2028-02-20T18:12:11.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "twitch",
+      "mint": "C1Srhe9SiiCC3ZvHvf12R6KBeVnqYNzA4925dkDTtLdW",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:12:28.000Z",
+      "expiresAt": "2028-02-20T18:12:28.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PARAMOUNT",
+      "mint": "6YGFnKSk4VeX2NWnS4HLyMa8dE69u7P34ANRvZsUndfz",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:12:41.000Z",
+      "expiresAt": "2028-02-20T18:12:41.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "paramount",
+      "mint": "3kgM7tHLpUNyhUFn1fa6RYEpUZyBh8UFRS3MHGr45nj9",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:12:57.000Z",
+      "expiresAt": "2028-02-20T18:12:57.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PEACOCK",
+      "mint": "2i8E5EYYPrWjBDKuuZDEAV4nGwRvfBgJKAe3iZcvFs8C",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:13:09.000Z",
+      "expiresAt": "2028-02-20T18:13:09.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "peacock",
+      "mint": "8PggrvaKF83jtQzFVgyJW2zzFX35xBZLktWcwiwdPPJ5",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:13:20.000Z",
+      "expiresAt": "2028-02-20T18:13:20.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HBOMAX",
+      "mint": "G3sAkZnJanVxUMi5BWLMGjig8PuNTWfC9wUB3uu5gf49",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:13:33.000Z",
+      "expiresAt": "2028-02-20T18:13:33.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "hbomax",
+      "mint": "ErHzDjTQKy99JFZSgRX4XqwNW7iVmoN8BgNfdVU3drZb",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:13:45.000Z",
+      "expiresAt": "2028-02-20T18:13:45.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "RITEAID",
+      "mint": "J6q4BuygnGAyphJAuFKcegztKRS9eWgRBpbTJomVLApQ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:13:58.000Z",
+      "expiresAt": "2028-02-20T18:13:58.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "riteaid",
+      "mint": "9GGkD7QxXpdyahYkAphs6s6mJvJBRkqQ7oZZT5oz99p8",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:14:10.000Z",
+      "expiresAt": "2028-02-20T18:14:10.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "IKEA",
+      "mint": "2CidaRmTPPnFqAekaeWzqD5Q1pint4nNZpfQfqBb9r4w",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:14:23.000Z",
+      "expiresAt": "2028-02-20T18:14:23.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ikea",
+      "mint": "7gif9b3RnFanBCFDFVfn9w43QWrrLKWEHUT3zpDP6tq3",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:14:33.000Z",
+      "expiresAt": "2028-02-20T18:14:33.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "WAYFAIR",
+      "mint": "8C5NkQFSeqkuBUxgDS3QCgFaKHyb3YG1QU3GZzpD3jsT",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:14:47.000Z",
+      "expiresAt": "2028-02-20T18:14:47.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "wayfair",
+      "mint": "AFW7MsQQqMQhHM3NcCwsaXpspzBw1YokHHEGwWvesUqi",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:14:57.000Z",
+      "expiresAt": "2028-02-20T18:14:57.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ZARA",
+      "mint": "2wBSii3xdh6Ep6vVnV2M5t9ExkMskZWTJc42S3mgrjFD",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:15:07.000Z",
+      "expiresAt": "2028-02-20T18:15:07.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "zara",
+      "mint": "4FjJUC1ufrYJHqWgRFkhxcfNGKgXZ9xSWGuQkwbcmDPT",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:15:17.000Z",
+      "expiresAt": "2028-02-20T18:15:17.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "HM",
+      "mint": "J3tZJ24dBVdr1Z9nKbzf67jZPaoeHbRtus3Si9rBvYt6",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:15:27.000Z",
+      "expiresAt": "2028-02-20T18:15:27.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "hm",
+      "mint": "HxSc8n7TiVcNcad6JJqYbo1vfR2F118jEY2za8TeY5ZA",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:15:37.000Z",
+      "expiresAt": "2028-02-20T18:15:37.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "UNIQLO",
+      "mint": "Ho3uJ7Vow8hjJqjNpc72643T4YJWL7e8TudVVF5KmrVv",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:15:51.000Z",
+      "expiresAt": "2028-02-20T18:15:51.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "uniqlo",
+      "mint": "7ARoXxN6uVtQKvriAEuUG3mvYytUy6Fv5CeV98bRhf3X",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:16:05.000Z",
+      "expiresAt": "2028-02-20T18:16:05.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "ADIDAS",
+      "mint": "FwXascNiw2DrXCRs14XgkpTMAGRS5nRLvaJhA2D74TAt",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:16:17.000Z",
+      "expiresAt": "2028-02-20T18:16:17.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "adidas",
+      "mint": "BGfRPps9xHp3ymQgRNsCjycBJezdoKkZd4QTSPYbuZx2",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:16:27.000Z",
+      "expiresAt": "2028-02-20T18:16:27.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "PUMA",
+      "mint": "9V7KmLNPKSAmpRvoHuBkmj3S1cxibmSQh5U23cSo6PoQ",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:16:39.000Z",
+      "expiresAt": "2028-02-20T18:16:39.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "puma",
+      "mint": "6VfJ3xSpTG8kUJb4ex4k23u66JS9enkA4d4FF9jt5VaM",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:16:50.000Z",
+      "expiresAt": "2028-02-20T18:16:50.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "NEWBALANCE",
+      "mint": "8hFz6su3J9tW57ShNeHJYkMjRkjHBNLFyhnxhkRqSFDa",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:17:05.000Z",
+      "expiresAt": "2028-02-20T18:17:05.000Z",
+      "status": "reserved-for-brand"
+    },
+    {
+      "ticker": "newbalance",
+      "mint": "8eaUTB3oWXwFMS1ptkc2z6Nw19b4KTVi9ZsRhxavcGtW",
+      "owner": "TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue",
+      "registeredAt": "2026-02-20T06:17:18.000Z",
+      "expiresAt": "2028-02-20T18:17:18.000Z",
+      "status": "reserved-for-brand"
+    }
+  ]
+}

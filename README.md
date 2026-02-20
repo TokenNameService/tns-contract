@@ -103,6 +103,24 @@ npx tsx app/demo.ts admin-update Bonk --expires 1735689600
 npx tsx app/demo.ts admin-close Bonk
 ```
 
+## Create Token Mint
+
+Create an SPL token with metadata (for testing, seeding, etc). Supports both classic SPL and Token-2022.
+
+```bash
+# Classic SPL token with Metaplex metadata (6 decimals, all authorities retained)
+npx tsx scripts/create-token.ts MYSYMBOL
+
+# Token-2022 with embedded metadata
+npx tsx scripts/create-token.ts MYSYMBOL --token-2022
+
+# Create mint for someone else — payer only pays tx fees, all authorities go to them
+npx tsx scripts/create-token.ts MYSYMBOL --authority <THEIR_PUBKEY>
+
+# With all options
+npx tsx scripts/create-token.ts MYSYMBOL --name "My Token" --decimals 9 --uri "https://..." --authority <PUBKEY> --keypair ./my-keypair.json --rpc https://api.mainnet-beta.solana.com
+```
+
 ## On-Chain Lookup
 
 ```typescript
