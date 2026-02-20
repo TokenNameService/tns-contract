@@ -26,12 +26,14 @@
 
 import "dotenv/config";
 import * as anchor from "@coral-xyz/anchor";
-import { Program, AnchorProvider } from "@coral-xyz/anchor";
+import { Program, AnchorProvider, Wallet } from "@coral-xyz/anchor";
 import {
   Connection,
   Keypair,
   PublicKey,
   SystemProgram,
+  Signer,
+  TransactionInstruction,
 } from "@solana/web3.js";
 import {
   getAssociatedTokenAddressSync,
@@ -39,6 +41,8 @@ import {
   TOKEN_PROGRAM_ID,
   TOKEN_2022_PROGRAM_ID,
 } from "@solana/spl-token";
+import { HermesClient } from "@pythnetwork/hermes-client";
+import { PythSolanaReceiver } from "@pythnetwork/pyth-solana-receiver";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -62,6 +66,10 @@ const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
 const RPC_URL = process.env.SOLANA_RPC_URL || "http://127.0.0.1:8899";
 
 const IDL_PATH = path.join(__dirname, "../target/idl/tns.json");
+
+// Pyth SOL/USD feed ID (hex, same on mainnet and devnet)
+const SOL_USD_PYTH_FEED_ID =
+  "0xef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d";
 
 // Constants matching the contract
 const GRACE_PERIOD_SECONDS = 90 * 24 * 60 * 60; // 90 days
@@ -95,6 +103,54 @@ function getProvider(): AnchorProvider {
   const connection = new Connection(RPC_URL, "confirmed");
   const wallet = new anchor.Wallet(loadKeypair());
   return new AnchorProvider(connection, wallet, { commitment: "confirmed" });
+}
+
+interface PriceUpdateData {
+  preInstructions: TransactionInstruction[];
+  closeInstructions: TransactionInstruction[];
+  priceUpdateAccount: PublicKey;
+  ephemeralSigners: Signer[];
+}
+
+async function buildPriceUpdateInstructions(connection: Connection): Promise<PriceUpdateData> {
+  const hermes = new HermesClient("https://hermes.pyth.network");
+  const priceUpdates = await hermes.getLatestPriceUpdates([SOL_USD_PYTH_FEED_ID]);
+
+  if (!priceUpdates?.binary?.data?.[0]) {
+    throw new Error("Failed to fetch price update from Hermes");
+  }
+
+  const dummyWallet = new Wallet(Keypair.generate());
+  const pythReceiver = new PythSolanaReceiver({ connection, wallet: dummyWallet });
+
+  const { postInstructions, priceFeedIdToPriceUpdateAccount, closeInstructions } =
+    await pythReceiver.buildPostPriceUpdateInstructions(priceUpdates.binary.data);
+
+  const priceUpdateAccount = priceFeedIdToPriceUpdateAccount[SOL_USD_PYTH_FEED_ID];
+  if (!priceUpdateAccount) {
+    throw new Error("Price update account not found for SOL/USD feed");
+  }
+
+  const preIxs: TransactionInstruction[] = [];
+  const allSigners: Signer[] = [];
+
+  for (const ixWithSigners of postInstructions) {
+    preIxs.push(ixWithSigners.instruction);
+    allSigners.push(...ixWithSigners.signers);
+  }
+
+  const closeIxs: TransactionInstruction[] = [];
+  for (const ixWithSigners of closeInstructions) {
+    closeIxs.push(ixWithSigners.instruction);
+    allSigners.push(...ixWithSigners.signers);
+  }
+
+  return {
+    preInstructions: preIxs,
+    closeInstructions: closeIxs,
+    priceUpdateAccount,
+    ephemeralSigners: allSigners,
+  };
 }
 
 function getConfigPda(): PublicKey {
@@ -222,10 +278,9 @@ async function registerSymbol(symbol: string, mint: string, years: number) {
     // Account doesn't exist - good, we can register
   }
 
-  // Get fee collector and price feed from config
+  // Get fee collector from config
   const config = await (program.account as any).config.fetch(configPda);
   const feeCollector = config.feeCollector;
-  const solUsdPriceFeed = config.solUsdPythFeed;
 
   console.log("Registering symbol with SOL...");
   console.log(`  Symbol: ${symbol}`);
@@ -234,25 +289,35 @@ async function registerSymbol(symbol: string, mint: string, years: number) {
   console.log(`  Owner: ${provider.wallet.publicKey}`);
   console.log(`  Token PDA: ${tokenPda}`);
 
+  // Fetch Pyth price update from Hermes
+  console.log("  Fetching SOL/USD price from Pyth...");
+  const pythData = await buildPriceUpdateInstructions(provider.connection);
+
   // Max SOL cost for slippage protection (1 SOL = 1e9 lamports)
   const maxSolCost = new anchor.BN(1_000_000_000);
   // No platform fee for direct registration
   const platformFeeBps = 0;
 
-  const tx = await program.methods
+  const ix = await program.methods
     .registerSymbolSol(symbol, years, maxSolCost, platformFeeBps)
-    .accounts({
+    .accountsPartial({
       payer: provider.wallet.publicKey,
       config: configPda,
       tokenAccount: tokenPda,
       tokenMint: mintPubkey,
       tokenMetadata: tokenMetadata,
-      systemProgram: SystemProgram.programId,
       feeCollector: feeCollector,
-      solUsdPriceFeed: solUsdPriceFeed,
+      priceUpdate: pythData.priceUpdateAccount,
       platformFeeAccount: null,
     })
-    .rpc();
+    .instruction();
+
+  const transaction = new anchor.web3.Transaction();
+  for (const preIx of pythData.preInstructions) transaction.add(preIx);
+  transaction.add(ix);
+  for (const closeIx of pythData.closeInstructions) transaction.add(closeIx);
+
+  const tx = await provider.sendAndConfirm(transaction, pythData.ephemeralSigners as Keypair[]);
 
   console.log("\nSymbol registered!");
   console.log(`  Transaction: ${tx}`);
@@ -267,10 +332,9 @@ async function renewSymbol(symbol: string, years: number) {
   const configPda = getConfigPda();
   const tokenPda = getTokenPda(symbol);
 
-  // Get fee collector and price feed from config
+  // Get fee collector from config
   const config = await (program.account as any).config.fetch(configPda);
   const feeCollector = config.feeCollector;
-  const solUsdPriceFeed = config.solUsdPythFeed;
 
   const tokenAccount = await (program.account as any).token.fetch(tokenPda);
 
@@ -279,22 +343,32 @@ async function renewSymbol(symbol: string, years: number) {
   console.log(`  Additional years: ${years}`);
   console.log(`  Current expiration: ${formatDate(tokenAccount.expiresAt.toNumber())}`);
 
+  // Fetch Pyth price update from Hermes
+  console.log("  Fetching SOL/USD price from Pyth...");
+  const pythData = await buildPriceUpdateInstructions(provider.connection);
+
   // Max SOL cost for slippage protection (1 SOL = 1e9 lamports)
   const maxSolCost = new anchor.BN(1_000_000_000);
   // No platform fee for direct renewal
   const platformFeeBps = 0;
 
-  const tx = await program.methods
+  const ix = await program.methods
     .renewSymbolSol(years, maxSolCost, platformFeeBps)
-    .accounts({
+    .accountsPartial({
       payer: provider.wallet.publicKey,
-      config: configPda,
       tokenAccount: tokenPda,
       feeCollector: feeCollector,
-      solUsdPriceFeed: solUsdPriceFeed,
-      systemProgram: SystemProgram.programId,
+      priceUpdate: pythData.priceUpdateAccount,
+      platformFeeAccount: null,
     })
-    .rpc();
+    .instruction();
+
+  const transaction = new anchor.web3.Transaction();
+  for (const preIx of pythData.preInstructions) transaction.add(preIx);
+  transaction.add(ix);
+  for (const closeIx of pythData.closeInstructions) transaction.add(closeIx);
+
+  const tx = await provider.sendAndConfirm(transaction, pythData.ephemeralSigners as Keypair[]);
 
   const tokenAccountAfter = await (program.account as any).token.fetch(tokenPda);
 
@@ -320,23 +394,34 @@ async function updateMint(symbol: string, newMint: string) {
   console.log(`  Current mint: ${tokenAccount.mint}`);
   console.log(`  New mint: ${newMintPubkey}`);
 
+  // Fetch Pyth price update from Hermes
+  console.log("  Fetching SOL/USD price from Pyth...");
+  const pythData = await buildPriceUpdateInstructions(provider.connection);
+
   // Max SOL cost for slippage protection (0.5 SOL for update fee)
   const maxSolCost = new anchor.BN(500_000_000);
   // No platform fee for direct update
   const platformFeeBps = 0;
 
-  const tx = await program.methods
+  const ix = await program.methods
     .updateMintSol(maxSolCost, platformFeeBps)
-    .accounts({
+    .accountsPartial({
       owner: provider.wallet.publicKey,
-      config: configPda,
       tokenAccount: tokenPda,
       newMint: newMintPubkey,
+      newMintMetadata: getMetadataPda(newMintPubkey),
       feeCollector: config.feeCollector,
-      solUsdPriceFeed: config.solUsdPythFeed,
-      systemProgram: SystemProgram.programId,
+      priceUpdate: pythData.priceUpdateAccount,
+      platformFeeAccount: null,
     })
-    .rpc();
+    .instruction();
+
+  const transaction = new anchor.web3.Transaction();
+  for (const preIx of pythData.preInstructions) transaction.add(preIx);
+  transaction.add(ix);
+  for (const closeIx of pythData.closeInstructions) transaction.add(closeIx);
+
+  const tx = await provider.sendAndConfirm(transaction, pythData.ephemeralSigners as Keypair[]);
 
   console.log("\nMint updated!");
   console.log(`  Transaction: ${tx}`);
@@ -550,7 +635,7 @@ async function showConfig() {
     console.log(`  Config PDA:        ${configPda}`);
     console.log(`  Admin:             ${config.admin}`);
     console.log(`  Fee Collector:     ${config.feeCollector}`);
-    console.log(`  SOL/USD Pyth Feed: ${config.solUsdPythFeed}`);
+    console.log(`  SOL/USD Pyth Feed: ${config.solUsdPythFeed} (legacy, unused - now uses pull oracle)`);
     console.log(`  TNS/USD Pyth Feed: ${config.tnsUsdPythFeed || "None (not configured)"}`);
     console.log("");
     console.log(`  Paused:  ${config.paused ? "YES ⛔ (registrations blocked)" : "NO ✅ (accepting registrations)"}`);

@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
+use pyth_solana_receiver_sdk::price_update::PriceUpdateV2;
 use crate::{
     Config, Token, SymbolRegistered, TnsError, TNS_MINT, TNS_DISCOUNT_BPS,
     PUMP_POOL_TNS_RESERVE, PUMP_POOL_SOL_RESERVE, calculate_tns_for_usd,
@@ -72,8 +73,8 @@ pub struct RegisterSymbolTns<'info> {
 
     // Pool pricing accounts for TNS market price
 
-    /// CHECK: Pyth SOL/USD price feed - validated in get_sol_price_micro
-    pub sol_usd_price_feed: AccountInfo<'info>,
+    /// Pyth pull oracle price update account (ownership verified by SDK)
+    pub price_update: Account<'info, PriceUpdateV2>,
 
     /// CHECK: Pool's TNS reserve token account - validated against constant
     #[account(address = PUMP_POOL_TNS_RESERVE @ TnsError::InvalidPoolReserve)]
@@ -132,8 +133,7 @@ pub fn handler(
         fee_usd_micro,
         &ctx.accounts.pool_tns_reserve,
         &ctx.accounts.pool_sol_reserve,
-        &ctx.accounts.sol_usd_price_feed,
-        clock.unix_timestamp,
+        &ctx.accounts.price_update,
     )?;
 
     // Apply 25% discount

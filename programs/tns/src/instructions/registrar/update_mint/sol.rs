@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::Mint;
+use pyth_solana_receiver_sdk::price_update::PriceUpdateV2;
 use crate::{Config, Token, MintUpdated, TnsError};
 use super::super::helpers::{
     validate_not_paused, validate_symbol_not_expired, validate_mint_different, validate_mint_metadata,
@@ -39,11 +40,8 @@ pub struct UpdateMintSol<'info> {
     )]
     pub fee_collector: AccountInfo<'info>,
 
-    /// CHECK: Pyth SOL/USD price feed account
-    #[account(
-        constraint = sol_usd_price_feed.key() == config.sol_usd_pyth_feed @ TnsError::PriceFeedMismatch
-    )]
-    pub sol_usd_price_feed: AccountInfo<'info>,
+    /// Pyth pull oracle price update account (ownership verified by SDK)
+    pub price_update: Account<'info, PriceUpdateV2>,
 
     /// CHECK: Optional platform fee recipient (launchpad/referrer)
     #[account(mut)]
@@ -81,7 +79,7 @@ pub fn handler(ctx: Context<UpdateMintSol>, max_sol_cost: u64, platform_fee_bps:
     let fee = calculate_update_fee(
         config,
         clock.unix_timestamp,
-        &ctx.accounts.sol_usd_price_feed,
+        &ctx.accounts.price_update,
     )?;
 
     // Validate slippage

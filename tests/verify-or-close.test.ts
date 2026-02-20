@@ -154,7 +154,7 @@ describe("TNS - Verify Or Close", () => {
 
   describe("Metadata Verification", () => {
     it("fails with NoDriftDetected when symbol matches metadata", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
         ctx;
 
       // Register a symbol first
@@ -173,7 +173,7 @@ describe("TNS - Verify Or Close", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -206,7 +206,7 @@ describe("TNS - Verify Or Close", () => {
     });
 
     it("anyone can call verify_or_close (fails if no drift)", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
         ctx;
 
       // Register a symbol
@@ -224,7 +224,7 @@ describe("TNS - Verify Or Close", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -258,7 +258,7 @@ describe("TNS - Verify Or Close", () => {
     });
 
     it("fails with invalid metadata account", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
         ctx;
 
       // Register a symbol
@@ -276,7 +276,7 @@ describe("TNS - Verify Or Close", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -349,7 +349,7 @@ describe("TNS - Verify Or Close", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();

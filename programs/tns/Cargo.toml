@@ -23,6 +23,7 @@ custom-panic = []
 [dependencies]
 anchor-lang = "0.32.1"
 anchor-spl = { version = "0.32.1", features = ["token_2022", "token_2022_extensions"] }
+pyth-solana-receiver-sdk = "1.1.0"
 phf = { version = "0.11", features = ["macros"] }
 mpl-token-metadata = "5.1"
 

@@ -88,7 +88,7 @@ describe("TNS - Cancel Symbol", () => {
   });
 
   it("fails to cancel a symbol that is still active", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
     const symbol = "ACTIVE2";
     const tokenPda = getTokenPda(program.programId, symbol);
@@ -113,7 +113,7 @@ describe("TNS - Cancel Symbol", () => {
         tokenMint: testTokenMint,
         tokenMetadata: testTokenMetadata,
         feeCollector: feeCollectorPubkey,
-        solUsdPriceFeed: solUsdPythFeed,
+        priceUpdate: priceUpdate,
         platformFeeAccount: null,
       })
       .rpc();
@@ -197,7 +197,7 @@ describe("TNS - Cancel Symbol", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -263,7 +263,7 @@ describe("TNS - Cancel Symbol", () => {
           tokenMint: newMint,
           tokenMetadata: newMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -306,7 +306,7 @@ describe("TNS - Cancel Symbol", () => {
           tokenMint: originalMint,
           tokenMetadata: originalMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -384,7 +384,7 @@ describe("TNS - Cancel Symbol", () => {
           tokenMint: newMint,
           tokenMetadata: newMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .signers([newOwner])

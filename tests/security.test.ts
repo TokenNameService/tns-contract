@@ -128,14 +128,14 @@ describe("TNS - Security Tests", () => {
           tokenMint: pauseTestMint,
           tokenMetadata: pauseTestMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
     });
 
     it("cannot register symbols when paused", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
         ctx;
 
       // Pause the protocol
@@ -162,7 +162,7 @@ describe("TNS - Security Tests", () => {
             tokenMint: tokenMint,
             tokenMetadata: tokenMetadata,
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
           })
           .rpc();
@@ -183,7 +183,7 @@ describe("TNS - Security Tests", () => {
     });
 
     it("cannot renew symbols when paused", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
         ctx;
 
       // Pause the protocol
@@ -203,7 +203,7 @@ describe("TNS - Security Tests", () => {
             config: configPda,
             tokenAccount: tokenForRenewal,
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
           })
           .rpc();
@@ -224,7 +224,7 @@ describe("TNS - Security Tests", () => {
     });
 
     it("cannot update mint when paused", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
         ctx;
 
       // Pause the protocol
@@ -248,7 +248,7 @@ describe("TNS - Security Tests", () => {
             config: configPda,
             tokenAccount: tokenForRenewal,
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
             newMint: newMint,
             newMintMetadata: newMintMetadata,
@@ -285,7 +285,7 @@ describe("TNS - Security Tests", () => {
         admin,
         configPda,
         feeCollectorPubkey,
-        solUsdPythFeed,
+        priceUpdate,
         currentPhase,
       } = ctx;
 
@@ -307,7 +307,7 @@ describe("TNS - Security Tests", () => {
           payer: admin.publicKey,
           config: configPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
@@ -325,7 +325,7 @@ describe("TNS - Security Tests", () => {
         registrant,
         configPda,
         feeCollectorPubkey,
-        solUsdPythFeed,
+        priceUpdate,
         currentPhase,
       } = ctx;
 
@@ -350,7 +350,7 @@ describe("TNS - Security Tests", () => {
             tokenMint: tokenMint,
             tokenMetadata: tokenMetadata,
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
           })
           .signers([registrant])
@@ -371,7 +371,7 @@ describe("TNS - Security Tests", () => {
     });
 
     it("allows symbols with special characters if metadata matches", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
         ctx;
 
       // Special characters are now allowed - Metaplex matching is the gatekeeper
@@ -390,7 +390,7 @@ describe("TNS - Security Tests", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -400,7 +400,7 @@ describe("TNS - Security Tests", () => {
     });
 
     it("rejects when symbol doesn't match metadata", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
         ctx;
 
       // Try to register with a symbol that doesn't match the metadata
@@ -420,7 +420,7 @@ describe("TNS - Security Tests", () => {
             tokenMint: tokenMint,
             tokenMetadata: tokenMetadata,
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
           })
           .rpc();
@@ -445,7 +445,7 @@ describe("TNS - Security Tests", () => {
         configPda,
         feeCollector,
         feeCollectorPubkey,
-        solUsdPythFeed,
+        priceUpdate,
       } = ctx;
 
       // Set a new fee collector
@@ -472,7 +472,7 @@ describe("TNS - Security Tests", () => {
             payer: admin.publicKey,
             config: configPda,
             feeCollector: feeCollectorPubkey, // Old fee collector
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             tokenMint: tokenMint,
             tokenMetadata: tokenMetadata,
             tokenAccount: tokenPda,
@@ -565,7 +565,7 @@ describe("TNS - Security Tests", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .signers([registrant])

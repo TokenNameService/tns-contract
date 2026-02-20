@@ -32,7 +32,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
 
   describe("Token-2022 mints (pump.fun style)", () => {
     it("registers Token-2022 mint when passing mint as metadata", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
       const symbol = "T22OK";
       const tokenPda = getTokenPda(program.programId, symbol);
 
@@ -58,7 +58,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMint, // Pass mint as metadata for Token-2022
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -69,7 +69,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
     });
 
     it("rejects Token-2022 mint when passing Metaplex metadata PDA", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
       const symbol = "T22BAD";
       const tokenPda = getTokenPda(program.programId, symbol);
 
@@ -94,7 +94,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
             tokenMint: tokenMint,
             tokenMetadata: metaplexMetadataPda, // Wrong! Should be mint for Token-2022
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
           })
           .rpc();
@@ -108,7 +108,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
 
   describe("Classic SPL mints (Metaplex metadata)", () => {
     it("registers classic SPL mint when passing Metaplex metadata PDA", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
       const symbol = "SPLOK";
       const tokenPda = getTokenPda(program.programId, symbol);
 
@@ -137,7 +137,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata, // Metaplex PDA for classic SPL
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -148,7 +148,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
     });
 
     it("rejects classic SPL mint when passing mint as metadata", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
       const symbol = "SPLBAD";
       const tokenPda = getTokenPda(program.programId, symbol);
 
@@ -171,7 +171,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
             tokenMint: tokenMint,
             tokenMetadata: tokenMint, // Wrong! Should be Metaplex PDA for classic SPL
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
           })
           .rpc();
@@ -185,7 +185,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
 
   describe("Symbol mismatch protection", () => {
     it("rejects Token-2022 mint with mismatched symbol", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
       const actualSymbol = "REAL22";
       const attemptedSymbol = "FAKE22";
       const tokenPda = getTokenPda(program.programId, attemptedSymbol);
@@ -209,7 +209,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
             tokenMint: tokenMint,
             tokenMetadata: tokenMint,
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
           })
           .rpc();
@@ -221,7 +221,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
     });
 
     it("rejects classic SPL mint with mismatched symbol", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
       const actualSymbol = "REALSPL";
       const attemptedSymbol = "FAKESPL";
       const tokenPda = getTokenPda(program.programId, attemptedSymbol);
@@ -248,7 +248,7 @@ describe("TNS - Token-2022 Metadata Support", () => {
             tokenMint: tokenMint,
             tokenMetadata: tokenMetadata,
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
           })
           .rpc();

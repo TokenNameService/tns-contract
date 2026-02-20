@@ -1,0 +1,15 @@
+{
+  "_comment": "Mock PriceUpdateV2 account for SOL/USD at $200. Timestamp 2030. Owner is Pyth Receiver program.",
+  "pubkey": "7UVimffxr9ow1uXYxbK2aDRwZc7hRcy1fU7SEgHBJu6e",
+  "account": {
+    "lamports": 1461600,
+    "data": [
+      "IvEjY51+9M0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHvDYtv2izrpB2hXUCV0do5Kg0vjtDGx7wPTPrIwoC1bQDIF6gEAAAAoIYBAAAAAAD4////gNjbcAAAAAB/2NtwAAAAAADIF6gEAAAAoIYBAAAAAADoAwAAAAAAAA==",
+      "base64"
+    ],
+    "owner": "rec5EKMGg6MxZYaMdyBfgwp4d5rB9T1VQH5pJv5LtFJ",
+    "executable": false,
+    "rentEpoch": 0,
+    "space": 133
+  }
+}

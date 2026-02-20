@@ -57,7 +57,7 @@ describe("TNS - Transfer Ownership", () => {
         tokenMint: testTokenMint,
         tokenMetadata: testTokenMetadata,
         feeCollector: ctx.feeCollectorPubkey,
-        solUsdPriceFeed: ctx.solUsdPythFeed,
+        priceUpdate: ctx.priceUpdate,
         platformFeeAccount: null,
       })
       .rpc();

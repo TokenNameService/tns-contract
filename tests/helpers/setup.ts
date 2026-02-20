@@ -31,9 +31,13 @@ export const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
   "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
 );
 
-// Devnet SOL/USD Pyth price feed (legacy v2 push-based, cloned to localnet for testing)
+// Legacy Pyth push oracle (still used by initialize instruction to populate config field)
 export const SOL_USD_PYTH_FEED = new PublicKey(
   "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix"
+);
+// Pyth pull oracle PriceUpdateV2 account (mock fixture loaded in test validator)
+export const SOL_USD_PRICE_UPDATE = new PublicKey(
+  "7UVimffxr9ow1uXYxbK2aDRwZc7hRcy1fU7SEgHBJu6e"
 );
 // SOL/USD feed ID (same on mainnet and devnet)
 export const SOL_USD_FEED_ID = Buffer.from(
@@ -61,7 +65,8 @@ export interface TestContext {
   feeCollector: Keypair;
   feeCollectorPubkey: PublicKey; // The actual fee collector in config (may differ from feeCollector.publicKey)
   registrant: Keypair;
-  solUsdPythFeed: PublicKey;
+  solUsdPythFeed: PublicKey; // Legacy push oracle (used only in initialize)
+  priceUpdate: PublicKey; // PriceUpdateV2 pull oracle (used in all SOL/TNS instructions)
   solUsdFeedId: number[];
   currentPhase: number;
   mockPriceFeedKeypair: Keypair | null;
@@ -335,6 +340,7 @@ export function setupTest(): TestContext {
     feeCollectorPubkey: feeCollector.publicKey, // Will be updated in ensureConfigInitialized
     registrant,
     solUsdPythFeed: SOL_USD_PYTH_FEED,
+    priceUpdate: SOL_USD_PRICE_UPDATE,
     solUsdFeedId: Array.from(SOL_USD_FEED_ID),
     currentPhase: 1, // Will be updated in ensureConfigInitialized
     mockPriceFeedKeypair: null,

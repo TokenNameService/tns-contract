@@ -52,7 +52,7 @@ describe("TNS - Register Symbol", () => {
   });
 
   it("registers a new symbol for 1 year", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
     const symbol = "TEST1"; // Unseeded symbol
     const tokenPda = getTokenPda(program.programId, symbol);
@@ -74,7 +74,7 @@ describe("TNS - Register Symbol", () => {
         tokenMint: tokenMint,
         tokenMetadata: tokenMetadata,
         feeCollector: feeCollectorPubkey,
-        solUsdPriceFeed: solUsdPythFeed,
+        priceUpdate: priceUpdate,
         platformFeeAccount: null,
       })
       .rpc();
@@ -101,7 +101,7 @@ describe("TNS - Register Symbol", () => {
   });
 
   it("registers a symbol for 5 years with discount", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
     const symbol = "TEST5"; // Unseeded symbol
     const tokenPda = getTokenPda(program.programId, symbol);
@@ -117,7 +117,7 @@ describe("TNS - Register Symbol", () => {
         tokenMint: tokenMint,
         tokenMetadata: tokenMetadata,
         feeCollector: feeCollectorPubkey,
-        solUsdPriceFeed: solUsdPythFeed,
+        priceUpdate: priceUpdate,
         platformFeeAccount: null,
       })
       .rpc();
@@ -134,7 +134,7 @@ describe("TNS - Register Symbol", () => {
   });
 
   it("fails to register an already registered symbol", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
     const symbol = "TEST1"; // Already registered above
     const tokenPda = getTokenPda(program.programId, symbol);
@@ -148,7 +148,7 @@ describe("TNS - Register Symbol", () => {
           payer: admin.publicKey,
           config: configPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
@@ -164,7 +164,7 @@ describe("TNS - Register Symbol", () => {
   });
 
   it("fails with invalid years (0)", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
     const symbol = "ZERO";
     const tokenPda = getTokenPda(program.programId, symbol);
@@ -178,7 +178,7 @@ describe("TNS - Register Symbol", () => {
           payer: admin.publicKey,
           config: configPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
@@ -193,7 +193,7 @@ describe("TNS - Register Symbol", () => {
   });
 
   it("fails with invalid years (>10)", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
     const symbol = "ELEVEN";
     const tokenPda = getTokenPda(program.programId, symbol);
@@ -207,7 +207,7 @@ describe("TNS - Register Symbol", () => {
           payer: admin.publicKey,
           config: configPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
@@ -222,7 +222,7 @@ describe("TNS - Register Symbol", () => {
   });
 
   it("fails with empty symbol", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
     const symbol = "";
     const tokenPda = getTokenPda(program.programId, symbol);
@@ -237,7 +237,7 @@ describe("TNS - Register Symbol", () => {
           payer: admin.publicKey,
           config: configPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
@@ -252,7 +252,7 @@ describe("TNS - Register Symbol", () => {
   });
 
   it("fails with symbol too long", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
     const symbol = "TOOLONGSYMBOL"; // > 10 chars
     const tokenPda = getTokenPda(program.programId, symbol);
@@ -267,7 +267,7 @@ describe("TNS - Register Symbol", () => {
           payer: admin.publicKey,
           config: configPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           tokenAccount: tokenPda,
@@ -283,7 +283,7 @@ describe("TNS - Register Symbol", () => {
 
   describe("Symbol Length Boundaries", () => {
     it("accepts symbol at exactly max length (10 chars)", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
       const maxSymbol = "ABCDEFGHIJ"; // Exactly 10 characters
       const tokenPda = getTokenPda(program.programId, maxSymbol);
       const tokenMint = await getOrCreateTokenMint(maxSymbol);
@@ -298,7 +298,7 @@ describe("TNS - Register Symbol", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -309,7 +309,7 @@ describe("TNS - Register Symbol", () => {
     });
 
     it("rejects symbol over max length (11 chars)", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
       const tooLongSymbol = "ABCDEFGHIJK"; // 11 characters
       const tokenPda = getTokenPda(program.programId, tooLongSymbol);
       const tokenMint = await getOrCreateTokenMint("MAXLEN");
@@ -325,7 +325,7 @@ describe("TNS - Register Symbol", () => {
             tokenMint: tokenMint,
             tokenMetadata: tokenMetadata,
             feeCollector: feeCollectorPubkey,
-            solUsdPriceFeed: solUsdPythFeed,
+            priceUpdate: priceUpdate,
             platformFeeAccount: null,
           })
           .rpc();
@@ -339,7 +339,7 @@ describe("TNS - Register Symbol", () => {
 
   describe("Platform Fee Split", () => {
     it("platform receives correct fee split on registration", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
       const symbol = "PLATFEE";
       const tokenPda = getTokenPda(program.programId, symbol);
       const tokenMint = await getOrCreateTokenMint(symbol);
@@ -361,7 +361,7 @@ describe("TNS - Register Symbol", () => {
           tokenMint: tokenMint,
           tokenMetadata: tokenMetadata,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: platformAccount.publicKey,
         })
         .rpc();

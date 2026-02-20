@@ -57,14 +57,14 @@ describe("TNS - Renew Symbol", () => {
         tokenMint: testTokenMint,
         tokenMetadata: testTokenMetadata,
         feeCollector: ctx.feeCollectorPubkey,
-        solUsdPriceFeed: ctx.solUsdPythFeed,
+        priceUpdate: ctx.priceUpdate,
         platformFeeAccount: null,
       })
       .rpc();
   });
 
   it("renews a symbol for additional years", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
 
     const tokenBefore = await program.account.token.fetch(tokenPda);
@@ -81,7 +81,7 @@ describe("TNS - Renew Symbol", () => {
         config: configPda,
         tokenAccount: tokenPda,
         feeCollector: feeCollectorPubkey,
-        solUsdPriceFeed: solUsdPythFeed,
+        priceUpdate: priceUpdate,
         platformFeeAccount: null,
       })
       .rpc();
@@ -111,7 +111,7 @@ describe("TNS - Renew Symbol", () => {
       registrant,
       configPda,
       feeCollectorPubkey,
-      solUsdPythFeed,
+      priceUpdate,
     } = ctx;
 
     // Use registrant (different from owner) to renew
@@ -125,7 +125,7 @@ describe("TNS - Renew Symbol", () => {
         config: configPda,
         tokenAccount: tokenPda,
         feeCollector: feeCollectorPubkey,
-        solUsdPriceFeed: solUsdPythFeed,
+        priceUpdate: priceUpdate,
         platformFeeAccount: null,
       })
       .signers([registrant])
@@ -140,7 +140,7 @@ describe("TNS - Renew Symbol", () => {
   });
 
   it("fails if renewal exceeds 10 years from now", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
 
     // Symbol currently has multiple years, try to add too many more
@@ -151,7 +151,7 @@ describe("TNS - Renew Symbol", () => {
           payer: admin.publicKey,
           config: configPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           tokenAccount: tokenPda,
           platformFeeAccount: null,
         })
@@ -164,7 +164,7 @@ describe("TNS - Renew Symbol", () => {
   });
 
   it("fails with invalid years (0)", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
 
     try {
@@ -174,7 +174,7 @@ describe("TNS - Renew Symbol", () => {
           payer: admin.publicKey,
           config: configPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           tokenAccount: tokenPda,
           platformFeeAccount: null,
         })
@@ -212,14 +212,14 @@ describe("TNS - Renew Symbol", () => {
           tokenMint: graceTokenMint,
           tokenMetadata: graceTokenMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
     });
 
     it("can renew symbol that is in grace period", async () => {
-      const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } = ctx;
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
 
       // Set to grace period (just expired but not past grace)
       const currentTime = Math.floor(Date.now() / 1000);
@@ -246,7 +246,7 @@ describe("TNS - Renew Symbol", () => {
           config: configPda,
           tokenAccount: graceTokenPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();

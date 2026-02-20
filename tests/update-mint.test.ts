@@ -70,14 +70,14 @@ describe("TNS - Update Mint", () => {
         tokenMint: testTokenMint,
         tokenMetadata: testTokenMetadata,
         feeCollector: ctx.feeCollectorPubkey,
-        solUsdPriceFeed: ctx.solUsdPythFeed,
+        priceUpdate: ctx.priceUpdate,
         platformFeeAccount: null,
       })
       .rpc();
   });
 
   it("owner can update mint", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
 
     const feeCollectorBalanceBefore = await getBalance(
@@ -92,7 +92,7 @@ describe("TNS - Update Mint", () => {
         config: configPda,
         tokenAccount: tokenPda,
         feeCollector: feeCollectorPubkey,
-        solUsdPriceFeed: solUsdPythFeed,
+        priceUpdate: priceUpdate,
         platformFeeAccount: null,
         newMint: newMintForUpdate,
         newMintMetadata: newMintMetadata,
@@ -119,7 +119,7 @@ describe("TNS - Update Mint", () => {
       registrant,
       configPda,
       feeCollectorPubkey,
-      solUsdPythFeed,
+      priceUpdate,
     } = ctx;
 
     // Use testTokenMint as a valid mint to update to
@@ -131,7 +131,7 @@ describe("TNS - Update Mint", () => {
           config: configPda,
           tokenAccount: tokenPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           platformFeeAccount: null,
           newMint: testTokenMint, // Valid mint, but wrong owner
           newMintMetadata: testTokenMetadata,
@@ -146,7 +146,7 @@ describe("TNS - Update Mint", () => {
   });
 
   it("fails if updating to same mint", async () => {
-    const { program, admin, configPda, feeCollectorPubkey, solUsdPythFeed } =
+    const { program, admin, configPda, feeCollectorPubkey, priceUpdate } =
       ctx;
 
     // Get current mint
@@ -162,7 +162,7 @@ describe("TNS - Update Mint", () => {
           owner: admin.publicKey,
           config: configPda,
           feeCollector: feeCollectorPubkey,
-          solUsdPriceFeed: solUsdPythFeed,
+          priceUpdate: priceUpdate,
           tokenAccount: tokenPda,
           platformFeeAccount: null,
           newMint: currentMint,

@@ -114,7 +114,7 @@ describe("TNS - Claim Ownership", () => {
         tokenMint: testTokenMint,
         tokenMetadata: testTokenMetadata,
         feeCollector: ctx.feeCollectorPubkey,
-        solUsdPriceFeed: ctx.solUsdPythFeed,
+        priceUpdate: ctx.priceUpdate,
         platformFeeAccount: null,
       })
       .rpc();
@@ -243,7 +243,7 @@ describe("TNS - Claim Ownership", () => {
           tokenMint: mintAuthTokenMint,
           tokenMetadata: mintAuthTokenMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();
@@ -374,7 +374,7 @@ describe("TNS - Claim Ownership", () => {
           tokenMint: majorityMint,
           tokenMetadata: majorityMetadata,
           feeCollector: ctx.feeCollectorPubkey,
-          solUsdPriceFeed: ctx.solUsdPythFeed,
+          priceUpdate: ctx.priceUpdate,
           platformFeeAccount: null,
         })
         .rpc();

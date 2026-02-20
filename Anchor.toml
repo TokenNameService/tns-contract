@@ -40,6 +40,10 @@ address = "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix"
 filename = "tests/fixtures/sol-usd-pyth-feed.json"
 
 [[test.validator.account]]
+address = "7UVimffxr9ow1uXYxbK2aDRwZc7hRcy1fU7SEgHBJu6e"
+filename = "tests/fixtures/sol-usd-price-update.json"
+
+[[test.validator.account]]
 address = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
 filename = "tests/fixtures/usdc-mint.json"
 
