@@ -83,7 +83,7 @@ pub fn validate_symbol_cancelable(token: &Token, current_time: i64) -> Result<()
     Ok(())
 }
 
-/// Validate platform fee BPS doesn't exceed maximum (10%)
+/// Validate platform fee BPS doesn't exceed maximum (50%)
 pub fn validate_platform_fee_bps(platform_fee_bps: u16) -> Result<()> {
     require!(
         platform_fee_bps <= crate::MAX_PLATFORM_FEE_BPS,

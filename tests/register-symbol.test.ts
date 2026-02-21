@@ -382,5 +382,74 @@ describe("TNS - Register Symbol", () => {
       const platformPercent = (platformReceived / totalFee) * 100;
       expect(platformPercent).to.be.closeTo(10, 1);
     });
+
+    it("rejects platform fee exceeding 50% (5000 bps)", async () => {
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
+      const symbol = "PLATHI";
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
+
+      const platformAccount = Keypair.generate();
+      await fundAccounts(ctx.provider, platformAccount);
+
+      try {
+        await program.methods
+          .registerSymbolSol(symbol, 1, MAX_SOL_COST, 5001)
+          .accountsPartial({
+            payer: admin.publicKey,
+            config: configPda,
+            tokenAccount: getTokenPda(program.programId, symbol),
+            tokenMint: tokenMint,
+            tokenMetadata: tokenMetadata,
+            feeCollector: feeCollectorPubkey,
+            priceUpdate: priceUpdate,
+            platformFeeAccount: platformAccount.publicKey,
+          })
+          .rpc();
+        expect.fail("Should have rejected platform fee > 50%");
+      } catch (err: any) {
+        expect(err.toString()).to.include("PlatformFeeExceedsMax");
+      }
+    });
+
+    it("accepts platform fee at 50% (5000 bps)", async () => {
+      const { program, admin, configPda, feeCollectorPubkey, priceUpdate } = ctx;
+      const symbol = "PLAT50";
+      const tokenMint = await getOrCreateTokenMint(symbol);
+      const tokenMetadata = getMetadataPda(tokenMint);
+
+      const platformAccount = Keypair.generate();
+      await fundAccounts(ctx.provider, platformAccount);
+
+      const feeCollectorBefore = await getBalance(ctx.provider, feeCollectorPubkey);
+      const platformBefore = await getBalance(ctx.provider, platformAccount.publicKey);
+
+      // Register with 50% platform fee (5000 bps) - should succeed
+      await program.methods
+        .registerSymbolSol(symbol, 1, MAX_SOL_COST, 5000)
+        .accountsPartial({
+          payer: admin.publicKey,
+          config: configPda,
+          tokenAccount: getTokenPda(program.programId, symbol),
+          tokenMint: tokenMint,
+          tokenMetadata: tokenMetadata,
+          feeCollector: feeCollectorPubkey,
+          priceUpdate: priceUpdate,
+          platformFeeAccount: platformAccount.publicKey,
+        })
+        .rpc();
+
+      const feeCollectorAfter = await getBalance(ctx.provider, feeCollectorPubkey);
+      const platformAfter = await getBalance(ctx.provider, platformAccount.publicKey);
+
+      const feeCollectorReceived = feeCollectorAfter - feeCollectorBefore;
+      const platformReceived = platformAfter - platformBefore;
+
+      // Platform should have received 50% of total fee
+      expect(platformReceived).to.be.greaterThan(0);
+      const totalFee = feeCollectorReceived + platformReceived;
+      const platformPercent = (platformReceived / totalFee) * 100;
+      expect(platformPercent).to.be.closeTo(50, 1);
+    });
   });
 });

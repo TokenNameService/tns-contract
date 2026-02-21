@@ -65,7 +65,7 @@ pub enum TnsError {
     #[msg("Symbol is not expired - cannot claim an active symbol")]
     SymbolNotExpired,
 
-    #[msg("Platform fee exceeds maximum allowed (10%)")]
+    #[msg("Platform fee exceeds maximum allowed (50%)")]
     PlatformFeeExceedsMax,
 
     #[msg("Invalid pool reserve account")]

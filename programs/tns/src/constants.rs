@@ -83,9 +83,9 @@ pub const USDT_MINT: Pubkey = pubkey!("Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8Benw
 pub const STABLECOIN_DECIMALS: u8 = 6;
 pub const STABLECOIN_MULTIPLIER: u64 = 1_000_000;
 
-/// Maximum platform fee in basis points (1000 = 10%)
-/// Platforms (launchpads like pump.fun) can receive up to 10% of registration fees
-pub const MAX_PLATFORM_FEE_BPS: u16 = 1000;
+/// Maximum platform fee in basis points (5000 = 50%)
+/// Platforms (launchpads like pump.fun) can receive up to 50% of registration fees
+pub const MAX_PLATFORM_FEE_BPS: u16 = 5000;
 
 /// Wrapped SOL mint address
 pub const WSOL_MINT: Pubkey = pubkey!("So11111111111111111111111111111111111111112");
