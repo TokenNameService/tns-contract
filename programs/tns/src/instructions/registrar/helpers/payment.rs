@@ -374,11 +374,14 @@ pub fn transfer_token_fees_with_platform<'info>(
 
 /// Get SOL/USD price from Pyth pull oracle in micro-cents (1 USD = 1_000_000 micro-cents)
 /// Uses PriceUpdateV2 from pyth-solana-receiver-sdk (ownership verified automatically)
+/// Accepts partial verification (min 3 guardian signatures) to fit in a single transaction
 pub fn get_sol_price_micro(price_update: &Account<PriceUpdateV2>) -> Result<u64> {
-    let price = price_update.get_price_no_older_than(
+    use pyth_solana_receiver_sdk::price_update::VerificationLevel;
+    let price = price_update.get_price_no_older_than_with_custom_verification_level(
         &Clock::get()?,
         MAX_PRICE_STALENESS_SECONDS,
         &SOL_USD_FEED_ID,
+        VerificationLevel::Partial { num_signatures: 3 },
     ).map_err(|_| error!(TnsError::StalePriceFeed))?;
 
     // Ensure price is positive
