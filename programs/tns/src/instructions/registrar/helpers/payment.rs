@@ -465,7 +465,7 @@ pub fn get_tns_price_from_pool(
 
 /// Calculate TNS amount needed for a given USD amount using pool price
 ///
-/// usd_amount: Amount in micro USD (6 decimals), e.g., 10_000_000 = $10
+/// usd_amount: Amount in micro USD (6 decimals), e.g., 1_000_000 = $1
 /// Returns: TNS amount in smallest units (6 decimals)
 pub fn calculate_tns_for_usd(
     usd_amount: u64,

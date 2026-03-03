@@ -12,10 +12,10 @@ pub struct Config {
     /// Fee collector - where 100% of token registration fees go
     pub fee_collector: Pubkey,
 
-    /// Base price per year in USD micro-cents (10_000_000 = $10.00)
+    /// Base price per year in USD micro-cents (1_000_000 = $1.00)
     pub base_price_usd_micro: u64,
 
-    /// Annual price increase in basis points (700 = 7%)
+    /// Annual price increase in basis points (0 = 0%)
     pub annual_increase_bps: u16,
 
     /// Fee for updating mint in basis points of current price
@@ -56,7 +56,7 @@ impl Config {
 
     /// Calculate the current yearly price in USD micro-cents based on time since launch
     /// Price increases linearly: base + (base × years × rate)
-    /// Example: $10 base, 7% rate, year 10 = $10 + $7 = $17
+    /// Example: $1 base, 0% rate = $1 flat (no annual increase during adoption)
     pub fn get_current_yearly_price_usd(&self, current_time: i64) -> u64 {
         let years_since_launch = (current_time - self.launch_timestamp) / SECONDS_PER_YEAR;
 

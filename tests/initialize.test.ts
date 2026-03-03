@@ -26,8 +26,8 @@ describe("TNS - Initialize", () => {
     const config = await program.account.config.fetch(configPda);
 
     expect(config.admin.toString()).to.equal(admin.publicKey.toString());
-    expect(config.basePriceUsdMicro.toNumber()).to.equal(10_000_000); // $10.00
-    expect(config.annualIncreaseBps).to.equal(700); // 7%
+    expect(config.basePriceUsdMicro.toNumber()).to.equal(1_000_000); // $1.00
+    expect(config.annualIncreaseBps).to.equal(0); // 0%
     expect(config.keeperRewardLamports.toNumber()).to.equal(50_000_000); // 0.05 SOL
     expect(config.updateFeeBps).to.equal(5000); // 50% (reduced from full price)
     expect(config.paused).to.equal(false); // We just ensured it's unpaused

@@ -26,6 +26,8 @@ pub fn handler(
     new_phase: Option<u8>,
     tns_usd_pyth_feed: Option<Pubkey>,
     keeper_reward_lamports: Option<u64>,
+    base_price_usd_micro: Option<u64>,
+    annual_increase_bps: Option<u16>,
 ) -> Result<()> {
     let config = &mut ctx.accounts.config;
 
@@ -54,6 +56,14 @@ pub fn handler(
 
     if let Some(reward) = keeper_reward_lamports {
         config.keeper_reward_lamports = reward;
+    }
+
+    if let Some(price) = base_price_usd_micro {
+        config.base_price_usd_micro = price;
+    }
+
+    if let Some(increase) = annual_increase_bps {
+        config.annual_increase_bps = increase;
     }
 
     emit!(ConfigUpdated {

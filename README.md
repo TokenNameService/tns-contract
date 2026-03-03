@@ -10,9 +10,23 @@ On-chain registry mapping token symbols to verified mints. DNS for Solana token 
 # Build and run all tests
 anchor test
 
-# Setup demo CLI
-cd app && npm install
+# Install dependencies (postinstall script patches rpc-websockets automatically)
+npm install
 ```
+
+### Node Version
+
+Requires Node.js v20.18+ or v22.9+. If you use `nvm`:
+
+```bash
+nvm use 20
+```
+
+If you have Node installed via Homebrew, it may override nvm. Run `brew unlink node` first if `node --version` doesn't match after `nvm use`.
+
+### rpc-websockets Compatibility
+
+`@solana/web3.js` v1 imports internal paths from `rpc-websockets` (`dist/lib/client` and `dist/lib/client/websocket`) that were renamed to `.cjs` in `rpc-websockets` v7.11+. The `postinstall` script (`scripts/patch-rpc-websockets.js`) creates shim files that map the old import paths to the new `.cjs` files. This runs automatically on `npm install` — no manual steps needed.
 
 ## Demo CLI
 
@@ -88,6 +102,9 @@ npx tsx app/demo.ts set-keeper-reward 0.05
 # Set fee collector address
 npx tsx app/demo.ts set-fee-collector <PUBKEY>
 
+# Set base price and annual increase (in USD and %)
+npx tsx app/demo.ts set-price 1 0
+
 # Set TNS/USD Pyth feed
 npx tsx app/demo.ts set-tns-pyth-feed <PYTH_FEED_PUBKEY>
 
@@ -141,7 +158,7 @@ const account = await program.account.symbol.fetch(symbolPda);
 | Instruction | Description |
 |-------------|-------------|
 | `initialize` | Initialize protocol config |
-| `update_config` | Update config parameters (fee collector, phase, paused, keeper reward) |
+| `update_config` | Update config parameters (fee collector, phase, paused, keeper reward, price, annual increase) |
 | `seed_symbol` | Seed verified tokens during genesis (no fee) |
 | `admin_update_symbol` | Force-update symbol owner/mint/expiration |
 | `admin_close_symbol` | Force-close symbol account |
@@ -166,7 +183,7 @@ const account = await program.account.symbol.fetch(symbolPda);
 
 ## Pricing
 
-- Base: $10/year (USD, converted via Pyth SOL/USD oracle)
+- Base: $1/year (USD, converted via Pyth SOL/USD oracle)
 - Multi-year discounts: 5% (2yr) → 25% (10yr)
 - 90-day grace period after expiration
 - Fixed 0.05 SOL keeper reward for cranks (cancel/verify)

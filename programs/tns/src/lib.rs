@@ -33,6 +33,8 @@ pub mod tns {
         new_phase: Option<u8>,
         tns_usd_pyth_feed: Option<Pubkey>,
         keeper_reward_lamports: Option<u64>,
+        base_price_usd_micro: Option<u64>,
+        annual_increase_bps: Option<u16>,
     ) -> Result<()> {
         instructions::admin::update_config::handler(
             ctx,
@@ -41,6 +43,8 @@ pub mod tns {
             new_phase,
             tns_usd_pyth_feed,
             keeper_reward_lamports,
+            base_price_usd_micro,
+            annual_increase_bps,
         )
     }
 

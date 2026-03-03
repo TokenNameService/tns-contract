@@ -12,7 +12,8 @@
     "fetch:all": "pnpm run fetch:tokens && pnpm run fetch:reserved",
     "generate:reserved": "npx tsx scripts/reserved/generateRustCode.ts",
     "seed:genesis": "npx tsx scripts/seed-genesis.ts",
-    "verify:genesis": "npx tsx scripts/verify-genesis.ts"
+    "verify:genesis": "npx tsx scripts/verify-genesis.ts",
+    "postinstall": "node scripts/patch-rpc-websockets.js"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.32.1",
@@ -23,7 +24,8 @@
     "@solana/web3.js": "^1.98.0",
     "axios": "^1.7.0",
     "cheerio": "^1.0.0",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "rpc-websockets": "^7.11.2"
   },
   "devDependencies": {
     "@solana/spl-token-metadata": "^0.1.6",

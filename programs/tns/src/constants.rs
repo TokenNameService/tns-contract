@@ -18,12 +18,12 @@ pub const GRACE_PERIOD_SECONDS: i64 = 90 * 24 * 60 * 60;
 /// Total time from expiration to cancelable = 90 days + 365 days = ~455 days
 pub const CANCEL_PERIOD_SECONDS: i64 = 365 * 24 * 60 * 60;
 
-/// Base price in USD micro-cents (10_000_000 = $10.00)
+/// Base price in USD micro-cents (1_000_000 = $1.00)
 /// Using micro-cents (1 USD = 1_000_000 micro-cents) for precision
-pub const BASE_PRICE_USD_MICRO: u64 = 10_000_000;
+pub const BASE_PRICE_USD_MICRO: u64 = 1_000_000;
 
-/// Annual price increase in basis points (700 = 7%, inspired by ICANN pricing)
-pub const ANNUAL_INCREASE_BPS: u16 = 700;
+/// Annual price increase in basis points (0 = 0%, disabled during adoption phase)
+pub const ANNUAL_INCREASE_BPS: u16 = 0;
 
 /// Fixed keeper reward in lamports (0.05 SOL = 50,000,000 lamports)
 /// Paid to keepers who close abandoned symbols or detect metadata drift

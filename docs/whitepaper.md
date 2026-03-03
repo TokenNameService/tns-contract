@@ -71,8 +71,8 @@ No API calls. No trusted third parties. Just math.
 TNS mirrors the economics of traditional domain names, but with fixed, immutable rules.
 
 **Registration cost:**
-- Base price: ~$10 USD (in SOL), matching .com wholesale at protocol inception (Jan 2026)
-- Annual increase: 7%, inspired by ICANN/Verisign pricing models
+- Base price: ~$1 USD (in SOL), low-cost during adoption phase
+- Annual increase: 0% (disabled during adoption phase)
 - Maximum registration: 10 years at a time, inspired by ICANN policy
 
 **Discounts:**

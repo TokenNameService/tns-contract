@@ -679,6 +679,8 @@ async function updateConfigPaused(paused: boolean) {
       null, // new_phase
       null, // tns_usd_pyth_feed
       null, // keeper_reward_lamports
+      null, // base_price_usd_micro
+      null, // annual_increase_bps
     )
     .accounts({
       admin: provider.wallet.publicKey,
@@ -724,6 +726,8 @@ async function setPhase(newPhase: number) {
       newPhase,
       null, // tns_usd_pyth_feed
       null, // keeper_reward_lamports
+      null, // base_price_usd_micro
+      null, // annual_increase_bps
     )
     .accounts({
       admin: provider.wallet.publicKey,
@@ -756,6 +760,8 @@ async function setKeeperReward(solAmount: number) {
       null, // new_phase
       null, // tns_usd_pyth_feed
       new anchor.BN(lamports),
+      null, // base_price_usd_micro
+      null, // annual_increase_bps
     )
     .accounts({
       admin: provider.wallet.publicKey,
@@ -787,6 +793,8 @@ async function setFeeCollector(feeCollector: string) {
       null, // new_phase
       null, // tns_usd_pyth_feed
       null, // keeper_reward_lamports
+      null, // base_price_usd_micro
+      null, // annual_increase_bps
     )
     .accounts({
       admin: provider.wallet.publicKey,
@@ -818,6 +826,8 @@ async function setTnsPythFeed(feed: string) {
       null, // new_phase
       feedPubkey,
       null, // keeper_reward_lamports
+      null, // base_price_usd_micro
+      null, // annual_increase_bps
     )
     .accounts({
       admin: provider.wallet.publicKey,
@@ -827,6 +837,41 @@ async function setTnsPythFeed(feed: string) {
     .rpc();
 
   console.log(`\nTNS/USD Pyth feed updated!`);
+  console.log(`  Transaction: ${tx}`);
+
+  await showConfig();
+}
+
+async function setPrice(priceUsd: number, annualIncreasePct: number) {
+  const provider = getProvider();
+  anchor.setProvider(provider);
+  const program = getProgram(provider);
+  const configPda = getConfigPda();
+
+  const priceMicro = Math.floor(priceUsd * 1_000_000);
+
+  console.log(`\nSetting base price to $${priceUsd}/year (${priceMicro} micro-cents) and annual increase to ${annualIncreasePct}%...`);
+
+  const tx = await program.methods
+    .updateConfig(
+      null, // new_fee_collector
+      null, // paused
+      null, // new_phase
+      null, // tns_usd_pyth_feed
+      null, // keeper_reward_lamports
+      new anchor.BN(priceMicro),
+      annualIncreasePct * 100, // convert percent to basis points
+    )
+    .accounts({
+      admin: provider.wallet.publicKey,
+      config: configPda,
+      newAdmin: provider.wallet.publicKey,
+    })
+    .rpc();
+
+  console.log(`\nPrice updated!`);
+  console.log(`  Base price: $${priceUsd}/year`);
+  console.log(`  Annual increase: ${annualIncreasePct}%`);
   console.log(`  Transaction: ${tx}`);
 
   await showConfig();
@@ -1153,6 +1198,16 @@ async function main() {
           process.exit(1);
         }
         await setFeeCollector(args[1]);
+        break;
+
+      case "set-price":
+        if (args.length < 3) {
+          console.log("Usage: npx tsx app/demo.ts set-price <price_usd> <annual_increase_pct>");
+          console.log("Example: npx tsx app/demo.ts set-price 1 0");
+          console.log("  Sets base price to $1/year with 0% annual increase");
+          process.exit(1);
+        }
+        await setPrice(parseFloat(args[1]), parseFloat(args[2]));
         break;
 
       case "set-tns-pyth-feed":
