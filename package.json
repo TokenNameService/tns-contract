@@ -13,6 +13,7 @@
     "generate:reserved": "npx tsx scripts/reserved/generateRustCode.ts",
     "seed:genesis": "npx tsx scripts/seed-genesis.ts",
     "verify:genesis": "npx tsx scripts/verify-genesis.ts",
+    "close:genesis": "npx tsx scripts/close-genesis.ts",
     "postinstall": "node scripts/patch-rpc-websockets.js"
   },
   "dependencies": {
