@@ -4,7 +4,7 @@ Reconstructed from on-chain transaction history for the 2,610 symbol accounts
 closed on 2026-09-25. 2,591 were owned by your own wallets; the 19 below were
 owned by outside wallets.
 
-**Only 3 involved money from someone other than you.** The other 16 were
+**Only 4 involved money from someone other than you.** The other 15 were
 `SeedSymbol` (admin-seeded, free) or were paid for out of your own wallets.
 
 Machine-readable version: `tns-external-registrations.json`
@@ -13,7 +13,7 @@ Machine-readable version: `tns-external-registrations.json`
 
 ## Refund candidates
 
-3 symbols across 2 wallets.
+4 symbols across 3 wallets.
 
 ### `2uxsWw7nQseuqG6bxG13mvxJV1CzpLJSdTpasHpQsEE1`
 
@@ -39,11 +39,33 @@ Machine-readable version: `tns-external-registrations.json`
 
 ---
 
+### `CRVfosbhMXUgSW6x4AgHmVGG54cWHtTZXKwb7y89YQ5V` (ROAST — paid via `CnCmsWseLvMW3DwwTTZMWf2Zw3YHTPntZFi8i4cK4EBq`)
+
+Registered on their behalf: they sent the USDC fee to your fee collector, the
+fee collector registered the symbol to itself, then transferred ownership.
+
+| time (PT) | what | tx |
+|---|---|---|
+| 2026-03-06 09:54 | `CnCms…` sends **7.5 USDC** to fee collector `TNS1pnr…` (its USDC account was empty) | `5AyLJLu7CYydf6W41UdWb4XP5QHZhZ54xeGBG89wsG8LojRqe7MgmyJWtLYFtP3EfPX8KwgHRi8uXCTsJ7eabES9` |
+| 2026-03-06 10:14 | `TNS1pnr…` calls `RegisterSymbolUsdc` for ROAST with **itself** as owner. The 7.5 USDC fee moves from its USDC account back into the same account (net 0). It also pays 0.05 SOL keeper deposit + 0.0020532 rent | `4kfUEUcxbU5VnsrgvfE4TuXEzLSMaqzVqWrqWum1mqqUnvCSiFKDsYRTLj5ttn6QyMChRRSvJjMeb9sHrZBcGc9A` |
+| 2026-03-08 18:09 | `TNS1pnr…` calls `TransferOwnership` on ROAST → `CRVfos…` | `2u5oX9W34x1rFMicct6ahffxqkfDS3LHGreFFYxw3CaRLT1KuzYu546hgDmqm3HRWq5mSLT2aUfb7qHycrXff6RL` |
+
+| symbol | registered | instruction | paid by them | your cost |
+|---|---|---|---:|---:|
+| ROAST | 2026-03-06 10:14 | RegisterSymbolUsdc | 7.5 USDC | 0.05 SOL keeper deposit (rent reclaimed at close) |
+
+**Total out of pocket (theirs): 7.5 USDC**
+
+The payer (`CnCms…`) and the owner (`CRVfos…`) have no on-chain link. Neither
+holds ROAST tokens. Before refunding, confirm the requester controls `CnCms…`.
+Otherwise, default to refunding the wallet that paid.
+
+---
+
 ## No refund owed
 
-These 16 were owned by outside wallets but **paid for by you**. The owner never
-spent anything — `SeedSymbol` is the free admin genesis path, and ROAST was
-registered from your own fee-collector wallet.
+These 15 were owned by outside wallets but **paid for by you**. The owner never
+spent anything — `SeedSymbol` is the free admin genesis path.
 
 | symbol | owner | instruction | paid by |
 |---|---|---|---|
@@ -62,7 +84,6 @@ registered from your own fee-collector wallet.
 | SARX | `9TYUScB6w9hG4YACcHsWs93AEA5xQKuQhrC4p1mUGKGA` | SeedSymbol | `TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue` |
 | STABLE | `9TYUScB6w9hG4YACcHsWs93AEA5xQKuQhrC4p1mUGKGA` | SeedSymbol | `TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue` |
 | USDX | `9TYUScB6w9hG4YACcHsWs93AEA5xQKuQhrC4p1mUGKGA` | SeedSymbol | `TNSDbwhVo6deZrgH3ZYZriixupMadBoHJTViAoUdrue` |
-| ROAST | `CRVfosbhMXUgSW6x4AgHmVGG54cWHtTZXKwb7y89YQ5V` | RegisterSymbolUsdc | `TNS1pnrBBe5K7eUpm3bcd4nxnfupVK6EatmoYRfxpMm` |
 
 ---
 

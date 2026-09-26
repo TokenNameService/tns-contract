@@ -365,13 +365,23 @@
   "first_tx_time": "2026-03-06 10:14",
   "payer": "TNS1pnrBBe5K7eUpm3bcd4nxnfupVK6EatmoYRfxpMm",
   "sol_spent_by_payer": 0.0521332,
-  "tokens_paid": [],
+  "tokens_paid": [
+   "7.5 USDC"
+  ],
   "rent_lost_sol": 0.0020532,
   "instruction": "RegisterSymbolUsdc",
-  "fee_to_collector_sol": -0.0521332,
+  "fee_to_collector_sol": 0.0,
   "keeper_deposit_to_config_sol": 0.05,
   "tokens_paid_detail": [],
   "paid_by_owner": false,
-  "refund_owed": false
+  "refund_owed": true,
+  "actual_payer": "CnCmsWseLvMW3DwwTTZMWf2Zw3YHTPntZFi8i4cK4EBq",
+  "payment_tx": "5AyLJLu7CYydf6W41UdWb4XP5QHZhZ54xeGBG89wsG8LojRqe7MgmyJWtLYFtP3EfPX8KwgHRi8uXCTsJ7eabES9",
+  "payment_time": "2026-03-06 09:54",
+  "registered_owner": "TNS1pnrBBe5K7eUpm3bcd4nxnfupVK6EatmoYRfxpMm",
+  "ownership_transfer_tx": "2u5oX9W34x1rFMicct6ahffxqkfDS3LHGreFFYxw3CaRLT1KuzYu546hgDmqm3HRWq5mSLT2aUfb7qHycrXff6RL",
+  "ownership_transfer_time": "2026-03-08 18:09",
+  "refund_amount": "7.5 USDC",
+  "notes": "Registered by fee collector on the payer's behalf; USDC fee was a self-transfer. Payer and owner are not linked on-chain."
  }
 ]
