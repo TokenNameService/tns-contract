@@ -1,5 +1,16 @@
 # TNS - Token Naming Service - Contract
 
+> [!WARNING]
+> **Deprecated: TNS has been shut down.** This repo is no longer maintained, and the on-chain symbol accounts were closed on 2026-09-25.
+>
+> We still believe token verification on Solana should be on-chain and decentralized, but it can't work without adoption from the major DEXs, aggregators, and launchpads, and we weren't able to get their buy-in. We also learned that forcing one symbol per token doesn't match how real markets work. The unique identifier is the ISIN for stocks and the mint address on Solana. Registrations didn't cover our running costs, so we're stopping here.
+>
+> **Refunds:** If you registered a symbol, DM the Solscan link to your registration transaction to [@tnsprotocol](https://x.com/tnsprotocol) by **October 1, 2026**. We'll refund the full amount to the wallet that paid for it.
+>
+> The refund cross-check, rebuilt from on-chain history, is in [`tns-external-registrations.md`](./tns-external-registrations.md), with a machine-readable copy in [`tns-external-registrations.json`](./tns-external-registrations.json). It covers every symbol owned by an outside wallet, who paid for it, the transactions involved, and the amount owed.
+>
+> Thanks to everyone who registered, gave feedback, or cheered us on.
+
 On-chain registry mapping token symbols to verified mints. DNS for Solana token symbols.
 
 **[Whitepaper](./docs/whitepaper.md)**
